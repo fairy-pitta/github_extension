@@ -48,9 +48,6 @@ export const AchievementBadges: React.FC<AchievementBadgesProps> = ({ badges, lo
       <div className="achievement-badges-list">
         {achievedBadges.map((badge) => {
           const remaining = badge.nextTarget ? Math.max(0, badge.nextTarget - badge.progress) : null;
-          const tooltipText = badge.nextTarget && remaining !== null && remaining > 0
-            ? `${badge.name}\n${badge.description}\n次の称号（${badge.nextName ?? '次'}）まであと ${remaining}`
-            : `${badge.name}\n${badge.description}`;
 
           return (
             <div
@@ -58,7 +55,6 @@ export const AchievementBadges: React.FC<AchievementBadgesProps> = ({ badges, lo
               className={`achievement-badge-compact achievement-badge-achieved ${
                 newlyAchieved.has(badge.id) ? 'achievement-badge-new' : ''
               }`}
-              data-tooltip={tooltipText}
             >
               <i className={`fas ${badge.icon}`}></i>
               {newlyAchieved.has(badge.id) && (
@@ -71,7 +67,7 @@ export const AchievementBadges: React.FC<AchievementBadgesProps> = ({ badges, lo
                 <div className="achievement-badge-tooltip-description">{badge.description}</div>
                 {badge.nextTarget && remaining !== null && remaining > 0 && (
                   <div className="achievement-badge-tooltip-remaining">
-                    次の称号（{badge.nextName ?? '次'}）まであと {remaining}
+                    {t.achievementNextTitle}（{badge.nextName ?? t.achievementNext}）{t.achievementRemaining} {remaining}
                   </div>
                 )}
               </div>

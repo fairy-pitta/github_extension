@@ -99,6 +99,9 @@ export interface Translations {
   
   // Achievements
   achievementsTitle: string;
+  achievementNextTitle: string;
+  achievementRemaining: string;
+  achievementNext: string;
   
   // Stats
   statsButton: string;
@@ -193,6 +196,9 @@ export const translations: Record<Language, Translations> = {
     streakLongest: 'Longest',
     streakReminder: "You haven't contributed today!",
     achievementsTitle: 'Achievements',
+    achievementNextTitle: 'Next title',
+    achievementRemaining: 'remaining',
+    achievementNext: 'next',
     statsButton: 'Stats',
     statsTitle: 'Statistics',
     statsThisWeek: 'This Week',
@@ -281,6 +287,9 @@ export const translations: Record<Language, Translations> = {
     streakLongest: '最長記録',
     streakReminder: '今日まだコントリビュートしていません！',
     achievementsTitle: '実績バッジ',
+    achievementNextTitle: '次の称号',
+    achievementRemaining: 'まであと',
+    achievementNext: '次',
     statsButton: '統計',
     statsTitle: '統計情報',
     statsThisWeek: '今週',

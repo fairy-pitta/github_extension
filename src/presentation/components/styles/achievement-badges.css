@@ -102,12 +102,12 @@
   }
 }
 
-/* Simple tooltip using CSS */
+/* Simple tooltip using CSS - positioned to the right */
 .achievement-badge-tooltip {
   position: absolute;
-  bottom: calc(100% + 10px);
-  left: 50%;
-  transform: translateX(-50%);
+  left: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%);
   min-width: 200px;
   max-width: 250px;
   background: var(--bg-card-hover);
@@ -129,52 +129,52 @@
   visibility: visible;
 }
 
-/* Adjust tooltip for left edge */
-.achievement-badges-list .achievement-badge-compact:first-child .achievement-badge-tooltip {
-  left: 0;
-  transform: translateX(0);
-}
-
-.achievement-badges-list .achievement-badge-compact:first-child .achievement-badge-tooltip::after,
-.achievement-badges-list .achievement-badge-compact:first-child .achievement-badge-tooltip::before {
-  left: 20px;
-  transform: translateX(0);
-}
-
-/* Adjust tooltip for right edge */
+/* Adjust tooltip for rightmost badges - show on left instead */
 .achievement-badges-list .achievement-badge-compact:last-child .achievement-badge-tooltip {
   left: auto;
-  right: 0;
-  transform: translateX(0);
+  right: calc(100% + 10px);
+  transform: translateY(-50%);
 }
 
-.achievement-badges-list .achievement-badge-compact:last-child .achievement-badge-tooltip::after,
-.achievement-badges-list .achievement-badge-compact:last-child .achievement-badge-tooltip::before {
-  left: auto;
-  right: 20px;
-  transform: translateX(0);
-}
-
-/* Tooltip arrow */
+/* Tooltip arrow - pointing left */
 .achievement-badge-tooltip::after {
   content: '';
   position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%);
   border: 6px solid transparent;
-  border-top-color: var(--bg-card-hover);
+  border-right-color: var(--bg-card-hover);
 }
 
 .achievement-badge-tooltip::before {
   content: '';
   position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%);
   border: 7px solid transparent;
-  border-top-color: var(--border-primary);
-  margin-top: -1px;
+  border-right-color: var(--border-primary);
+  margin-right: -1px;
+}
+
+/* Arrow for rightmost badges - pointing right */
+.achievement-badges-list .achievement-badge-compact:last-child .achievement-badge-tooltip::after {
+  right: auto;
+  left: 100%;
+  transform: translateY(-50%);
+  border-right-color: transparent;
+  border-left-color: var(--bg-card-hover);
+}
+
+.achievement-badges-list .achievement-badge-compact:last-child .achievement-badge-tooltip::before {
+  right: auto;
+  left: 100%;
+  transform: translateY(-50%);
+  border-right-color: transparent;
+  border-left-color: var(--border-primary);
+  margin-right: 0;
+  margin-left: -1px;
 }
 
 .achievement-badge-tooltip-name {

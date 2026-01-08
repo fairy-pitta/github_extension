@@ -96,15 +96,14 @@ export const NewTabApp: React.FC = () => {
     };
   }, [handleRefresh]);
 
-  if (auth.loading) {
-    return (
-      <div className="dashboard-container">
-        <LoadingSpinner size="large" />
-      </div>
-    );
-  }
-
   if (!auth.isAuthenticated) {
+    if (auth.loading) {
+      return (
+        <div className="dashboard-container">
+          <LoadingSpinner size="large" />
+        </div>
+      );
+    }
     return <AuthGuard />;
   }
 
