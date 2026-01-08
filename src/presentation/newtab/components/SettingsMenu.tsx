@@ -171,7 +171,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({ isOpen, onClose }) =
                   </a>
                 </li>
                 <li>{t.requiredPermissions}</li>
-                <li>{t.language === 'en' ? 'Copy the token and paste it below' : 'トークンをコピーして、下に入力してください'}</li>
+                <li>{t.copyTokenInstruction}</li>
               </ol>
             </div>
             <div style={{ marginTop: '20px' }}>
@@ -230,7 +230,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({ isOpen, onClose }) =
           </div>
 
           <div className="settings-section">
-            <label className="settings-label">{t.language === 'en' ? 'Language' : '言語'}</label>
+            <label className="settings-label">{t.languageLabel}</label>
             <div className="settings-theme-selector">
               <button
                 type="button"
@@ -238,7 +238,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({ isOpen, onClose }) =
                 onClick={toggleLanguage}
               >
                 <i className="fas fa-globe"></i>
-                <span>English</span>
+                <span>{t.english}</span>
               </button>
               <button
                 type="button"
@@ -246,7 +246,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({ isOpen, onClose }) =
                 onClick={toggleLanguage}
               >
                 <i className="fas fa-globe"></i>
-                <span>日本語</span>
+                <span>{t.japanese}</span>
               </button>
             </div>
           </div>
