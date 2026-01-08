@@ -22,9 +22,14 @@ export const RepositorySection: React.FC<RepositorySectionProps> = React.memo(({
   const [hasMore, setHasMore] = useState(true);
   const [cursor, setCursor] = useState<string | undefined>();
 
-  // Update repositories when initialRepositories changes
+  // Update repositories when initialRepositories changes, removing duplicates
   useEffect(() => {
-    setRepositories(initialRepositories);
+    // Remove duplicates by nameWithOwner
+    const uniqueRepos = initialRepositories.filter(
+      (repo, index, self) =>
+        index === self.findIndex((r) => r.nameWithOwner === repo.nameWithOwner)
+    );
+    setRepositories(uniqueRepos);
   }, [initialRepositories]);
 
   const handleLoadMore = async () => {
@@ -34,7 +39,14 @@ export const RepositorySection: React.FC<RepositorySectionProps> = React.memo(({
       const repoService = container.getRepositoryService();
       const result = await repoService.getRecentlyUpdated(10, cursor);
 
-      setRepositories((prev) => [...prev, ...result.repositories]);
+      // Remove duplicates by nameWithOwner
+      setRepositories((prev) => {
+        const existingNames = new Set(prev.map((r) => r.nameWithOwner));
+        const newRepos = result.repositories.filter(
+          (r) => !existingNames.has(r.nameWithOwner)
+        );
+        return [...prev, ...newRepos];
+      });
       setCursor(result.nextCursor);
       setHasMore(!!result.nextCursor);
     } catch (error) {

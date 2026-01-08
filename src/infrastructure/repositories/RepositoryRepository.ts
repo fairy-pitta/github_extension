@@ -111,8 +111,23 @@ export class RepositoryRepository implements IRepositoryRepository {
       (org) => org.repositories.nodes
     );
 
-    // Merge and sort by updatedAt
-    const allRepos = [...userRepos, ...orgRepos];
+    // Merge and remove duplicates by nameWithOwner
+    const repoMap = new Map<string, RepositoryMapper.GraphQLRepository>();
+    
+    // Add user repos first (they take priority)
+    userRepos.forEach((repo) => {
+      repoMap.set(repo.nameWithOwner, repo);
+    });
+    
+    // Add org repos only if they don't already exist
+    orgRepos.forEach((repo) => {
+      if (!repoMap.has(repo.nameWithOwner)) {
+        repoMap.set(repo.nameWithOwner, repo);
+      }
+    });
+
+    // Convert to array and sort by updatedAt
+    const allRepos = Array.from(repoMap.values());
     allRepos.sort((a, b) => {
       const dateA = new Date(a.updatedAt).getTime();
       const dateB = new Date(b.updatedAt).getTime();
