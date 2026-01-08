@@ -3,6 +3,7 @@ export type Language = 'en' | 'ja';
 export interface Translations {
   // Header
   dashboardTitle: string;
+  dashboardTitleTemplate: string;
   refresh: string;
   refreshing: string;
   settings: string;
@@ -66,11 +67,21 @@ export interface Translations {
   dashboardDisabled: string;
   tokenEmpty: string;
   tokenSaveFailed: string;
+  
+  // Profile
+  contributionsLastYear: string;
+  
+  // Settings
+  copyTokenInstruction: string;
+  languageLabel: string;
+  english: string;
+  japanese: string;
 }
 
 export const translations: Record<Language, Translations> = {
   en: {
     dashboardTitle: 'GitHub Dashboard',
+    dashboardTitleTemplate: "{name}'s GitHub Page",
     refresh: 'Refresh',
     refreshing: 'Refreshing...',
     settings: 'Settings',
@@ -120,9 +131,15 @@ export const translations: Record<Language, Translations> = {
     dashboardDisabled: 'Dashboard disabled on GitHub pages.',
     tokenEmpty: 'Token cannot be empty',
     tokenSaveFailed: 'Failed to save token. Please check your token and try again.',
+    contributionsLastYear: 'contributions in the last year',
+    copyTokenInstruction: 'Copy the token and paste it below',
+    languageLabel: 'Language',
+    english: 'English',
+    japanese: 'Japanese',
   },
   ja: {
     dashboardTitle: 'GitHub ダッシュボード',
+    dashboardTitleTemplate: '{name} の GitHub ページ',
     refresh: '更新',
     refreshing: '更新中...',
     settings: '設定',
@@ -172,6 +189,11 @@ export const translations: Record<Language, Translations> = {
     dashboardDisabled: 'GitHubページでのダッシュボード表示を無効にしました。',
     tokenEmpty: 'トークンは空にできません',
     tokenSaveFailed: 'トークンの保存に失敗しました。トークンを確認して再度お試しください。',
+    contributionsLastYear: '過去1年間のコントリビューション',
+    copyTokenInstruction: 'トークンをコピーして、下に入力してください',
+    languageLabel: '言語',
+    english: 'English',
+    japanese: '日本語',
   },
 };
 

@@ -6,6 +6,7 @@ import { useLanguage } from '../../i18n/useLanguage';
 import { SettingsMenu } from './SettingsMenu';
 import { Container } from '@/application/di/Container';
 import { StorageKeys } from '@/infrastructure/storage/StorageKeys';
+import { User } from '@/domain/entities/User';
 import './header.css';
 
 interface HeaderProps {
@@ -13,6 +14,7 @@ interface HeaderProps {
   refreshing: boolean;
   filter: 'all' | 'open';
   onFilterChange: (filter: 'all' | 'open') => void;
+  user: User | null;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -20,6 +22,7 @@ export const Header: React.FC<HeaderProps> = ({
   refreshing,
   filter,
   onFilterChange,
+  user,
 }) => {
   const { theme, toggleTheme } = useTheme();
   const { t, language, setLanguage } = useLanguage();
@@ -66,10 +69,18 @@ export const Header: React.FC<HeaderProps> = ({
     }
   };
 
+  const getDashboardTitle = () => {
+    if (!user) {
+      return t.dashboardTitle;
+    }
+    const displayName = user.name || user.login;
+    return t.dashboardTitleTemplate.replace('{name}', displayName);
+  };
+
   return (
     <header className="dashboard-header">
       <div className="header-left">
-        <h1 className="dashboard-title">{t.dashboardTitle}</h1>
+        <h1 className="dashboard-title">{getDashboardTitle()}</h1>
       </div>
       <div className="header-right">
         <FilterToggle value={filter} onChange={onFilterChange} disabled={refreshing} />
