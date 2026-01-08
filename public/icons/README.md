@@ -7,3 +7,4 @@ This directory should contain the extension icons:
 
 For now, placeholder icons are referenced in `manifest.json`. In production, you should create proper icons representing the GitHub Dashboard Extension.
 
+

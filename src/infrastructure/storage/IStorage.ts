@@ -8,3 +8,4 @@ export interface IStorage {
   clear(): Promise<void>;
 }
 
+

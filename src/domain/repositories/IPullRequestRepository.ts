@@ -20,3 +20,4 @@ export interface IPullRequestRepository {
   getReviewedByMe(limit: number): Promise<PullRequest[]>;
 }
 
+
