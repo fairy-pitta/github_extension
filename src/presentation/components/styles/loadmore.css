@@ -2,7 +2,9 @@
   display: flex;
   justify-content: center;
   margin-top: 8px;
+  margin-bottom: 8px;
   flex-shrink: 0;
+  padding: 4px 0;
 }
 
 .load-more-button {
