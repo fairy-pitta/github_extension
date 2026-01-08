@@ -42,6 +42,8 @@ export default defineConfig({
   ],
   build: {
     outDir: 'dist',
+    minify: 'esbuild',
+    sourcemap: false,
     rollupOptions: {
       input: {
         newtab: resolve(__dirname, 'src/presentation/newtab/index.html'),
