@@ -26,6 +26,18 @@ export const AppConfig = {
     dashboardLimit: 10,
     repositoriesLimit: 20,
   },
+
+  /**
+   * OAuth configuration
+   * Note: Set your GitHub OAuth App client ID here
+   * Get it from: https://github.com/settings/developers
+   */
+  oauth: {
+    clientId: process.env.VITE_GITHUB_OAUTH_CLIENT_ID || '',
+    scopes: ['read:user', 'read:org', 'repo'],
+    // Redirect URI will be generated dynamically using chrome.identity.getRedirectURL()
+    redirectUri: '',
+  },
 } as const;
 
 

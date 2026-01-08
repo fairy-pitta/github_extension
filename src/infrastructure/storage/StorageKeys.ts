@@ -3,6 +3,7 @@
  */
 export const StorageKeys = {
   PAT_TOKEN: 'pat_token',
+  GITHUB_TOKEN: 'github_token',
   SHOW_ON_GITHUB: 'show_on_github',
   SHOW_MOTIVATION_MESSAGE: 'show_motivation_message',
   THEME: 'theme',
