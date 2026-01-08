@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { TokenInput } from '../../options/components/TokenInput';
 import { SaveButton } from '../../options/components/SaveButton';
 import { StatusMessage } from '../../options/components/StatusMessage';
@@ -27,17 +27,12 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({ isOpen, onClose }) =
     message: string;
   } | null>(null);
 
-  useEffect(() => {
-    if (isOpen) {
-      loadSettings();
-    }
-  }, [isOpen]);
 
   useEffect(() => {
     setTheme(currentTheme);
   }, [currentTheme]);
 
-  const loadSettings = async () => {
+  const loadSettings = useCallback(async () => {
     try {
       const container = Container.getInstance();
       const storage = container.getStorage();
@@ -54,7 +49,13 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({ isOpen, onClose }) =
     } catch {
       // Ignore errors
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    if (isOpen) {
+      loadSettings();
+    }
+  }, [isOpen, loadSettings]);
 
   const handleSave = async () => {
     if (!token.trim()) {
@@ -124,10 +125,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({ isOpen, onClose }) =
       const container = Container.getInstance();
       const storage = container.getStorage();
       await storage.set(StorageKeys.THEME, newTheme);
-      // Toggle theme if different from current
-      if (newTheme !== currentTheme) {
-        toggleTheme();
-      }
+      toggleTheme();
       setStatus({
         type: 'success',
         message: t.themeChanged.replace('{theme}', newTheme === 'light' ? t.light : t.dark),
