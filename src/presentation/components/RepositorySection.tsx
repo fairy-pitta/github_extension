@@ -74,7 +74,10 @@ export const RepositorySection: React.FC<RepositorySectionProps> = React.memo(({
 
   return (
     <section className="dashboard-section">
-      <h2 className="section-title">Recently Updated Repositories</h2>
+      <h2 className="section-title">
+        <i className="fas fa-code-branch"></i>
+        {t.recentlyUpdatedRepositories}
+      </h2>
       <div className="section-content">
         {repositories.map((repo) => (
           <RepositoryCard key={repo.nameWithOwner} repository={repo} />

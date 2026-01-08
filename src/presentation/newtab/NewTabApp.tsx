@@ -33,8 +33,8 @@ const RepositorySection = lazy(() =>
 
 export const NewTabApp: React.FC = () => {
   const auth = useAuth();
-  const { loading: themeLoading } = useTheme(); // Initialize theme
-  const [filter, setFilter] = useState<'all' | 'open'>('open'); // Default to 'open'
+  useTheme(); // Initialize theme
+  const [filter, setFilter] = useState<'all' | 'open'>('open');
   const dashboard = useDashboardData(4, filter === 'open', !auth.loading && auth.isAuthenticated);
 
   const handleRefresh = useCallback(async () => {
