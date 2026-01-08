@@ -4,7 +4,8 @@
   "version": "0.1.0",
   "description": "Display your GitHub activity on the new tab page",
   "permissions": [
-    "storage"
+    "storage",
+    "tabs"
   ],
   "host_permissions": [
     "https://api.github.com/*",
@@ -21,7 +22,6 @@
     "service_worker": "service-worker.js",
     "type": "module"
   },
-  "options_page": "options.html",
   "web_accessible_resources": [
     {
       "resources": [

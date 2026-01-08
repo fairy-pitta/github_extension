@@ -32,6 +32,45 @@
   line-height: 1.6;
 }
 
+.auth-guard-instructions {
+  margin: 24px 0;
+  text-align: left;
+  background: var(--bg-empty);
+  border: 1px solid var(--border-primary);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.auth-guard-step {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.auth-guard-steps {
+  margin: 12px 0 0 0;
+  padding-left: 20px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+
+.auth-guard-steps li {
+  margin-bottom: 8px;
+}
+
+.auth-guard-link {
+  color: var(--accent-blue);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.auth-guard-link:hover {
+  color: var(--accent-blue);
+  text-decoration: underline;
+}
+
 .configure-button {
   padding: 14px 32px;
   font-size: 16px;
@@ -46,7 +85,7 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  margin: 0 auto;
+  margin: 24px auto 0;
 }
 
 .configure-button:hover {

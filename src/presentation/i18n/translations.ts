@@ -32,6 +32,9 @@ export interface Translations {
   githubExtension: string;
   configureToken: string;
   openSettings: string;
+  createPATInstructions: string;
+  createPATLink: string;
+  requiredPermissions: string;
   
   // Options
   settingsTitle: string;
@@ -89,6 +92,9 @@ export const translations: Record<Language, Translations> = {
     githubExtension: 'GitHub Extension',
     configureToken: 'Please configure your GitHub Personal Access Token to use this extension.',
     openSettings: 'Open Settings',
+    createPATInstructions: 'To create a Personal Access Token:',
+    createPATLink: 'Create a Personal Access Token',
+    requiredPermissions: 'Required permissions: repo, read:org, read:user',
     settingsTitle: 'GitHub Extension Settings',
     settingsDescription: 'Enter your GitHub Personal Access Token to enable the extension.',
     tokenLabel: 'GitHub Personal Access Token',
@@ -138,6 +144,9 @@ export const translations: Record<Language, Translations> = {
     githubExtension: 'GitHub 拡張機能',
     configureToken: 'この拡張機能を使用するには、GitHub Personal Access Token を設定してください。',
     openSettings: '設定を開く',
+    createPATInstructions: 'Personal Access Token を作成するには:',
+    createPATLink: 'Personal Access Token を作成',
+    requiredPermissions: '必要な権限: repo, read:org, read:user',
     settingsTitle: 'GitHub 拡張機能の設定',
     settingsDescription: 'GitHub Personal Access Token を入力して拡張機能を有効にします。',
     tokenLabel: 'GitHub Personal Access Token',

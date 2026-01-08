@@ -5,8 +5,10 @@ import { Container } from '@/application/di/Container';
 // Initialize on installation
 chrome.runtime.onInstalled.addListener(async (details) => {
   if (details.reason === 'install') {
-    // Open options page on first install
-    chrome.runtime.openOptionsPage();
+    // Open new tab page on first install to show onboarding
+    chrome.tabs.create({
+      url: chrome.runtime.getURL('newtab.html'),
+    });
   }
 
   // Initialize container if token exists
