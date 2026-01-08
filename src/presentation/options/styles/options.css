@@ -268,4 +268,42 @@ h1 {
   line-height: 1.5;
 }
 
+.options-theme-selector {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.options-theme-option {
+  flex: 1;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #586069;
+  background-color: white;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.options-theme-option i {
+  font-size: 16px;
+}
+
+.options-theme-option:hover {
+  background-color: #f6f8fa;
+  border-color: #0366d6;
+}
+
+.options-theme-option.active {
+  background-color: #0366d6;
+  color: white;
+  border-color: #0366d6;
+}
+
 

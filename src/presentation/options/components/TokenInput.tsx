@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useLanguage } from '../../i18n/useLanguage';
 
 interface TokenInputProps {
   value: string;
@@ -13,12 +14,13 @@ export const TokenInput: React.FC<TokenInputProps> = ({
   error,
   disabled = false,
 }) => {
+  const { t, language } = useLanguage();
   const [showPassword, setShowPassword] = useState(false);
 
   return (
     <div className="token-input-container">
       <label htmlFor="token-input" className="token-label">
-        GitHub Personal Access Token
+        {t.tokenLabel}
       </label>
       <div className="token-input-wrapper">
         <input
@@ -27,7 +29,7 @@ export const TokenInput: React.FC<TokenInputProps> = ({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           disabled={disabled}
-          placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
+          placeholder={t.tokenPlaceholder}
           className={`token-input ${error ? 'error' : ''}`}
         />
         <button
@@ -35,9 +37,9 @@ export const TokenInput: React.FC<TokenInputProps> = ({
           onClick={() => setShowPassword(!showPassword)}
           className="toggle-password"
           disabled={disabled}
-          aria-label={showPassword ? 'Hide token' : 'Show token'}
+          aria-label={showPassword ? (language === 'ja' ? 'トークンを非表示' : 'Hide token') : (language === 'ja' ? 'トークンを表示' : 'Show token')}
         >
-          {showPassword ? '👁️' : '👁️‍🗨️'}
+          <i className={showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'}></i>
         </button>
       </div>
       {error && <div className="error-message">{error}</div>}
@@ -47,10 +49,10 @@ export const TokenInput: React.FC<TokenInputProps> = ({
           target="_blank"
           rel="noopener noreferrer"
         >
-          Create a Personal Access Token
+          {t.createToken}
         </a>
         <span className="help-text">
-          Required permissions: repo, read:org, read:user
+          {t.tokenPermissions}
         </span>
       </div>
     </div>

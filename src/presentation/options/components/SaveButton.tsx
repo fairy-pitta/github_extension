@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLanguage } from '../../i18n/useLanguage';
 
 interface SaveButtonProps {
   onClick: () => void;
@@ -11,6 +12,8 @@ export const SaveButton: React.FC<SaveButtonProps> = ({
   loading = false,
   disabled = false,
 }) => {
+  const { t, language } = useLanguage();
+  
   return (
     <button
       type="button"
@@ -21,10 +24,10 @@ export const SaveButton: React.FC<SaveButtonProps> = ({
       {loading ? (
         <>
           <span className="spinner"></span>
-          Saving...
+          <span>{language === 'ja' ? '保存中...' : 'Saving...'}</span>
         </>
       ) : (
-        'Save Token'
+        t.save
       )}
     </button>
   );

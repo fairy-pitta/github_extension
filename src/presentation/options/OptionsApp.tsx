@@ -4,11 +4,16 @@ import { SaveButton } from './components/SaveButton';
 import { StatusMessage } from './components/StatusMessage';
 import { Container } from '@/application/di/Container';
 import { StorageKeys } from '@/infrastructure/storage/StorageKeys';
+import { useLanguage } from '../i18n/useLanguage';
 import './styles/options.css';
 
+type Theme = 'light' | 'dark';
+
 export const OptionsApp: React.FC = () => {
+  const { t, language, setLanguage } = useLanguage();
   const [token, setToken] = useState('');
   const [showOnGitHub, setShowOnGitHub] = useState(true);
+  const [theme, setTheme] = useState<Theme>('light');
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<{
     type: 'success' | 'error' | 'info';
@@ -23,6 +28,7 @@ export const OptionsApp: React.FC = () => {
         const storage = container.getStorage();
         const savedToken = await storage.get<string>(StorageKeys.PAT_TOKEN);
         const savedShowOnGitHub = await storage.get<boolean>(StorageKeys.SHOW_ON_GITHUB);
+        const savedTheme = await storage.get<Theme>(StorageKeys.THEME);
         
         if (savedToken) {
           setToken(savedToken);
@@ -37,6 +43,10 @@ export const OptionsApp: React.FC = () => {
         if (savedShowOnGitHub !== undefined) {
           setShowOnGitHub(savedShowOnGitHub);
         }
+        
+        if (savedTheme === 'light' || savedTheme === 'dark') {
+          setTheme(savedTheme);
+        }
       } catch {
         // Ignore errors
       }
@@ -48,7 +58,7 @@ export const OptionsApp: React.FC = () => {
     if (!token.trim()) {
       setStatus({
         type: 'error',
-        message: 'Token cannot be empty',
+        message: t.tokenEmpty,
       });
       return;
     }
@@ -68,7 +78,7 @@ export const OptionsApp: React.FC = () => {
 
       setStatus({
         type: 'success',
-        message: 'Token saved successfully! Please refresh the new tab page.',
+        message: t.tokenSaved,
       });
     } catch (error) {
       console.error('Token save error:', error);
@@ -77,7 +87,7 @@ export const OptionsApp: React.FC = () => {
         message:
           error instanceof Error
             ? error.message
-            : 'Failed to save token. Please check your token and try again.',
+            : t.tokenSaveFailed,
       });
     } finally {
       setLoading(false);
@@ -98,8 +108,8 @@ export const OptionsApp: React.FC = () => {
       setStatus({
         type: 'success',
         message: newValue
-          ? 'Dashboard will now show on GitHub pages. Please refresh any open GitHub tabs.'
-          : 'Dashboard disabled on GitHub pages.',
+          ? t.dashboardEnabled
+          : t.dashboardDisabled,
       });
     } catch (error) {
       console.error('Failed to save setting:', error);
@@ -107,12 +117,51 @@ export const OptionsApp: React.FC = () => {
     }
   };
 
+  const handleThemeChange = async (newTheme: Theme) => {
+    setTheme(newTheme);
+    try {
+      const container = Container.getInstance();
+      const storage = container.getStorage();
+      await storage.set(StorageKeys.THEME, newTheme);
+      setStatus({
+        type: 'success',
+        message: t.themeChanged.replace('{theme}', newTheme === 'light' ? t.light : t.dark),
+      });
+    } catch (error) {
+      console.error('Failed to save theme:', error);
+      setTheme(theme); // Revert on error
+    }
+  };
+
+  const toggleLanguage = () => {
+    setLanguage(language === 'en' ? 'ja' : 'en');
+  };
+
   return (
     <div className="options-container">
       <div className="options-content">
-        <h1>GitHub Extension Settings</h1>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+          <h1>{t.settingsTitle}</h1>
+          <button
+            onClick={toggleLanguage}
+            className="language-toggle-button"
+            aria-label={language === 'en' ? 'Switch to Japanese' : 'Switch to English'}
+            title={language === 'en' ? '日本語に切り替え' : 'Switch to English'}
+            style={{
+              padding: '8px 16px',
+              fontSize: '14px',
+              background: 'var(--bg-button, #fff)',
+              border: '1px solid var(--border-button, #d1d5db)',
+              borderRadius: '8px',
+              cursor: 'pointer',
+            }}
+          >
+            <i className="fas fa-globe"></i>
+            <span style={{ marginLeft: '8px' }}>{language === 'en' ? '日本語' : 'English'}</span>
+          </button>
+        </div>
         <p className="options-description">
-          Enter your GitHub Personal Access Token to enable the extension.
+          {t.settingsDescription}
         </p>
 
         <div className="options-form">
@@ -137,10 +186,35 @@ export const OptionsApp: React.FC = () => {
                 onChange={handleToggleShowOnGitHub}
                 className="options-checkbox"
               />
-              <span>Show dashboard on GitHub pages</span>
+              <span>{t.showOnGitHub}</span>
             </label>
             <p className="options-setting-description">
-              When enabled, the dashboard will replace GitHub pages. You can revert to the original GitHub page using the button in the top-right corner.
+              {t.showOnGitHubDescription}
+            </p>
+          </div>
+
+          <div className="options-setting">
+            <label className="options-setting-label">{t.theme}</label>
+            <div className="options-theme-selector">
+              <button
+                type="button"
+                className={`options-theme-option ${theme === 'light' ? 'active' : ''}`}
+                onClick={() => handleThemeChange('light')}
+              >
+                <i className="fas fa-sun"></i>
+                <span>{t.light}</span>
+              </button>
+              <button
+                type="button"
+                className={`options-theme-option ${theme === 'dark' ? 'active' : ''}`}
+                onClick={() => handleThemeChange('dark')}
+              >
+                <i className="fas fa-moon"></i>
+                <span>{t.dark}</span>
+              </button>
+            </div>
+            <p className="options-setting-description">
+              {t.themeDescription}
             </p>
           </div>
 
