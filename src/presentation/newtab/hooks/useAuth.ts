@@ -24,7 +24,21 @@ export function useAuth(): AuthState {
       try {
         const container = Container.getInstance();
         const storage = container.getStorage();
-        const token = await storage.get<string>(StorageKeys.PAT_TOKEN);
+
+        // Try to get token (GITHUB_TOKEN takes priority, falls back to PAT_TOKEN)
+        // First check if we can use AuthService (if container is initialized)
+        let token: string | null = null;
+        try {
+          const authService = container.getAuthService();
+          token = await authService.getToken();
+        } catch {
+          // Container not initialized yet, check storage directly
+          // Check GITHUB_TOKEN first, then fall back to PAT_TOKEN
+          token = await storage.get<string>(StorageKeys.GITHUB_TOKEN);
+          if (!token) {
+            token = await storage.get<string>(StorageKeys.PAT_TOKEN);
+          }
+        }
 
         if (!token) {
           setState({
@@ -66,12 +80,15 @@ export function useAuth(): AuthState {
 
     checkAuth();
 
-    // Listen for storage changes
+    // Listen for storage changes (both GITHUB_TOKEN and PAT_TOKEN)
     const handleStorageChange = (
       changes: { [key: string]: chrome.storage.StorageChange },
       areaName: string
     ) => {
-      if (areaName === 'local' && changes[StorageKeys.PAT_TOKEN]) {
+      if (
+        areaName === 'local' &&
+        (changes[StorageKeys.GITHUB_TOKEN] || changes[StorageKeys.PAT_TOKEN])
+      ) {
         checkAuth();
       }
     };

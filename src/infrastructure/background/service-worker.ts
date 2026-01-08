@@ -11,11 +11,17 @@ chrome.runtime.onInstalled.addListener(async (details) => {
     });
   }
 
-  // Initialize container if token exists
+  // Initialize container if token exists (GITHUB_TOKEN takes priority, falls back to PAT_TOKEN)
   try {
     const container = Container.getInstance();
     const storage = container.getStorage();
-    const token = await storage.get<string>(StorageKeys.PAT_TOKEN);
+    
+    // Check GITHUB_TOKEN first, then fall back to PAT_TOKEN
+    let token = await storage.get<string>(StorageKeys.GITHUB_TOKEN);
+    if (!token) {
+      token = await storage.get<string>(StorageKeys.PAT_TOKEN);
+    }
+    
     if (token) {
       await container.initialize(token);
     }
@@ -56,15 +62,42 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   return false;
 });
 
-// Listen for storage changes
+// Listen for storage changes (both GITHUB_TOKEN and PAT_TOKEN)
 chrome.storage.onChanged.addListener((changes, areaName) => {
-  if (areaName === 'local' && changes[StorageKeys.PAT_TOKEN]) {
-    const newToken = changes[StorageKeys.PAT_TOKEN].newValue as string | undefined;
+  if (areaName === 'local') {
+    const githubTokenChange = changes[StorageKeys.GITHUB_TOKEN];
+    const patTokenChange = changes[StorageKeys.PAT_TOKEN];
+
+    // Get the new token (GITHUB_TOKEN takes priority)
+    const newToken =
+      (githubTokenChange?.newValue as string | undefined) ||
+      (patTokenChange?.newValue as string | undefined);
+
     if (newToken) {
       Container.getInstance()
         .initialize(newToken)
         .catch((error) => {
           console.error('Failed to reinitialize container:', error);
+        });
+    } else if (githubTokenChange?.newValue === undefined || patTokenChange?.newValue === undefined) {
+      // Token was removed, try to get remaining token or clear container
+      const container = Container.getInstance();
+      const storage = container.getStorage();
+      storage
+        .get<string>(StorageKeys.GITHUB_TOKEN)
+        .then((token) => {
+          if (token) {
+            return container.initialize(token);
+          }
+          return storage.get<string>(StorageKeys.PAT_TOKEN).then((patToken) => {
+            if (patToken) {
+              return container.initialize(patToken);
+            }
+            // Both tokens removed, container will need to be reinitialized when a new token is set
+          });
+        })
+        .catch((error) => {
+          console.error('Failed to reinitialize container after token removal:', error);
         });
     }
   }
