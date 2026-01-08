@@ -1,2 +1,2 @@
-// Config exports will be added here
+export * from './AppConfig';
 

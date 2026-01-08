@@ -1,2 +1,2 @@
-// Dependency injection exports will be added here
+export * from './Container';
 

@@ -1,2 +1,2 @@
-// Component exports will be added here
+// Shared components will be exported here
 
