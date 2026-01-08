@@ -1,2 +1,4 @@
-// Storage exports will be added here
+export * from './IStorage';
+export * from './ChromeStorage';
+export * from './StorageKeys';
 

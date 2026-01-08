@@ -1,0 +1,159 @@
+query DashboardData($limit: Int!) {
+  # PR (Created by me)
+  createdPRs: search(
+    query: "is:pr author:@me archived:false sort:updated-desc"
+    type: ISSUE
+    first: $limit
+  ) {
+    nodes {
+      ... on PullRequest {
+        number
+        title
+        state
+        url
+        updatedAt
+        repository {
+          nameWithOwner
+          url
+          updatedAt
+          isPrivate
+          description
+          owner {
+            login
+            ... on User {
+              name
+              avatarUrl
+            }
+            ... on Organization {
+              name
+              avatarUrl
+            }
+          }
+        }
+        reviewDecision
+        comments {
+          totalCount
+        }
+        author {
+          login
+          name
+          avatarUrl
+        }
+        reviews(first: 10) {
+          nodes {
+            author {
+              login
+              name
+              avatarUrl
+            }
+          }
+        }
+      }
+    }
+  }
+
+  # PR (Review requested)
+  reviewRequestedPRs: search(
+    query: "is:pr review-requested:@me archived:false sort:updated-desc"
+    type: ISSUE
+    first: $limit
+  ) {
+    nodes {
+      ... on PullRequest {
+        number
+        title
+        state
+        url
+        updatedAt
+        repository {
+          nameWithOwner
+          url
+          updatedAt
+          isPrivate
+          description
+          owner {
+            login
+            ... on User {
+              name
+              avatarUrl
+            }
+            ... on Organization {
+              name
+              avatarUrl
+            }
+          }
+        }
+        reviewDecision
+        comments {
+          totalCount
+        }
+        author {
+          login
+          name
+          avatarUrl
+        }
+        reviews(first: 10) {
+          nodes {
+            author {
+              login
+              name
+              avatarUrl
+            }
+          }
+        }
+      }
+    }
+  }
+
+  # Issues (Involved)
+  involvedIssues: search(
+    query: "is:issue involves:@me archived:false sort:updated-desc"
+    type: ISSUE
+    first: $limit
+  ) {
+    nodes {
+      ... on Issue {
+        number
+        title
+        state
+        url
+        updatedAt
+        repository {
+          nameWithOwner
+          url
+          updatedAt
+          isPrivate
+          description
+          owner {
+            login
+            ... on User {
+              name
+              avatarUrl
+            }
+            ... on Organization {
+              name
+              avatarUrl
+            }
+          }
+        }
+        comments {
+          totalCount
+        }
+        assignees(first: 10) {
+          nodes {
+            login
+            name
+            avatarUrl
+          }
+        }
+        labels(first: 10) {
+          nodes {
+            name
+            color
+          }
+        }
+      }
+    }
+  }
+}
+

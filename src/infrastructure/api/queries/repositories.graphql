@@ -1,0 +1,64 @@
+query GetRepositories($limit: Int!, $cursor: String) {
+  viewer {
+    repositories(
+      first: $limit
+      after: $cursor
+      orderBy: { field: UPDATED_AT, direction: DESC }
+      affiliations: [OWNER, COLLABORATOR]
+    ) {
+      nodes {
+        nameWithOwner
+        url
+        updatedAt
+        isPrivate
+        description
+        owner {
+          login
+          ... on User {
+            name
+            avatarUrl
+          }
+          ... on Organization {
+            name
+            avatarUrl
+          }
+        }
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+    organizations(first: 10) {
+      nodes {
+        login
+        name
+        avatarUrl
+        repositories(
+          first: $limit
+          orderBy: { field: UPDATED_AT, direction: DESC }
+        ) {
+          nodes {
+            nameWithOwner
+            url
+            updatedAt
+            isPrivate
+            description
+            owner {
+              login
+              ... on User {
+                name
+                avatarUrl
+              }
+              ... on Organization {
+                name
+                avatarUrl
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
