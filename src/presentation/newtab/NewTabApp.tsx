@@ -1,4 +1,4 @@
-import React, { useState, lazy, Suspense, useCallback } from 'react';
+import React, { useState, lazy, Suspense, useCallback, useEffect } from 'react';
 import { DashboardLayout } from './components/DashboardLayout';
 import { Header } from './components/Header';
 import { AuthGuard } from './components/AuthGuard';
@@ -31,30 +31,13 @@ const RepositorySection = lazy(() =>
 );
 
 export const NewTabApp: React.FC = () => {
-  const { isAuthenticated, loading: authLoading } = useAuth();
+  const auth = useAuth();
   const [filter, setFilter] = useState<'all' | 'open'>('all');
-  const {
-    data,
-    loading: dataLoading,
-    error,
-    refresh,
-  } = useDashboardData(10, filter === 'open');
-
-  if (authLoading) {
-    return (
-      <div className="dashboard-container">
-        <LoadingSpinner size="large" message="Loading..." />
-      </div>
-    );
-  }
-
-  if (!isAuthenticated) {
-    return <AuthGuard />;
-  }
+  const dashboard = useDashboardData(10, filter === 'open', !auth.loading && auth.isAuthenticated);
 
   const handleRefresh = useCallback(async () => {
-    await refresh();
-  }, [refresh]);
+    await dashboard.refresh();
+  }, [dashboard.refresh]);
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -80,33 +63,45 @@ export const NewTabApp: React.FC = () => {
     };
   }, [handleRefresh]);
 
+  if (auth.loading) {
+    return (
+      <div className="dashboard-container">
+        <LoadingSpinner size="large" message="Loading..." />
+      </div>
+    );
+  }
+
+  if (!auth.isAuthenticated) {
+    return <AuthGuard />;
+  }
+
   return (
     <div className="dashboard-container">
       <Header
         onRefresh={handleRefresh}
-        refreshing={dataLoading}
+        refreshing={dashboard.loading}
         filter={filter}
         onFilterChange={setFilter}
       />
 
-      {error && (
-        <ErrorMessage error={error} onRetry={handleRefresh} />
+      {dashboard.error && (
+        <ErrorMessage error={dashboard.error} onRetry={handleRefresh} />
       )}
 
-      {dataLoading && !data ? (
+      {dashboard.loading && !dashboard.data ? (
         <LoadingSpinner size="large" message="Loading dashboard data..." />
       ) : (
         <DashboardLayout>
           <Suspense fallback={<LoadingSpinner size="small" message="Loading..." />}>
-            <CreatedPRSection prs={data?.createdPRs ?? []} loading={dataLoading} />
+            <CreatedPRSection prs={dashboard.data?.createdPRs ?? []} loading={dashboard.loading} />
             <ReviewRequestedPRSection
-              prs={data?.reviewRequestedPRs ?? []}
-              loading={dataLoading}
+              prs={dashboard.data?.reviewRequestedPRs ?? []}
+              loading={dashboard.loading}
             />
-            <IssueSection issues={data?.involvedIssues ?? []} loading={dataLoading} />
+            <IssueSection issues={dashboard.data?.involvedIssues ?? []} loading={dashboard.loading} />
             <RepositorySection
-              repositories={data?.recentlyUpdatedRepos ?? []}
-              loading={dataLoading}
+              repositories={dashboard.data?.recentlyUpdatedRepos ?? []}
+              loading={dashboard.loading}
             />
           </Suspense>
         </DashboardLayout>

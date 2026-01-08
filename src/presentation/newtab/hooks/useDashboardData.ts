@@ -14,20 +14,23 @@ export interface DashboardDataState {
  */
 export function useDashboardData(
   limit: number = 10,
-  filterOpenOnly: boolean = false
+  filterOpenOnly: boolean = false,
+  enabled: boolean = true
 ): DashboardDataState & { refresh: () => Promise<void> } {
   const [state, setState] = useState<DashboardDataState>({
     data: null,
-    loading: true,
+    loading: enabled,
     error: null,
   });
 
   const fetchData = useCallback(
     async (forceRefresh: boolean = false) => {
+      if (!enabled) return;
       try {
         setState((prev) => ({ ...prev, loading: true, error: null }));
 
         const container = Container.getInstance();
+        console.log('Fetching dashboard data...');
         const dashboardService = container.getDashboardService();
 
         let data = await dashboardService.getDashboardData(limit, forceRefresh);
@@ -46,12 +49,14 @@ export function useDashboardData(
           };
         }
 
+        console.log('Dashboard data fetched successfully:', data);
         setState({
           data,
           loading: false,
           error: null,
         });
       } catch (error) {
+        console.error('Dashboard data fetch error:', error);
         // If it's a network error and we have cached data, use it
         if (error instanceof NetworkError && state.data) {
           setState({
@@ -68,13 +73,15 @@ export function useDashboardData(
         }
       }
     },
-    [limit, filterOpenOnly, state.data]
+    [limit, filterOpenOnly, state.data, enabled]
   );
 
   useEffect(() => {
-    fetchData(false);
+    if (enabled) {
+      fetchData(false);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [limit, filterOpenOnly]);
+  }, [limit, filterOpenOnly, enabled]);
 
   const refresh = useCallback(async () => {
     await fetchData(true);

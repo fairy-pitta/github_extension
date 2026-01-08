@@ -46,14 +46,16 @@ export function useAuth(): AuthState {
             user: user ?? null,
             loading: false,
           });
-        } catch {
+        } catch (error) {
+          console.error('Auth validation error:', error);
           setState({
             isAuthenticated: false,
             user: null,
             loading: false,
           });
         }
-      } catch {
+      } catch (error) {
+        console.error('Auth check error:', error);
         setState({
           isAuthenticated: false,
           user: null,
@@ -70,6 +72,7 @@ export function useAuth(): AuthState {
       areaName: string
     ) => {
       if (areaName === 'local' && changes[StorageKeys.PAT_TOKEN]) {
+        console.log('Token changed, rechecking auth...');
         checkAuth();
       }
     };
