@@ -1,0 +1,103 @@
+/* Theme CSS Variables */
+:root {
+  /* Light Theme (Default) */
+  --bg-primary: linear-gradient(135deg, #FEF7F0 0%, #FFF4E6 100%);
+  --bg-secondary: rgba(255, 255, 255, 0.8);
+  --bg-hover: rgba(255, 255, 255, 0.95);
+  --bg-card: rgba(255, 255, 255, 0.8);
+  --bg-card-hover: rgba(255, 255, 255, 0.95);
+  --bg-button: rgba(255, 255, 255, 0.7);
+  --bg-button-hover: rgba(255, 255, 255, 0.9);
+  --bg-filter: rgba(255, 255, 255, 0.5);
+  --bg-filter-active: rgba(186, 225, 255, 0.3);
+  --bg-error: rgba(255, 211, 186, 0.3);
+  --bg-auth: rgba(255, 255, 255, 0.8);
+  --bg-empty: rgba(255, 255, 255, 0.5);
+  
+  --text-primary: #8B7A6B;
+  --text-secondary: #A89A8A;
+  --text-tertiary: #9B8B7B;
+  --text-muted: #6B6B6B;
+  
+  --border-primary: #E8D5C4;
+  --border-hover: #FFB3BA;
+  --border-button: #E8D5C4;
+  --border-button-hover: #BAE1FF;
+  
+  --shadow-sm: 0 4px 12px rgba(255, 179, 186, 0.15);
+  --shadow-md: 0 8px 24px rgba(255, 179, 186, 0.15);
+  --shadow-lg: 0 8px 32px rgba(232, 213, 196, 0.2);
+  
+  --accent-pink: #FFB3BA;
+  --accent-blue: #BAE1FF;
+  --accent-green: #BAFFC9;
+  --accent-yellow: #FFFFBA;
+  --accent-orange: #FFD4BA;
+  
+  --badge-open-bg: #BAFFC9;
+  --badge-open-text: #5A8A6A;
+  --badge-closed-bg: #E8D5C4;
+  --badge-closed-text: #8B7A6B;
+  --badge-merged-bg: #FFB3BA;
+  --badge-merged-text: #8B5A6A;
+  --badge-approved-bg: #BAFFC9;
+  --badge-approved-text: #5A8A6A;
+  --badge-changes-bg: #FFD4BA;
+  --badge-changes-text: #8B6A5A;
+  --badge-public-bg: #BAE1FF;
+  --badge-public-text: #5A7A8A;
+  --badge-private-bg: #E8D5C4;
+  --badge-private-text: #8B7A6B;
+}
+
+[data-theme="dark"] {
+  /* Dark Theme */
+  --bg-primary: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  --bg-secondary: rgba(30, 30, 46, 0.8);
+  --bg-hover: rgba(40, 40, 60, 0.95);
+  --bg-card: rgba(30, 30, 46, 0.8);
+  --bg-card-hover: rgba(40, 40, 60, 0.95);
+  --bg-button: rgba(30, 30, 46, 0.7);
+  --bg-button-hover: rgba(40, 40, 60, 0.9);
+  --bg-filter: rgba(30, 30, 46, 0.5);
+  --bg-filter-active: rgba(100, 150, 200, 0.3);
+  --bg-error: rgba(150, 100, 80, 0.3);
+  --bg-auth: rgba(30, 30, 46, 0.8);
+  --bg-empty: rgba(30, 30, 46, 0.5);
+  
+  --text-primary: #D4C5B8;
+  --text-secondary: #B8A99C;
+  --text-tertiary: #A89A8A;
+  --text-muted: #8B7A6B;
+  
+  --border-primary: #4A4A5E;
+  --border-hover: #8B6A8A;
+  --border-button: #4A4A5E;
+  --border-button-hover: #6A8A9A;
+  
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
+  
+  --accent-pink: #8B6A8A;
+  --accent-blue: #6A8A9A;
+  --accent-green: #6A9A7A;
+  --accent-yellow: #9A9A6A;
+  --accent-orange: #9A7A6A;
+  
+  --badge-open-bg: #6A9A7A;
+  --badge-open-text: #D4E5D4;
+  --badge-closed-bg: #5A5A6A;
+  --badge-closed-text: #B8A9B8;
+  --badge-merged-bg: #8B6A8A;
+  --badge-merged-text: #E5D4E5;
+  --badge-approved-bg: #6A9A7A;
+  --badge-approved-text: #D4E5D4;
+  --badge-changes-bg: #9A7A6A;
+  --badge-changes-text: #E5D5D4;
+  --badge-public-bg: #6A8A9A;
+  --badge-public-text: #D4E5E5;
+  --badge-private-bg: #5A5A6A;
+  --badge-private-text: #B8A9B8;
+}
+

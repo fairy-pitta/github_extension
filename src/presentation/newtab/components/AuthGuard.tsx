@@ -1,7 +1,9 @@
 import React from 'react';
+import { useLanguage } from '../../i18n/useLanguage';
 import './authguard.css';
 
 export const AuthGuard: React.FC = () => {
+  const { t } = useLanguage();
   const openOptions = () => {
     chrome.runtime.openOptionsPage();
   };
@@ -9,10 +11,11 @@ export const AuthGuard: React.FC = () => {
   return (
     <div className="auth-guard">
       <div className="auth-guard-content">
-        <h1>GitHub Extension</h1>
-        <p>Please configure your GitHub Personal Access Token to use this extension.</p>
+        <h1>{t.githubExtension}</h1>
+        <p>{t.configureToken}</p>
         <button onClick={openOptions} className="configure-button">
-          Open Settings
+          <i className="fas fa-cog"></i>
+          <span>{t.openSettings}</span>
         </button>
       </div>
     </div>

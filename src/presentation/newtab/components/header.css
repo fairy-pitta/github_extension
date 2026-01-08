@@ -2,9 +2,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 32px;
-  padding-bottom: 16px;
-  border-bottom: 2px solid #e1e4e8;
+  margin-bottom: 40px;
+  padding: 24px 32px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-sm);
 }
 
 .header-left {
@@ -13,35 +17,51 @@
 
 .dashboard-title {
   margin: 0;
-  font-size: 28px;
-  font-weight: 600;
-  color: #24292e;
+  font-size: 32px;
+  font-weight: 300;
+  color: var(--text-primary);
+  letter-spacing: -0.5px;
 }
 
 .header-right {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
-.settings-button {
-  padding: 8px;
-  font-size: 20px;
-  background: none;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
+.settings-button,
+.theme-toggle-button,
+.language-toggle-button {
+  padding: 0;
+  font-size: 16px;
+  background: var(--bg-button);
+  border: 1px solid var(--border-button);
+  border-radius: 10px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
+  backdrop-filter: blur(10px);
+  color: var(--text-primary);
 }
 
-.settings-button:hover {
-  background-color: #f6f8fa;
-  border-color: #0366d6;
+.settings-button:hover,
+.theme-toggle-button:hover,
+.language-toggle-button:hover {
+  background: var(--bg-button-hover);
+  border-color: var(--border-button-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+  color: var(--accent-blue);
+}
+
+.settings-button i,
+.theme-toggle-button i,
+.language-toggle-button i {
+  font-size: 16px;
 }
 
 @media (max-width: 768px) {

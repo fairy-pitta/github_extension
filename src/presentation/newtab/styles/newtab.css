@@ -1,3 +1,5 @@
+@import './themes.css';
+
 * {
   box-sizing: border-box;
 }
@@ -9,8 +11,10 @@ body {
     'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f6f8fa;
-  color: #24292e;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 #root {
@@ -20,12 +24,12 @@ body {
 .dashboard-container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 24px;
+  padding: 32px;
 }
 
 @media (max-width: 768px) {
   .dashboard-container {
-    padding: 16px;
+    padding: 20px;
   }
 }
 
