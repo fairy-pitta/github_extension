@@ -13,7 +13,7 @@
   ],
   "content_scripts": [
     {
-      "matches": ["https://github.com", "https://github.com/"],
+      "matches": ["https://github.com/*"],
       "js": ["assets/github-content.js"],
       "run_at": "document_start"
     }
