@@ -66,7 +66,6 @@ describe('GetDashboardData', () => {
         isPrivate: false,
         owner: { login: 'test' },
       },
-      author: { login: 'author' },
     });
 
     const mockRepo = Repository.fromPlain({
