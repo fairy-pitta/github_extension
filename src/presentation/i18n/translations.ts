@@ -72,7 +72,7 @@ export interface Translations {
   contributionsLastYear: string;
   followers: string;
   following: string;
-  repositories: string;
+  repositoriesCount: string;
   stars: string;
   organizations: string;
   location: string;
@@ -143,7 +143,7 @@ export const translations: Record<Language, Translations> = {
     contributionsLastYear: 'contributions in the last year',
     followers: 'Followers',
     following: 'Following',
-    repositories: 'Repositories',
+    repositoriesCount: 'Repositories',
     stars: 'Stars',
     organizations: 'Organizations',
     location: 'Location',
@@ -210,7 +210,7 @@ export const translations: Record<Language, Translations> = {
     contributionsLastYear: '過去1年間のコントリビューション',
     followers: 'フォロワー',
     following: 'フォロー中',
-    repositories: 'リポジトリ',
+    repositoriesCount: 'リポジトリ',
     stars: 'スター',
     organizations: '組織',
     location: '場所',

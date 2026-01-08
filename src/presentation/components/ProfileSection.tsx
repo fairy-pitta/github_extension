@@ -114,21 +114,21 @@ export const ProfileSection: React.FC<ProfileSectionProps> = React.memo(({ user,
                 {calendar.totalContributions} {t.contributionsLastYear}
               </p>
             )}
-            {/* Compact Stats */}
-            <div className="profile-stats-inline">
-              <span className="profile-stat-item">
+            {/* Compact Stats Badges */}
+            <div className="profile-stats-badges">
+              <span className="profile-stat-badge">
                 <i className="fas fa-users"></i>
                 {formatNumber(user.followers)}
               </span>
-              <span className="profile-stat-item">
+              <span className="profile-stat-badge">
                 <i className="fas fa-user-plus"></i>
                 {formatNumber(user.following)}
               </span>
-              <span className="profile-stat-item">
+              <span className="profile-stat-badge">
                 <i className="fas fa-code-branch"></i>
                 {formatNumber(user.repositories)}
               </span>
-              <span className="profile-stat-item">
+              <span className="profile-stat-badge">
                 <i className="fas fa-star"></i>
                 {formatNumber(user.starredRepositories)}
               </span>

@@ -69,26 +69,36 @@
   font-weight: 500;
 }
 
-/* Compact Inline Stats */
-.profile-stats-inline {
+/* Compact Stats Badges */
+.profile-stats-badges {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px;
   margin-top: 6px;
   align-items: center;
 }
 
-.profile-stat-item {
+.profile-stat-badge {
   display: inline-flex;
   align-items: center;
   gap: 4px;
+  padding: 3px 8px;
+  background: var(--bg-filter);
+  border: 1px solid var(--border-primary);
+  border-radius: 12px;
   font-size: 11px;
   color: var(--text-secondary);
   white-space: nowrap;
+  transition: all 0.2s ease;
 }
 
-.profile-stat-item i {
-  font-size: 11px;
+.profile-stat-badge:hover {
+  background: var(--bg-filter-active);
+  border-color: var(--border-button-hover);
+}
+
+.profile-stat-badge i {
+  font-size: 10px;
   color: var(--accent-blue);
 }
 
