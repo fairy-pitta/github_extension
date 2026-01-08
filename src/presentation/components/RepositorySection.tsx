@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Repository } from '@/domain/entities/Repository';
 import { RepositoryCard } from './RepositoryCard';
 import { LoadMoreButton } from './LoadMoreButton';
@@ -18,6 +18,11 @@ export const RepositorySection: React.FC<RepositorySectionProps> = ({
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [cursor, setCursor] = useState<string | undefined>();
+
+  // Update repositories when initialRepositories changes
+  useEffect(() => {
+    setRepositories(initialRepositories);
+  }, [initialRepositories]);
 
   const handleLoadMore = async () => {
     setLoading(true);
@@ -74,4 +79,3 @@ export const RepositorySection: React.FC<RepositorySectionProps> = ({
     </section>
   );
 };
-
