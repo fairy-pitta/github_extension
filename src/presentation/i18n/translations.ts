@@ -102,6 +102,14 @@ export interface Translations {
   achievementNextTitle: string;
   achievementRemaining: string;
   achievementNext: string;
+  achievementInfoTitle: string;
+  achievementInfoDescription: string;
+  achievementWeeklyPR: string;
+  achievementMonthlyPR: string;
+  achievementMonthlyCommits: string;
+  achievementWeeklyReviews: string;
+  achievementStreak: string;
+  achievementLevel: string;
   
   // Stats
   statsButton: string;
@@ -199,6 +207,14 @@ export const translations: Record<Language, Translations> = {
     achievementNextTitle: 'Next title',
     achievementRemaining: 'remaining',
     achievementNext: 'next',
+    achievementInfoTitle: 'Achievement Levels',
+    achievementInfoDescription: 'Earn badges by reaching different milestones. Each achievement has multiple levels:',
+    achievementWeeklyPR: 'Weekly Pull Requests',
+    achievementMonthlyPR: 'Monthly Pull Requests',
+    achievementMonthlyCommits: 'Monthly Commits',
+    achievementWeeklyReviews: 'Weekly Reviews',
+    achievementStreak: 'Contribution Streak',
+    achievementLevel: 'Level',
     statsButton: 'Stats',
     statsTitle: 'Statistics',
     statsThisWeek: 'This Week',
@@ -290,6 +306,14 @@ export const translations: Record<Language, Translations> = {
     achievementNextTitle: '次の称号',
     achievementRemaining: 'まであと',
     achievementNext: '次',
+    achievementInfoTitle: '実績レベル',
+    achievementInfoDescription: '様々なマイルストーンに到達することでバッジを獲得できます。各実績には複数のレベルがあります：',
+    achievementWeeklyPR: '週間プルリクエスト',
+    achievementMonthlyPR: '月間プルリクエスト',
+    achievementMonthlyCommits: '月間コミット',
+    achievementWeeklyReviews: '週間レビュー',
+    achievementStreak: '連続コントリビューション',
+    achievementLevel: 'レベル',
     statsButton: '統計',
     statsTitle: '統計情報',
     statsThisWeek: '今週',

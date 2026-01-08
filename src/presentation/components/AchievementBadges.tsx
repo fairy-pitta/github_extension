@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { AchievementBadge } from '@/domain/entities/AchievementBadge';
 import { useLanguage } from '../i18n/useLanguage';
+import { AchievementInfoModal } from './AchievementInfoModal';
 import './styles/achievement-badges.css';
 
 interface AchievementBadgesProps {
@@ -11,6 +12,7 @@ interface AchievementBadgesProps {
 export const AchievementBadges: React.FC<AchievementBadgesProps> = ({ badges, loading = false }) => {
   const { t } = useLanguage();
   const [newlyAchieved, setNewlyAchieved] = useState<Set<string>>(new Set());
+  const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
 
   useEffect(() => {
     // Check for newly achieved badges
@@ -40,12 +42,21 @@ export const AchievementBadges: React.FC<AchievementBadgesProps> = ({ badges, lo
   }
 
   return (
-    <div className="achievement-badges-compact">
-      <span className="achievement-icon-compact" title={t.achievementsTitle || '実績バッジ'}>
-        <i className="fas fa-trophy"></i>
-        <span className="achievement-icon-text">{t.achievementsTitle || '実績'}</span>
-      </span>
-      <div className="achievement-badges-list">
+    <>
+      <div className="achievement-badges-compact">
+        <span className="achievement-icon-compact" title={t.achievementsTitle || '実績バッジ'}>
+          <i className="fas fa-trophy"></i>
+          <span className="achievement-icon-text">{t.achievementsTitle || '実績'}</span>
+        </span>
+        <button
+          className="achievement-info-button"
+          onClick={() => setIsInfoModalOpen(true)}
+          title={t.achievementInfoTitle}
+          aria-label={t.achievementInfoTitle}
+        >
+          <i className="fas fa-info-circle"></i>
+        </button>
+        <div className="achievement-badges-list">
         {achievedBadges.map((badge) => {
           const remaining = badge.nextTarget ? Math.max(0, badge.nextTarget - badge.progress) : null;
 
@@ -74,7 +85,9 @@ export const AchievementBadges: React.FC<AchievementBadgesProps> = ({ badges, lo
             </div>
           );
         })}
+        </div>
       </div>
-    </div>
+      <AchievementInfoModal isOpen={isInfoModalOpen} onClose={() => setIsInfoModalOpen(false)} />
+    </>
   );
 };

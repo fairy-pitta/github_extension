@@ -18,6 +18,26 @@
   cursor: help;
 }
 
+.achievement-info-button {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 12px;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+  border-radius: 4px;
+  margin-left: 4px;
+}
+
+.achievement-info-button:hover {
+  color: var(--accent-blue);
+  background: var(--bg-filter);
+}
+
 .achievement-icon-text {
   font-size: 11px;
   color: var(--text-secondary);
