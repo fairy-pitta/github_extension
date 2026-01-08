@@ -4,8 +4,6 @@ import { Container } from '@/application/di/Container';
 
 // Initialize on installation
 chrome.runtime.onInstalled.addListener(async (details) => {
-  console.log('GitHub Extension installed', details.reason);
-
   if (details.reason === 'install') {
     // Open options page on first install
     chrome.runtime.openOptionsPage();
@@ -26,8 +24,6 @@ chrome.runtime.onInstalled.addListener(async (details) => {
 
 // Handle messages from content scripts or popup
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  console.log('Message received:', message);
-
   // Handle token update
   if (message.type === 'TOKEN_UPDATED') {
     Container.getInstance()

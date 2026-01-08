@@ -58,8 +58,6 @@ export const OptionsApp: React.FC = () => {
 
       // If initialization succeeds, save token to storage
       await storage.set(StorageKeys.PAT_TOKEN, token.trim());
-      
-      console.log('Token saved successfully');
 
       setStatus({
         type: 'success',

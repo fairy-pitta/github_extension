@@ -30,7 +30,6 @@ export function useDashboardData(
         setState((prev) => ({ ...prev, loading: true, error: null }));
 
         const container = Container.getInstance();
-        console.log('Fetching dashboard data...');
         const dashboardService = container.getDashboardService();
 
         let data = await dashboardService.getDashboardData(limit, forceRefresh);
@@ -49,7 +48,6 @@ export function useDashboardData(
           };
         }
 
-        console.log('Dashboard data fetched successfully:', data);
         setState({
           data,
           loading: false,
