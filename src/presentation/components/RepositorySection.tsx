@@ -56,7 +56,7 @@ export const RepositorySection: React.FC<RepositorySectionProps> = React.memo(({
     }
   };
 
-  if (initialLoading && repositories.length === 0) {
+  if (initialLoading) {
     return (
       <section className="dashboard-section">
         <h2 className="section-title">

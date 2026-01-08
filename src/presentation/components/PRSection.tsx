@@ -1,6 +1,7 @@
 import React from 'react';
 import { PullRequest } from '@/domain/entities/PullRequest';
 import { PRCard } from './PRCard';
+import { SkeletonLoader } from './SkeletonLoader';
 import './styles/section.css';
 
 interface PRSectionProps {
@@ -21,7 +22,7 @@ export const PRSection: React.FC<PRSectionProps> = React.memo(({
       <section className="dashboard-section">
         <h2 className="section-title">{title}</h2>
         <div className="section-content">
-          <p>Loading...</p>
+          <SkeletonLoader count={3} />
         </div>
       </section>
     );

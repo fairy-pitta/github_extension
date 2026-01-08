@@ -5,6 +5,7 @@ import { AuthGuard } from './components/AuthGuard';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import { ErrorMessage } from '../components/ErrorMessage';
 import { StatsWidget } from '../components/StatsWidget';
+import { SkeletonLoader } from '../components/SkeletonLoader';
 import { useAuth } from './hooks/useAuth';
 import { useDashboardData } from './hooks/useDashboardData';
 import { useTheme } from './hooks/useTheme';
@@ -124,25 +125,62 @@ export const NewTabApp: React.FC = () => {
         </div>
       )}
 
-      {dashboard.loading && !dashboard.data ? (
-        <LoadingSpinner size="large" />
-      ) : (
-        <DashboardLayout>
-          <Suspense fallback={<LoadingSpinner size="small" />}>
-            <ProfileSection user={auth.user} loading={auth.loading} />
-            <RepositorySection
-              repositories={dashboard.data?.recentlyUpdatedRepos ?? []}
-              loading={dashboard.loading}
-            />
-            <PullRequestSection
-              createdPRs={dashboard.data?.createdPRs ?? []}
-              reviewRequestedPRs={dashboard.data?.reviewRequestedPRs ?? []}
-              loading={dashboard.loading}
-            />
-            <IssueSection issues={dashboard.data?.involvedIssues ?? []} loading={dashboard.loading} />
-          </Suspense>
-        </DashboardLayout>
-      )}
+      <DashboardLayout>
+        <Suspense
+          fallback={
+            <>
+              <section className="dashboard-section profile-section">
+                <div className="profile-content">
+                  <SkeletonLoader count={1} />
+                </div>
+              </section>
+              <section className="dashboard-section">
+                <h2 className="section-title">
+                  <i className="fas fa-code-branch"></i>
+                </h2>
+                <div className="section-content">
+                  <SkeletonLoader count={3} />
+                </div>
+              </section>
+              <section className="dashboard-section">
+                <div className="pr-tabs">
+                  <div className="pr-tab-header">
+                    <button className="pr-tab active" disabled>
+                      <i className="fas fa-code-pull-request"></i>
+                    </button>
+                    <button className="pr-tab" disabled>
+                      <i className="fas fa-user-check"></i>
+                    </button>
+                  </div>
+                  <div className="section-content">
+                    <SkeletonLoader count={3} />
+                  </div>
+                </div>
+              </section>
+              <section className="dashboard-section">
+                <h2 className="section-title">
+                  <i className="fas fa-exclamation-circle"></i>
+                </h2>
+                <div className="section-content">
+                  <SkeletonLoader count={3} />
+                </div>
+              </section>
+            </>
+          }
+        >
+          <ProfileSection user={auth.user} loading={auth.loading} />
+          <RepositorySection
+            repositories={dashboard.data?.recentlyUpdatedRepos ?? []}
+            loading={dashboard.loading}
+          />
+          <PullRequestSection
+            createdPRs={dashboard.data?.createdPRs ?? []}
+            reviewRequestedPRs={dashboard.data?.reviewRequestedPRs ?? []}
+            loading={dashboard.loading}
+          />
+          <IssueSection issues={dashboard.data?.involvedIssues ?? []} loading={dashboard.loading} />
+        </Suspense>
+      </DashboardLayout>
       <StatsWidget
         stats={stats}
         loading={statsLoading}

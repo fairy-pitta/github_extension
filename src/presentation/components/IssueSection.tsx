@@ -44,7 +44,7 @@ export const IssueSection: React.FC<IssueSectionProps> = React.memo(({
     }
   };
 
-  if (initialLoading && issues.length === 0) {
+  if (initialLoading) {
     return (
       <section className="dashboard-section">
         <h2 className="section-title">
