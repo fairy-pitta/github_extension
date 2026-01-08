@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { AchievementBadge } from '@/domain/entities/AchievementBadge';
 import { useLanguage } from '../i18n/useLanguage';
 import './styles/achievement-badges.css';
@@ -14,6 +15,7 @@ export const AchievementBadges: React.FC<AchievementBadgesProps> = ({ badges, lo
   const [hoveredBadge, setHoveredBadge] = useState<string | null>(null);
   const [tooltipPosition, setTooltipPosition] = useState<{ top: number; left: number; arrowLeft: number } | null>(null);
   const badgeRefs = useRef<Map<string, HTMLSpanElement>>(new Map());
+  const tooltipRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     // Check for newly achieved badges
@@ -28,14 +30,16 @@ export const AchievementBadges: React.FC<AchievementBadgesProps> = ({ badges, lo
     if (!badgeElement) return;
 
     const rect = badgeElement.getBoundingClientRect();
-    const tooltipWidth = 200; // Approximate tooltip width
-    const tooltipHeight = 100; // Approximate tooltip height
     const spacing = 8;
+    const badgeCenterX = rect.left + rect.width / 2;
+
+    // Use a reasonable default size, will be adjusted after render
+    const tooltipWidth = 200;
+    const tooltipHeight = 100;
 
     // Calculate position: above the badge, centered
-    let left = rect.left + rect.width / 2 - tooltipWidth / 2;
+    let left = badgeCenterX - tooltipWidth / 2;
     const top = rect.top - tooltipHeight - spacing;
-    const badgeCenterX = rect.left + rect.width / 2;
 
     // Adjust if tooltip would go off screen
     let adjustedLeft = left;
@@ -51,6 +55,41 @@ export const AchievementBadges: React.FC<AchievementBadgesProps> = ({ badges, lo
     setTooltipPosition({ top, left: adjustedLeft, arrowLeft });
     setHoveredBadge(badgeId);
   };
+
+  // Adjust tooltip position after it's rendered to account for actual size
+  useEffect(() => {
+    if (!tooltipRef.current || !hoveredBadge) return;
+
+    // Use requestAnimationFrame to ensure tooltip is rendered
+    requestAnimationFrame(() => {
+      if (!tooltipRef.current || !hoveredBadge) return;
+
+      const tooltipRect = tooltipRef.current.getBoundingClientRect();
+      const badgeElement = badgeRefs.current.get(hoveredBadge);
+      if (!badgeElement) return;
+
+      const badgeRect = badgeElement.getBoundingClientRect();
+      const badgeCenterX = badgeRect.left + badgeRect.width / 2;
+      const spacing = 8;
+
+      // Recalculate position with actual tooltip size
+      let left = badgeCenterX - tooltipRect.width / 2;
+      const top = badgeRect.top - tooltipRect.height - spacing;
+
+      // Adjust if tooltip would go off screen
+      let adjustedLeft = left;
+      if (left < 10) {
+        adjustedLeft = 10;
+      } else if (left + tooltipRect.width > window.innerWidth - 10) {
+        adjustedLeft = window.innerWidth - tooltipRect.width - 10;
+      }
+
+      // Recalculate arrow position
+      const arrowLeft = badgeCenterX - adjustedLeft;
+
+      setTooltipPosition({ top, left: adjustedLeft, arrowLeft });
+    });
+  }, [hoveredBadge]);
 
   const handleBadgeMouseLeave = () => {
     setHoveredBadge(null);
@@ -78,6 +117,26 @@ export const AchievementBadges: React.FC<AchievementBadgesProps> = ({ badges, lo
 
   const hoveredBadgeData = achievedBadges.find((b) => b.id === hoveredBadge);
   const remaining = hoveredBadgeData?.nextTarget ? Math.max(0, hoveredBadgeData.nextTarget - hoveredBadgeData.progress) : null;
+
+  const tooltipElement = hoveredBadgeData && tooltipPosition ? (
+    <div
+      ref={tooltipRef}
+      className="achievement-badge-tooltip achievement-badge-tooltip-fixed"
+      style={{
+        top: `${tooltipPosition.top}px`,
+        left: `${tooltipPosition.left}px`,
+        '--arrow-left': `${tooltipPosition.arrowLeft}px`,
+      } as React.CSSProperties}
+    >
+      <span className="achievement-badge-tooltip-name">{hoveredBadgeData.name}</span>
+      <span className="achievement-badge-tooltip-description">{hoveredBadgeData.description}</span>
+      {hoveredBadgeData.nextTarget && remaining !== null && remaining > 0 && (
+        <span className="achievement-badge-tooltip-remaining">
+          次の称号（{hoveredBadgeData.nextName ?? '次'}）まであと {remaining}
+        </span>
+      )}
+    </div>
+  ) : null;
 
   return (
     <>
@@ -113,24 +172,7 @@ export const AchievementBadges: React.FC<AchievementBadgesProps> = ({ badges, lo
           ))}
         </div>
       </div>
-      {hoveredBadgeData && tooltipPosition && (
-        <div
-          className="achievement-badge-tooltip achievement-badge-tooltip-fixed"
-          style={{
-            top: `${tooltipPosition.top}px`,
-            left: `${tooltipPosition.left}px`,
-            '--arrow-left': `${tooltipPosition.arrowLeft}px`,
-          } as React.CSSProperties}
-        >
-          <span className="achievement-badge-tooltip-name">{hoveredBadgeData.name}</span>
-          <span className="achievement-badge-tooltip-description">{hoveredBadgeData.description}</span>
-          {hoveredBadgeData.nextTarget && remaining !== null && remaining > 0 && (
-            <span className="achievement-badge-tooltip-remaining">
-              次の称号（{hoveredBadgeData.nextName ?? '次'}）まであと {remaining}
-            </span>
-          )}
-        </div>
-      )}
+      {tooltipElement && typeof document !== 'undefined' && createPortal(tooltipElement, document.body)}
     </>
   );
 };
