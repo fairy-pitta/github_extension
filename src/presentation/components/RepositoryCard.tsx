@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { Repository } from '@/domain/entities/Repository';
+import { formatRelativeDate } from '../utils/dateUtils';
 import './styles/cards.css';
 
 interface RepositoryCardProps {
@@ -7,31 +8,22 @@ interface RepositoryCardProps {
   onClick?: () => void;
 }
 
-export const RepositoryCard: React.FC<RepositoryCardProps> = ({
+export const RepositoryCard: React.FC<RepositoryCardProps> = React.memo(({
   repository,
   onClick,
 }) => {
-  const formatDate = (date: Date) => {
-    const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
-    const diffMins = Math.floor(diffMs / 60000);
-    const diffHours = Math.floor(diffMs / 3600000);
-    const diffDays = Math.floor(diffMs / 86400000);
+  const formattedDate = useMemo(
+    () => formatRelativeDate(repository.updatedAt),
+    [repository.updatedAt]
+  );
 
-    if (diffMins < 1) return 'just now';
-    if (diffMins < 60) return `${diffMins}m ago`;
-    if (diffHours < 24) return `${diffHours}h ago`;
-    if (diffDays < 7) return `${diffDays}d ago`;
-    return date.toLocaleDateString();
-  };
-
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     if (onClick) {
       onClick();
     } else {
       window.open(repository.url, '_blank');
     }
-  };
+  }, [onClick, repository.url]);
 
   return (
     <div className="card repository-card" onClick={handleClick}>
@@ -45,9 +37,9 @@ export const RepositoryCard: React.FC<RepositoryCardProps> = ({
         <p className="card-description">{repository.description}</p>
       )}
       <div className="card-meta">
-        <span className="card-updated">Updated {formatDate(repository.updatedAt)}</span>
+        <span className="card-updated">Updated {formattedDate}</span>
       </div>
     </div>
   );
-};
+});
 

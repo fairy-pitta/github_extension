@@ -1,6 +1,7 @@
 import React from 'react';
 import { PullRequest } from '@/domain/entities/PullRequest';
 import { PRCard } from './PRCard';
+import { SkeletonLoader } from './SkeletonLoader';
 import './styles/section.css';
 
 interface ReviewRequestedPRSectionProps {
@@ -8,7 +9,7 @@ interface ReviewRequestedPRSectionProps {
   loading?: boolean;
 }
 
-export const ReviewRequestedPRSection: React.FC<ReviewRequestedPRSectionProps> = ({
+export const ReviewRequestedPRSection: React.FC<ReviewRequestedPRSectionProps> = React.memo(({
   prs,
   loading = false,
 }) => {
@@ -17,7 +18,7 @@ export const ReviewRequestedPRSection: React.FC<ReviewRequestedPRSectionProps> =
       <section className="dashboard-section">
         <h2 className="section-title">Pull Requests (Review Requested)</h2>
         <div className="section-content">
-          <p>Loading...</p>
+          <SkeletonLoader count={3} />
         </div>
       </section>
     );
@@ -44,5 +45,5 @@ export const ReviewRequestedPRSection: React.FC<ReviewRequestedPRSectionProps> =
       </div>
     </section>
   );
-};
+});
 

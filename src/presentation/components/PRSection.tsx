@@ -10,7 +10,7 @@ interface PRSectionProps {
   emptyMessage?: string;
 }
 
-export const PRSection: React.FC<PRSectionProps> = ({
+export const PRSection: React.FC<PRSectionProps> = React.memo(({
   title,
   prs,
   loading = false,
@@ -48,5 +48,5 @@ export const PRSection: React.FC<PRSectionProps> = ({
       </div>
     </section>
   );
-};
+});
 

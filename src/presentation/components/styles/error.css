@@ -26,9 +26,16 @@
 }
 
 .error-content p {
-  margin: 0 0 12px 0;
+  margin: 0 0 0.5rem 0;
   font-size: 14px;
   color: #742a2a;
+}
+
+.error-suggestion {
+  font-size: 0.875rem;
+  color: #742a2a;
+  font-style: italic;
+  margin-top: 0.5rem !important;
 }
 
 .retry-button {

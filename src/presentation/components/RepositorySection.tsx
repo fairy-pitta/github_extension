@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Repository } from '@/domain/entities/Repository';
 import { RepositoryCard } from './RepositoryCard';
 import { LoadMoreButton } from './LoadMoreButton';
+import { SkeletonLoader } from './SkeletonLoader';
 import { Container } from '@/application/di/Container';
 import './styles/section.css';
 
@@ -10,7 +11,7 @@ interface RepositorySectionProps {
   loading?: boolean;
 }
 
-export const RepositorySection: React.FC<RepositorySectionProps> = ({
+export const RepositorySection: React.FC<RepositorySectionProps> = React.memo(({
   repositories: initialRepositories,
   loading: initialLoading = false,
 }) => {
@@ -46,7 +47,7 @@ export const RepositorySection: React.FC<RepositorySectionProps> = ({
       <section className="dashboard-section">
         <h2 className="section-title">Recently Updated Repositories</h2>
         <div className="section-content">
-          <p>Loading...</p>
+          <SkeletonLoader count={3} />
         </div>
       </section>
     );
@@ -78,4 +79,4 @@ export const RepositorySection: React.FC<RepositorySectionProps> = ({
       </div>
     </section>
   );
-};
+});

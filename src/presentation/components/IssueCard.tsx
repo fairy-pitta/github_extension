@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { Issue } from '@/domain/entities/Issue';
+import { formatRelativeDate } from '../utils/dateUtils';
 import './styles/cards.css';
 
 interface IssueCardProps {
@@ -7,28 +8,16 @@ interface IssueCardProps {
   onClick?: () => void;
 }
 
-export const IssueCard: React.FC<IssueCardProps> = ({ issue, onClick }) => {
-  const formatDate = (date: Date) => {
-    const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
-    const diffMins = Math.floor(diffMs / 60000);
-    const diffHours = Math.floor(diffMs / 3600000);
-    const diffDays = Math.floor(diffMs / 86400000);
+export const IssueCard: React.FC<IssueCardProps> = React.memo(({ issue, onClick }) => {
+  const formattedDate = useMemo(() => formatRelativeDate(issue.updatedAt), [issue.updatedAt]);
 
-    if (diffMins < 1) return 'just now';
-    if (diffMins < 60) return `${diffMins}m ago`;
-    if (diffHours < 24) return `${diffHours}h ago`;
-    if (diffDays < 7) return `${diffDays}d ago`;
-    return date.toLocaleDateString();
-  };
-
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     if (onClick) {
       onClick();
     } else {
       window.open(issue.url, '_blank');
     }
-  };
+  }, [onClick, issue.url]);
 
   return (
     <div className="card issue-card" onClick={handleClick}>
@@ -55,7 +44,7 @@ export const IssueCard: React.FC<IssueCardProps> = ({ issue, onClick }) => {
       <div className="card-meta">
         <span className="card-number">#{issue.number}</span>
         <span className="card-separator">•</span>
-        <span className="card-updated">Updated {formatDate(issue.updatedAt)}</span>
+        <span className="card-updated">Updated {formattedDate}</span>
         {issue.commentsCount > 0 && (
           <>
             <span className="card-separator">•</span>
@@ -73,5 +62,5 @@ export const IssueCard: React.FC<IssueCardProps> = ({ issue, onClick }) => {
       </div>
     </div>
   );
-};
+});
 
