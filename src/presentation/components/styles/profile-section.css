@@ -6,8 +6,9 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  overflow: hidden;
+  overflow: visible;
   padding: 0;
+  position: relative;
 }
 
 .profile-header {
@@ -142,8 +143,8 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
-  margin-bottom: 10px;
-  padding-top: 8px;
+  margin-bottom: 6px;
+  padding-top: 6px;
   border-top: 1px solid var(--border-primary);
   flex-shrink: 0;
   max-height: 80px;
@@ -228,12 +229,12 @@
 }
 
 .contribution-calendar-loading {
-  margin-top: 8px;
+  margin-top: 4px;
   flex-shrink: 0;
 }
 
 .contribution-calendar {
-  margin-top: 10px;
+  margin-top: 4px;
   flex: 1;
   min-height: 0;
   display: flex;
@@ -323,5 +324,19 @@
 
 .legend-label {
   font-size: 10px;
+}
+
+/* Compact streak and achievements section */
+.streak-achievements-compact {
+  margin-top: 8px;
+  padding-top: 8px;
+  padding-bottom: 20px;
+  border-top: 1px solid var(--border-primary);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-shrink: 0;
+  overflow: visible;
+  position: relative;
 }
 

@@ -265,10 +265,13 @@ export const ProfileSection: React.FC<ProfileSectionProps> = React.memo(({ user,
             </div>
           </div>
         ) : null}
-        {/* Streak Display */}
-        <StreakDisplay streak={streak} loading={streakLoading} />
-        {/* Achievement Badges */}
-        <AchievementBadges badges={badges} loading={badgesLoading} />
+        {/* Compact Streak and Achievements */}
+        {(streak || badges.length > 0) && (
+          <div className="streak-achievements-compact">
+            <StreakDisplay streak={streak} loading={streakLoading} />
+            <AchievementBadges badges={badges} loading={badgesLoading} />
+          </div>
+        )}
       </div>
     </section>
   );

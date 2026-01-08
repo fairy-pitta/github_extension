@@ -22,16 +22,17 @@ export const AchievementBadges: React.FC<AchievementBadgesProps> = ({ badges, lo
 
   if (loading) {
     return (
-      <div className="achievement-badges">
-        <div className="achievement-badges-skeleton">
-          <div className="skeleton-badge"></div>
-          <div className="skeleton-badge"></div>
-          <div className="skeleton-badge"></div>
+      <div className="achievement-badges-compact">
+        <div className="achievement-badges-skeleton-compact">
+          <div className="skeleton-badge-compact"></div>
+          <div className="skeleton-badge-compact"></div>
+          <div className="skeleton-badge-compact"></div>
         </div>
       </div>
     );
   }
 
+  // Separate badges: achieved and in-progress (not achieved)
   const achievedBadges = badges.filter((b) => b.achieved);
   const inProgressBadges = badges.filter((b) => !b.achieved && b.progress > 0);
 
@@ -40,54 +41,60 @@ export const AchievementBadges: React.FC<AchievementBadgesProps> = ({ badges, lo
   }
 
   return (
-    <div className="achievement-badges">
-      <div className="achievement-badges-header">
-        <i className="fas fa-trophy achievement-icon"></i>
-        <h3 className="achievement-title">{t.achievementsTitle || '実績バッジ'}</h3>
-      </div>
-      <div className="achievement-badges-grid">
+    <div className="achievement-badges-compact">
+      <span className="achievement-icon-compact" title={t.achievementsTitle || '実績バッジ'}>
+        <i className="fas fa-trophy"></i>
+        <span className="achievement-icon-text">{t.achievementsTitle || '実績'}</span>
+      </span>
+      <div className="achievement-badges-list">
         {achievedBadges.map((badge) => (
-          <div
+          <span
             key={badge.id}
-            className={`achievement-badge achievement-badge-achieved ${
+            className={`achievement-badge-compact achievement-badge-achieved ${
               newlyAchieved.has(badge.id) ? 'achievement-badge-new' : ''
             }`}
-            title={badge.description}
           >
-            <i className={`fas ${badge.icon} achievement-badge-icon`}></i>
-            <div className="achievement-badge-content">
-              <div className="achievement-badge-name">{badge.name}</div>
-              <div className="achievement-badge-description">{badge.description}</div>
-            </div>
+            <i className={`fas ${badge.icon}`}></i>
             {newlyAchieved.has(badge.id) && (
-              <div className="achievement-badge-sparkle">
+              <span className="achievement-badge-sparkle-compact">
                 <i className="fas fa-sparkles"></i>
-              </div>
+              </span>
             )}
-          </div>
+            <span className="achievement-badge-tooltip achievement-badge-tooltip-achieved">
+              <span className="achievement-badge-tooltip-name">{badge.name}</span>
+              <span className="achievement-badge-tooltip-description">{badge.description}</span>
+              {badge.nextTarget && badge.nextTarget > badge.progress && (
+                <span className="achievement-badge-tooltip-remaining">
+                  次の称号（{badge.nextName ?? '次'}）まであと {badge.nextTarget - badge.progress}
+                </span>
+              )}
+            </span>
+          </span>
         ))}
         {inProgressBadges.map((badge) => {
-          const progressPercent = Math.min((badge.progress / badge.target) * 100, 100);
+          const remaining = Math.max(0, badge.target - badge.progress);
           return (
-            <div
+            <span
               key={badge.id}
-              className="achievement-badge achievement-badge-progress"
-              title={`${badge.description} (${badge.progress}/${badge.target})`}
+              className="achievement-badge-compact achievement-badge-progress"
             >
-              <i className={`fas ${badge.icon} achievement-badge-icon`}></i>
-              <div className="achievement-badge-content">
-                <div className="achievement-badge-name">{badge.name}</div>
-                <div className="achievement-badge-progress-bar">
-                  <div
-                    className="achievement-badge-progress-fill"
-                    style={{ width: `${progressPercent}%` }}
-                  ></div>
-                </div>
-                <div className="achievement-badge-progress-text">
-                  {badge.progress} / {badge.target}
-                </div>
-              </div>
-            </div>
+              <i className={`fas ${badge.icon}`}></i>
+              <span className="achievement-badge-progress-indicator">
+                {badge.progress}/{badge.target}
+              </span>
+              <span className="achievement-badge-tooltip achievement-badge-tooltip-progress">
+                <span className="achievement-badge-tooltip-name">{badge.name}</span>
+                <span className="achievement-badge-tooltip-description">{badge.description}</span>
+                <span className="achievement-badge-tooltip-progress">
+                  進捗: {badge.progress} / {badge.target}
+                </span>
+                {remaining > 0 && (
+                  <span className="achievement-badge-tooltip-remaining">
+                    次の称号まであと {remaining}
+                  </span>
+                )}
+              </span>
+            </span>
           );
         })}
       </div>

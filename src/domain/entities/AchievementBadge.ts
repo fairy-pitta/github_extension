@@ -2,12 +2,11 @@
  * AchievementBadge entity representing a user achievement
  */
 export type BadgeType =
-  | 'weekly_pr_10'
-  | 'monthly_pr_50'
-  | 'monthly_commits_100'
-  | 'weekly_reviews_5'
-  | 'streak_7'
-  | 'streak_30';
+  | 'weekly_pr'
+  | 'monthly_pr'
+  | 'monthly_commits'
+  | 'weekly_reviews'
+  | 'streak';
 
 export class AchievementBadge {
   constructor(
@@ -18,7 +17,13 @@ export class AchievementBadge {
     public readonly achieved: boolean,
     public readonly achievedAt: Date | null,
     public readonly progress: number,
-    public readonly target: number
+    public readonly target: number,
+    /** Next level threshold (null when already max level) */
+    public readonly nextTarget: number | null,
+    /** Next level title (null when already max level) */
+    public readonly nextName: string | null,
+    /** Next level description (null when already max level) */
+    public readonly nextDescription: string | null
   ) {}
 
   static fromPlain(plain: {
@@ -30,6 +35,9 @@ export class AchievementBadge {
     achievedAt: string | Date | null;
     progress: number;
     target: number;
+    nextTarget?: number | null;
+    nextName?: string | null;
+    nextDescription?: string | null;
   }): AchievementBadge {
     const achievedAt =
       plain.achievedAt === null
@@ -46,7 +54,10 @@ export class AchievementBadge {
       plain.achieved,
       achievedAt,
       plain.progress,
-      plain.target
+      plain.target,
+      plain.nextTarget ?? null,
+      plain.nextName ?? null,
+      plain.nextDescription ?? null
     );
   }
 }

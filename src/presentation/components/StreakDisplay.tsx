@@ -13,46 +13,42 @@ export const StreakDisplay: React.FC<StreakDisplayProps> = ({ streak, loading = 
 
   if (loading || !streak) {
     return (
-      <div className="streak-display">
-        <div className="streak-skeleton">
-          <div className="skeleton-line"></div>
-        </div>
+      <div className="streak-display-compact">
+        <div className="streak-skeleton-compact"></div>
       </div>
     );
   }
 
-  const getReminderMessage = () => {
+  const getReminderIcon = () => {
     if (streak.todayContributed) {
       return null;
     }
-    return t.streakReminder || '今日まだコントリビュートしていません！';
+    return (
+      <span className="streak-reminder-icon" title={t.streakReminder || '今日まだコントリビュートしていません！'}>
+        <i className="fas fa-bell"></i>
+      </span>
+    );
   };
 
   return (
-    <div className="streak-display">
-      <div className="streak-header">
-        <i className="fas fa-fire streak-icon"></i>
-        <h3 className="streak-title">{t.streakTitle || '連続コントリビューション'}</h3>
-      </div>
-      <div className="streak-content">
-        <div className="streak-current">
-          <span className="streak-number">{streak.currentStreak}</span>
-          <span className="streak-label">{t.streakDays || '日連続'}</span>
-        </div>
-        {streak.longestStreak > streak.currentStreak && (
-          <div className="streak-longest">
-            <span className="streak-longest-label">{t.streakLongest || '最長記録'}: </span>
-            <span className="streak-longest-number">{streak.longestStreak}</span>
-            <span className="streak-longest-label"> {t.streakDays || '日'}</span>
-          </div>
-        )}
-      </div>
-      {getReminderMessage() && (
-        <div className="streak-reminder">
-          <i className="fas fa-bell"></i>
-          <span>{getReminderMessage()}</span>
-        </div>
+    <div className="streak-display-compact">
+      <span className="streak-icon-compact">
+        <i className="fas fa-fire"></i>
+      </span>
+      <span className="streak-current-compact">
+        <span className="streak-number-compact">{streak.currentStreak}</span>
+        <span className="streak-label-compact">{t.streakDays || '日連続'}</span>
+      </span>
+      {streak.longestStreak > streak.currentStreak && (
+        <>
+          <span className="streak-separator">|</span>
+          <span className="streak-longest-compact">
+            <span className="streak-longest-label-compact">{t.streakLongest || '最長'}: </span>
+            <span className="streak-longest-number-compact">{streak.longestStreak}</span>
+          </span>
+        </>
       )}
+      {getReminderIcon()}
     </div>
   );
 };

@@ -1,87 +1,77 @@
-.streak-display {
-  margin-top: 1.5rem;
-  padding: 1rem;
-  background: var(--card-background);
-  border-radius: 8px;
-  border: 1px solid var(--border-color);
-}
-
-.streak-header {
+/* Compact inline streak display */
+.streak-display-compact {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
+  gap: 6px;
+  margin-top: 8px;
+  padding: 4px 0;
+  font-size: 11px;
+  color: var(--text-secondary);
+  flex-wrap: wrap;
 }
 
-.streak-icon {
-  color: var(--accent-color);
-  font-size: 1.25rem;
-}
-
-.streak-title {
-  font-size: 1rem;
-  font-weight: 600;
-  margin: 0;
-  color: var(--text-color);
-}
-
-.streak-content {
+.streak-icon-compact {
+  color: var(--accent-blue);
+  font-size: 12px;
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  align-items: center;
 }
 
-.streak-current {
+.streak-current-compact {
   display: flex;
   align-items: baseline;
-  gap: 0.25rem;
+  gap: 2px;
 }
 
-.streak-number {
-  font-size: 2rem;
+.streak-number-compact {
+  font-size: 13px;
   font-weight: 700;
-  color: var(--accent-color);
+  color: var(--accent-blue);
   line-height: 1;
 }
 
-.streak-label {
-  font-size: 1rem;
-  color: var(--text-color-secondary);
+.streak-label-compact {
+  font-size: 11px;
+  color: var(--text-secondary);
 }
 
-.streak-longest {
-  font-size: 0.875rem;
-  color: var(--text-color-secondary);
+.streak-separator {
+  color: var(--text-secondary);
+  opacity: 0.4;
+  margin: 0 2px;
 }
 
-.streak-longest-number {
+.streak-longest-compact {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.streak-longest-label-compact {
+  color: var(--text-secondary);
+}
+
+.streak-longest-number-compact {
   font-weight: 600;
-  color: var(--text-color);
+  color: var(--text-primary);
 }
 
-.streak-reminder {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-top: 1rem;
-  padding: 0.75rem;
-  background: var(--warning-background, rgba(255, 193, 7, 0.1));
-  border-radius: 6px;
+.streak-reminder-icon {
+  margin-left: auto;
   color: var(--warning-color, #ffc107);
-  font-size: 0.875rem;
+  font-size: 11px;
+  cursor: help;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
 }
 
-.streak-reminder i {
-  font-size: 1rem;
+.streak-reminder-icon:hover {
+  opacity: 1;
 }
 
-.streak-skeleton {
-  padding: 0.5rem 0;
-}
-
-.streak-skeleton .skeleton-line {
-  height: 2rem;
-  background: var(--skeleton-background);
+.streak-skeleton-compact {
+  height: 16px;
+  width: 120px;
+  background: var(--skeleton-background, rgba(0, 0, 0, 0.1));
   border-radius: 4px;
   animation: skeleton-loading 1.5s ease-in-out infinite;
 }
