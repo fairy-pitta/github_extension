@@ -46,22 +46,58 @@ function createEnableButton() {
   const button = document.createElement('button');
   button.id = 'github-dashboard-enable-button';
   button.className = 'pulse'; // Add pulse animation class
-  button.setAttribute('aria-label', 'Enable GitHub Dashboard');
-  button.title = 'Enable GitHub Dashboard';
+  button.setAttribute('aria-label', 'Restore Dashboard');
+  button.title = 'Restore Dashboard - Click to show the dashboard again';
+  
+  // Add inline styles to ensure button appears correctly even if CSS doesn't load
+  button.style.cssText = `
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: auto;
+    min-width: 120px;
+    height: auto;
+    min-height: 56px;
+    border-radius: 28px;
+    background: rgba(139, 122, 107, 0.95);
+    border: 2px solid rgba(232, 213, 196, 0.8);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 10000;
+    box-shadow: 0 4px 16px rgba(139, 122, 107, 0.3), 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 20px;
+    margin: 0;
+    outline: none;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+  `;
+  
+  // Improved Font Awesome detection - check for loaded fonts or style sheets
+  const hasFontAwesome = 
+    document.querySelector('link[href*="font-awesome"]') ||
+    document.querySelector('link[href*="fontawesome"]') ||
+    document.querySelector('style[data-fontawesome]') ||
+    (typeof window.getComputedStyle !== 'undefined' && 
+     window.getComputedStyle(document.body).fontFamily.includes('Font Awesome'));
   
   // Create icon element (using Font Awesome if available, fallback to emoji)
-  const icon = document.createElement('i');
-  icon.className = 'fas fa-chart-line';
-  icon.style.cssText = 'font-size: 24px; color: white; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);';
-  
-  // Fallback if Font Awesome is not loaded
-  if (!document.querySelector('link[href*="font-awesome"]') && !document.querySelector('link[href*="fontawesome"]')) {
-    icon.style.display = 'none';
-    button.innerHTML = '📊';
-    button.style.fontSize = '24px';
-  } else {
+  if (hasFontAwesome) {
+    const icon = document.createElement('i');
+    icon.className = 'fas fa-chart-line';
+    icon.style.cssText = 'font-size: 20px; color: white; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);';
     button.appendChild(icon);
   }
+  
+  // Add text label
+  const textSpan = document.createElement('span');
+  textSpan.textContent = 'Restore Dashboard';
+  textSpan.style.cssText = 'color: white; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); white-space: nowrap;';
+  button.appendChild(textSpan);
 
   button.addEventListener('click', async () => {
     try {

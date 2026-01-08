@@ -15,6 +15,7 @@
     {
       "matches": ["https://github.com/*"],
       "js": ["assets/github-content.js"],
+      "css": ["assets/github-content.css"],
       "run_at": "document_start"
     }
   ],
