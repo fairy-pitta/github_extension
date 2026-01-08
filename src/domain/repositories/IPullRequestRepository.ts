@@ -6,13 +6,17 @@ import { PullRequest } from '../entities/PullRequest';
 export interface IPullRequestRepository {
   /**
    * Get pull requests created by the current user
+   * @param limit Maximum number of PRs to return
+   * @param cursor Optional pagination cursor
    */
-  getCreatedByMe(limit: number): Promise<PullRequest[]>;
+  getCreatedByMe(limit: number, cursor?: string): Promise<{ prs: PullRequest[]; nextCursor?: string }>;
 
   /**
    * Get pull requests that need review from the current user
+   * @param limit Maximum number of PRs to return
+   * @param cursor Optional pagination cursor
    */
-  getReviewRequested(limit: number): Promise<PullRequest[]>;
+  getReviewRequested(limit: number, cursor?: string): Promise<{ prs: PullRequest[]; nextCursor?: string }>;
 
   /**
    * Get pull requests reviewed by the current user (for future use)
