@@ -95,6 +95,10 @@ export const NewTabApp: React.FC = () => {
     };
   }, [handleRefresh]);
 
+  if (auth.loading) {
+    return null;
+  }
+
   if (!auth.isAuthenticated) {
     return <AuthGuard />;
   }
