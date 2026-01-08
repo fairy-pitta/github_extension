@@ -1,10 +1,10 @@
 .load-more-container {
   display: flex;
   justify-content: center;
-  margin-top: 8px;
-  margin-bottom: 8px;
+  margin-top: 12px;
+  margin-bottom: 12px;
   flex-shrink: 0;
-  padding: 4px 0;
+  padding: 8px 0;
 }
 
 .load-more-button {

@@ -45,37 +45,23 @@ function createEnableButton() {
 
   const button = document.createElement('button');
   button.id = 'github-dashboard-enable-button';
-  button.innerHTML = '📊';
+  button.className = 'pulse'; // Add pulse animation class
+  button.setAttribute('aria-label', 'Enable GitHub Dashboard');
   button.title = 'Enable GitHub Dashboard';
-  button.style.cssText = `
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #4A90E2 0%, #50C878 100%);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    color: white;
-    font-size: 20px;
-    cursor: pointer;
-    z-index: 10000;
-    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.4);
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  `;
-
-  button.addEventListener('mouseenter', () => {
-    button.style.transform = 'scale(1.1)';
-    button.style.boxShadow = '0 6px 16px rgba(74, 144, 226, 0.6)';
-  });
-
-  button.addEventListener('mouseleave', () => {
-    button.style.transform = 'scale(1)';
-    button.style.boxShadow = '0 4px 12px rgba(74, 144, 226, 0.4)';
-  });
+  
+  // Create icon element (using Font Awesome if available, fallback to emoji)
+  const icon = document.createElement('i');
+  icon.className = 'fas fa-chart-line';
+  icon.style.cssText = 'font-size: 24px; color: white; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);';
+  
+  // Fallback if Font Awesome is not loaded
+  if (!document.querySelector('link[href*="font-awesome"]') && !document.querySelector('link[href*="fontawesome"]')) {
+    icon.style.display = 'none';
+    button.innerHTML = '📊';
+    button.style.fontSize = '24px';
+  } else {
+    button.appendChild(icon);
+  }
 
   button.addEventListener('click', async () => {
     try {

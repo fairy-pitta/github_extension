@@ -8,3 +8,60 @@
   width: 100%;
 }
 
+/* Enable Dashboard Button */
+#github-dashboard-enable-button {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(139, 122, 107, 0.95);
+  border: 2px solid rgba(232, 213, 196, 0.8);
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 10000;
+  box-shadow: 0 4px 16px rgba(139, 122, 107, 0.3), 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+  padding: 0;
+  margin: 0;
+  outline: none;
+}
+
+#github-dashboard-enable-button:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 8px 24px rgba(139, 122, 107, 0.4), 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: rgba(107, 90, 75, 0.95);
+  border-color: rgba(186, 225, 255, 0.6);
+}
+
+#github-dashboard-enable-button:active {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 4px 12px rgba(139, 122, 107, 0.3), 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+#github-dashboard-enable-button i {
+  font-size: 24px;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Pulse animation for attention */
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 4px 16px rgba(139, 122, 107, 0.3), 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(186, 225, 255, 0.5), 0 2px 10px rgba(0, 0, 0, 0.15);
+  }
+}
+
+#github-dashboard-enable-button.pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
