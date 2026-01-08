@@ -4,17 +4,13 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: transparent;
+  /* Opaque background for readability */
+  background: var(--bg-primary);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000000;
   padding: 20px;
-  pointer-events: none;
-}
-
-.achievement-info-modal-overlay > * {
-  pointer-events: auto;
 }
 
 .achievement-info-modal {

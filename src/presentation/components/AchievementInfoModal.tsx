@@ -1,4 +1,5 @@
 import React from 'react';
+import { createPortal } from 'react-dom';
 import { useLanguage } from '../i18n/useLanguage';
 import './styles/achievement-info-modal.css';
 
@@ -86,9 +87,15 @@ export const AchievementInfoModal: React.FC<AchievementInfoModalProps> = ({ isOp
     },
   ];
 
-  return (
-    <div className="achievement-info-modal-overlay" onClick={onClose}>
-      <div className="achievement-info-modal" onClick={(e) => e.stopPropagation()}>
+  const modal = (
+    <div className="achievement-info-modal-overlay" onClick={onClose} role="presentation">
+      <div
+        className="achievement-info-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-label={t.achievementInfoTitle}
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="achievement-info-modal-header">
           <h2 className="achievement-info-modal-title">{t.achievementInfoTitle}</h2>
           <button className="achievement-info-modal-close" onClick={onClose} aria-label={t.close}>
@@ -114,7 +121,8 @@ export const AchievementInfoModal: React.FC<AchievementInfoModalProps> = ({ isOp
                       </span>
                       <span className="achievement-info-level-name">{level.name}</span>
                       <span className="achievement-info-level-target">
-                        {level.target} {achievement.id === 'streak' ? (language === 'ja' ? '日' : 'days') : ''}
+                        {level.target}{' '}
+                        {achievement.id === 'streak' ? (language === 'ja' ? '日' : 'days') : ''}
                       </span>
                       <span className="achievement-info-level-description">{level.description}</span>
                     </div>
@@ -127,5 +135,8 @@ export const AchievementInfoModal: React.FC<AchievementInfoModalProps> = ({ isOp
       </div>
     </div>
   );
+
+  // Render globally to avoid being trapped by section stacking/overflow contexts
+  return typeof document !== 'undefined' ? createPortal(modal, document.body) : modal;
 };
 
