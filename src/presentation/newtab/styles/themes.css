@@ -48,6 +48,13 @@
   --badge-public-text: #5A7A8A;
   --badge-private-bg: #E8D5C4;
   --badge-private-text: #8B7A6B;
+  
+  /* Contribution Calendar Colors (Light Theme) */
+  --contribution-level-0: #ebedf0;
+  --contribution-level-1: #9be9a8;
+  --contribution-level-2: #40c463;
+  --contribution-level-3: #30a14e;
+  --contribution-level-4: #216e39;
 }
 
 [data-theme="dark"] {
@@ -99,5 +106,12 @@
   --badge-public-text: #D4E5E5;
   --badge-private-bg: #5A5A6A;
   --badge-private-text: #B8A9B8;
+  
+  /* Contribution Calendar Colors (Dark Theme) */
+  --contribution-level-0: #161b22;
+  --contribution-level-1: #0e4429;
+  --contribution-level-2: #006d32;
+  --contribution-level-3: #26a641;
+  --contribution-level-4: #39d353;
 }
 
