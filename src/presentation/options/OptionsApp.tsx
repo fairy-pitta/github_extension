@@ -56,9 +56,8 @@ export const OptionsApp: React.FC = () => {
       // First, validate the token by initializing container with it
       await container.initialize(token.trim());
 
-      // If initialization succeeds, get auth service and save token
-      const authService = container.getAuthService();
-      await authService.validateAndSaveToken(token.trim());
+      // If initialization succeeds, save token to storage
+      await storage.set(StorageKeys.PAT_TOKEN, token.trim());
 
       setStatus({
         type: 'success',
