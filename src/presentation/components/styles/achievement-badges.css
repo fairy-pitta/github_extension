@@ -115,6 +115,24 @@
   backdrop-filter: blur(10px);
 }
 
+/* Fixed position tooltip that appears outside section boundaries */
+.achievement-badge-tooltip-fixed {
+  position: fixed !important;
+  opacity: 1 !important;
+  transform: translateY(-4px) !important;
+  z-index: 99999 !important;
+}
+
+.achievement-badge-tooltip-fixed::after {
+  left: var(--arrow-left, 50%) !important;
+  transform: translateX(-50%) !important;
+}
+
+.achievement-badge-tooltip-fixed::before {
+  left: var(--arrow-left, 50%) !important;
+  transform: translateX(-50%) !important;
+}
+
 /* Adjust tooltip position for leftmost badges */
 .achievement-badges-list > .achievement-badge-compact:first-child .achievement-badge-tooltip {
   left: 0;
