@@ -7,8 +7,6 @@
   padding: 4px 0 20px 0;
   font-size: 11px;
   flex-wrap: wrap;
-  overflow: visible;
-  position: relative;
 }
 
 .achievement-icon-compact {
@@ -31,8 +29,6 @@
   align-items: center;
   gap: 4px;
   flex-wrap: wrap;
-  position: relative;
-  overflow: visible;
 }
 
 .achievement-badge-compact {
@@ -43,17 +39,12 @@
   width: 20px;
   height: 20px;
   border-radius: 4px;
-  background: var(--bg-filter);
-  border: 1px solid var(--border-primary);
+  background: var(--accent-blue);
+  border: 1px solid var(--accent-blue);
+  color: white;
   font-size: 10px;
-  color: var(--text-secondary);
   transition: all 0.2s ease;
   cursor: help;
-  z-index: 1;
-}
-
-.achievement-badge-compact:hover {
-  z-index: 10;
 }
 
 .achievement-badge-compact:hover {
@@ -66,130 +57,105 @@
   font-size: 10px;
 }
 
-.achievement-badge-achieved {
-  background: var(--accent-blue);
-  border-color: var(--accent-blue);
-  color: white;
+.achievement-badge-new {
+  animation: achievement-pop-compact 0.6s ease-out;
 }
 
-.achievement-badge-achieved:hover {
-  background: var(--accent-blue);
-  border-color: var(--accent-blue);
+@keyframes achievement-pop-compact {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
-.achievement-badge-progress {
-  /* Do NOT use opacity here; it makes tooltips unreadable because opacity affects children */
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.12);
-  color: rgba(255, 255, 255, 0.75);
+.achievement-badge-sparkle-compact {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  color: var(--accent-blue);
+  font-size: 8px;
+  animation: sparkle-compact 2s ease-in-out infinite;
+  background: var(--bg-card);
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.achievement-badge-progress i {
-  opacity: 0.7;
+@keyframes sparkle-compact {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.2) rotate(180deg);
+  }
 }
 
-/* Deprecated: we now use only the unified dark tooltip for popups */
-.achievement-badge-progress-indicator {
-  display: none;
-}
-
-/* Tooltip for badge description */
+/* Simple tooltip using CSS */
 .achievement-badge-tooltip {
   position: absolute;
-  bottom: calc(100% + 8px);
+  bottom: calc(100% + 10px);
   left: 50%;
   transform: translateX(-50%);
-  min-width: 180px;
+  min-width: 200px;
   max-width: 250px;
   background: var(--bg-card-hover);
   border: 2px solid var(--border-primary);
   border-radius: 8px;
   padding: 12px 14px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.2s ease, transform 0.2s ease;
-  z-index: 10000;
+  transition: opacity 0.2s ease;
+  z-index: 999999;
   white-space: normal;
   text-align: left;
-  backdrop-filter: blur(10px);
-}
-
-/* Fixed position tooltip that appears outside section boundaries */
-.achievement-badge-tooltip-fixed {
-  position: fixed !important;
-  opacity: 1 !important;
-  transform: none !important;
-  z-index: 99999 !important;
-  margin: 0 !important;
-}
-
-.achievement-badge-tooltip-fixed::after {
-  left: var(--arrow-left, 50%) !important;
-  transform: translateX(-50%) !important;
-  top: 100% !important;
-}
-
-.achievement-badge-tooltip-fixed::before {
-  left: var(--arrow-left, 50%) !important;
-  transform: translateX(-50%) !important;
-  top: 100% !important;
-}
-
-/* Adjust tooltip position for leftmost badges */
-.achievement-badges-list > .achievement-badge-compact:first-child .achievement-badge-tooltip {
-  left: 0;
-  transform: translateX(0);
-  background: var(--bg-card-hover);
-  border: 2px solid var(--border-primary);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 0, 0, 0.1);
-}
-
-.achievement-badges-list > .achievement-badge-compact:first-child .achievement-badge-tooltip::after {
-  left: 20px;
-  transform: translateX(0);
-  border-top-color: var(--bg-card-hover);
-}
-
-.achievement-badges-list > .achievement-badge-compact:first-child .achievement-badge-tooltip::before {
-  left: 20px;
-  transform: translateX(0);
-  border-top-color: var(--border-primary);
+  visibility: hidden;
 }
 
 .achievement-badge-compact:hover .achievement-badge-tooltip {
   opacity: 1;
-  transform: translateX(-50%) translateY(-4px);
+  visibility: visible;
 }
 
-.achievement-badges-list > .achievement-badge-compact:first-child:hover .achievement-badge-tooltip {
-  transform: translateX(0) translateY(-4px);
+/* Adjust tooltip for left edge */
+.achievement-badges-list .achievement-badge-compact:first-child .achievement-badge-tooltip {
+  left: 0;
+  transform: translateX(0);
 }
 
-/* Adjust tooltip position for rightmost badges (avoid clipping) */
-.achievement-badges-list > .achievement-badge-compact:last-child .achievement-badge-tooltip {
+.achievement-badges-list .achievement-badge-compact:first-child .achievement-badge-tooltip::after,
+.achievement-badges-list .achievement-badge-compact:first-child .achievement-badge-tooltip::before {
+  left: 20px;
+  transform: translateX(0);
+}
+
+/* Adjust tooltip for right edge */
+.achievement-badges-list .achievement-badge-compact:last-child .achievement-badge-tooltip {
   left: auto;
   right: 0;
   transform: translateX(0);
-  background: var(--bg-card-hover);
-  border: 2px solid var(--border-primary);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 0, 0, 0.1);
 }
 
-.achievement-badges-list > .achievement-badge-compact:last-child .achievement-badge-tooltip::after {
+.achievement-badges-list .achievement-badge-compact:last-child .achievement-badge-tooltip::after,
+.achievement-badges-list .achievement-badge-compact:last-child .achievement-badge-tooltip::before {
   left: auto;
   right: 20px;
   transform: translateX(0);
-  border-top-color: var(--bg-card-hover);
 }
 
-.achievement-badges-list > .achievement-badge-compact:last-child .achievement-badge-tooltip::before {
-  left: auto;
-  right: 20px;
-  transform: translateX(0);
-  border-top-color: var(--border-primary);
-}
-
+/* Tooltip arrow */
 .achievement-badge-tooltip::after {
   content: '';
   position: absolute;
@@ -242,51 +208,6 @@
   text-align: center;
 }
 
-.achievement-badge-new {
-  animation: achievement-pop-compact 0.6s ease-out;
-}
-
-@keyframes achievement-pop-compact {
-  0% {
-    transform: scale(0.5);
-    opacity: 0;
-  }
-  50% {
-    transform: scale(1.15);
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-.achievement-badge-sparkle-compact {
-  position: absolute;
-  top: -4px;
-  right: -4px;
-  color: var(--accent-blue);
-  font-size: 8px;
-  animation: sparkle-compact 2s ease-in-out infinite;
-  background: var(--bg-card);
-  border-radius: 50%;
-  width: 12px;
-  height: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-@keyframes sparkle-compact {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1) rotate(0deg);
-  }
-  50% {
-    opacity: 0.7;
-    transform: scale(1.2) rotate(180deg);
-  }
-}
-
 .achievement-badges-skeleton-compact {
   display: flex;
   gap: 4px;
@@ -308,4 +229,3 @@
     opacity: 0.5;
   }
 }
-
