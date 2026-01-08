@@ -77,9 +77,11 @@ export const Header: React.FC<HeaderProps> = ({
           <i className="fas fa-bars"></i>
         </button>
       </div>
-      <SettingsMenu isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
+      <SettingsMenu 
+        isOpen={isSettingsOpen} 
+        onClose={() => setIsSettingsOpen(false)} 
+      />
     </header>
   );
 };
-
 
