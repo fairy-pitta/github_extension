@@ -60,12 +60,28 @@ export const Header: React.FC<HeaderProps> = ({
     setLanguage(language === 'en' ? 'ja' : 'en');
   };
 
-  const revertToGitHub = () => {
-    if (isInIframe && window.top) {
-      window.top.location.reload();
-    } else {
-      // If not in iframe, try to navigate to GitHub
-      window.location.href = 'https://github.com';
+  const revertToGitHub = async () => {
+    try {
+      const container = Container.getInstance();
+      const storage = container.getStorage();
+      // Disable dashboard on GitHub pages
+      await storage.set(StorageKeys.SHOW_ON_GITHUB, false);
+      
+      // If in iframe, reload the parent page to restore original GitHub content
+      if (isInIframe && window.top) {
+        window.top.location.reload();
+      } else {
+        // If not in iframe, navigate to GitHub
+        window.location.href = 'https://github.com';
+      }
+    } catch (error) {
+      console.error('Failed to revert to GitHub:', error);
+      // Fallback: just reload
+      if (isInIframe && window.top) {
+        window.top.location.reload();
+      } else {
+        window.location.href = 'https://github.com';
+      }
     }
   };
 
