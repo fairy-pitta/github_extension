@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { RefreshButton } from '../../components/RefreshButton';
 import { FilterToggle } from '../../components/FilterToggle';
 import { useTheme } from '../hooks/useTheme';
 import { useLanguage } from '../../i18n/useLanguage';
+import { SettingsMenu } from './SettingsMenu';
 import './header.css';
 
 interface HeaderProps {
@@ -21,10 +22,7 @@ export const Header: React.FC<HeaderProps> = ({
   const { theme, toggleTheme } = useTheme();
   const { t, language, setLanguage } = useLanguage();
   const isInIframe = window.self !== window.top;
-  
-  const openOptions = () => {
-    chrome.runtime.openOptionsPage();
-  };
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   const toggleLanguage = () => {
     setLanguage(language === 'en' ? 'ja' : 'en');
@@ -71,10 +69,15 @@ export const Header: React.FC<HeaderProps> = ({
         >
           <i className={theme === 'light' ? 'fas fa-moon' : 'fas fa-sun'}></i>
         </button>
-        <button onClick={openOptions} className="settings-button" aria-label={t.settings}>
-          <i className="fas fa-cog"></i>
+        <button 
+          onClick={() => setIsSettingsOpen(true)} 
+          className="settings-button" 
+          aria-label={t.settings}
+        >
+          <i className="fas fa-bars"></i>
         </button>
       </div>
+      <SettingsMenu isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
     </header>
   );
 };

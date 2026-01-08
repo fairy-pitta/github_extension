@@ -2,13 +2,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 40px;
-  padding: 24px 32px;
+  margin-bottom: 16px;
+  padding: 16px 24px;
   background: var(--bg-card);
   border: 1px solid var(--border-primary);
-  border-radius: 20px;
+  border-radius: 16px;
   backdrop-filter: blur(10px);
   box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
 }
 
 .header-left {
@@ -17,10 +18,10 @@
 
 .dashboard-title {
   margin: 0;
-  font-size: 32px;
-  font-weight: 300;
+  font-size: 24px;
+  font-weight: 500;
   color: var(--text-primary);
-  letter-spacing: -0.5px;
+  letter-spacing: -0.3px;
 }
 
 .header-right {
