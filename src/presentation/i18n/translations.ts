@@ -12,6 +12,20 @@ export interface Translations {
   // Filter
   all: string;
   openOnly: string;
+  filterByReviewStatus: string;
+  allReviews: string;
+  approvedOnly: string;
+  commentedOnly: string;
+  changesRequestedOnly: string;
+  reviewRequiredOnly: string;
+  dismissedOnly: string;
+  pendingOnly: string;
+  // Review status
+  reviewApproved: string;
+  reviewCommented: string;
+  reviewChangesRequested: string;
+  reviewDismissed: string;
+  reviewPending: string;
   
   // Sections
   repositories: string;
@@ -196,6 +210,19 @@ export const translations: Record<Language, Translations> = {
     revertToGitHub: 'Revert to GitHub',
     all: 'All',
     openOnly: 'Open Only',
+    filterByReviewStatus: 'Filter by Review Status',
+    allReviews: 'All Reviews',
+    approvedOnly: 'Approved Only',
+    commentedOnly: 'Commented Only',
+    changesRequestedOnly: 'Changes Requested Only',
+    reviewRequiredOnly: 'Review Required Only',
+    dismissedOnly: 'Dismissed Only',
+    pendingOnly: 'Pending Only',
+    reviewApproved: 'Approved',
+    reviewCommented: 'Commented',
+    reviewChangesRequested: 'Changes Requested',
+    reviewDismissed: 'Dismissed',
+    reviewPending: 'Pending',
     repositories: 'Repositories',
     recentlyUpdatedRepositories: 'Recently Updated Repositories',
     pullRequestsCreated: 'Pull Requests (Created by Me)',
@@ -432,6 +459,19 @@ export const translations: Record<Language, Translations> = {
     revertToGitHub: 'GitHubに戻る',
     all: 'すべて',
     openOnly: 'オープンのみ',
+    filterByReviewStatus: 'レビュー状態でフィルター',
+    allReviews: 'すべてのレビュー',
+    approvedOnly: '承認済みのみ',
+    commentedOnly: 'コメントのみ',
+    changesRequestedOnly: '変更要求ありのみ',
+    reviewRequiredOnly: 'レビュー待ちのみ',
+    dismissedOnly: '却下済みのみ',
+    pendingOnly: '保留中のみ',
+    reviewApproved: '承認済み',
+    reviewCommented: 'コメント',
+    reviewChangesRequested: '変更要求あり',
+    reviewDismissed: '却下済み',
+    reviewPending: '保留中',
     repositories: 'リポジトリ',
     recentlyUpdatedRepositories: '最近更新されたリポジトリ',
     allRepositories: '全てのリポジトリ',
