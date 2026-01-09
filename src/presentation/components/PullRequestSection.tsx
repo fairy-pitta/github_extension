@@ -78,26 +78,52 @@ export const PullRequestSection: React.FC<PullRequestSectionProps> = React.memo(
     }
 
     return prs.filter((pr) => {
-      // Check if any review matches the selected filters
-      const reviewStates = pr.reviews.map((review) => review.state);
-      const hasMatchingReview = reviewFilters.some((filter) => {
-        if (filter === 'REVIEW_REQUIRED') {
-          // REVIEW_REQUIRED: either reviewDecision is REVIEW_REQUIRED or no reviews yet
-          return pr.reviewDecision === 'REVIEW_REQUIRED' || 
-                 (pr.reviewDecision === null && pr.reviews.length === 0);
+      // REVIEW_REQUIRED: reviewDecisionがREVIEW_REQUIRED、またはレビューがまだない
+      if (reviewFilters.includes('REVIEW_REQUIRED')) {
+        if (pr.reviewDecision === 'REVIEW_REQUIRED' || 
+            (pr.reviewDecision === null && pr.reviews.length === 0)) {
+          return true;
         }
-        return reviewStates.includes(filter);
-      });
-
-      // Also check reviewDecision for APPROVED and CHANGES_REQUESTED
-      if (reviewFilters.includes('APPROVED') && pr.reviewDecision === 'APPROVED') {
-        return true;
-      }
-      if (reviewFilters.includes('CHANGES_REQUESTED') && pr.reviewDecision === 'CHANGES_REQUESTED') {
-        return true;
       }
 
-      return hasMatchingReview;
+      // APPROVED: reviewDecisionがAPPROVED、またはレビューにAPPROVED状態がある
+      if (reviewFilters.includes('APPROVED')) {
+        if (pr.reviewDecision === 'APPROVED' || 
+            pr.reviews.some(review => review.state === 'APPROVED')) {
+          return true;
+        }
+      }
+
+      // CHANGES_REQUESTED: reviewDecisionがCHANGES_REQUESTED、またはレビューにCHANGES_REQUESTED状態がある
+      if (reviewFilters.includes('CHANGES_REQUESTED')) {
+        if (pr.reviewDecision === 'CHANGES_REQUESTED' || 
+            pr.reviews.some(review => review.state === 'CHANGES_REQUESTED')) {
+          return true;
+        }
+      }
+
+      // COMMENTED: レビューにCOMMENTED状態がある
+      if (reviewFilters.includes('COMMENTED')) {
+        if (pr.reviews.some(review => review.state === 'COMMENTED')) {
+          return true;
+        }
+      }
+
+      // DISMISSED: レビューにDISMISSED状態がある
+      if (reviewFilters.includes('DISMISSED')) {
+        if (pr.reviews.some(review => review.state === 'DISMISSED')) {
+          return true;
+        }
+      }
+
+      // PENDING: レビューにPENDING状態がある
+      if (reviewFilters.includes('PENDING')) {
+        if (pr.reviews.some(review => review.state === 'PENDING')) {
+          return true;
+        }
+      }
+
+      return false;
     });
   }, [activeTab, createdPRs, reviewRequestedPRs, reviewFilters]);
 
