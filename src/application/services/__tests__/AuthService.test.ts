@@ -3,7 +3,7 @@ import { AuthService } from '../AuthService';
 import { IAuthRepository } from '@/domain/repositories/IAuthRepository';
 import { IStorage } from '@/infrastructure/storage/IStorage';
 import { User } from '@/domain/entities/User';
-import { StorageKeys } from '@/infrastructure/storage/StorageKeys';
+import { StorageKeys } from '../../config/StorageKeys';
 import { AuthenticationError, NetworkError } from '@/domain/errors/DomainError';
 import { GitHubOAuthService } from '@/infrastructure/auth/GitHubOAuthService';
 

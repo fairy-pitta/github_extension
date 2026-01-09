@@ -4,7 +4,7 @@ import { TokenInput } from '../../options/components/TokenInput';
 import { SaveButton } from '../../options/components/SaveButton';
 import { StatusMessage } from '../../options/components/StatusMessage';
 import { Container } from '@/application/di/Container';
-import { StorageKeys } from '@/infrastructure/storage/StorageKeys';
+import { StorageKeys } from '@/application/config/StorageKeys';
 import { GitHubOAuthService, type DeviceCodeInfo } from '@/infrastructure/auth/GitHubOAuthService';
 import { useLanguage } from '../../i18n/useLanguage';
 import { useTheme, Theme } from '../hooks/useTheme';

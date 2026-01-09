@@ -5,7 +5,7 @@ import { ContributionStreak } from '@/domain/entities/ContributionStreak';
 import { AchievementBadge } from '@/domain/entities/AchievementBadge';
 import { DashboardData } from '@/domain/usecases/GetDashboardData';
 import { Container } from '@/application/di/Container';
-import { StorageKeys } from '@/infrastructure/storage/StorageKeys';
+import { StorageKeys } from '@/application/config/StorageKeys';
 import { useLanguage } from '../i18n/useLanguage';
 import { SkeletonLoader } from './SkeletonLoader';
 import { StreakDisplay } from './StreakDisplay';

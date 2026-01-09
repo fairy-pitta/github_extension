@@ -6,7 +6,7 @@ import { useTheme } from '../hooks/useTheme';
 import { useLanguage } from '../../i18n/useLanguage';
 import { SettingsMenu } from './SettingsMenu';
 import { Container } from '@/application/di/Container';
-import { StorageKeys } from '@/infrastructure/storage/StorageKeys';
+import { StorageKeys } from '@/application/config/StorageKeys';
 import { User } from '@/domain/entities/User';
 import './header.css';
 

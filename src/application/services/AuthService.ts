@@ -2,7 +2,7 @@ import { User } from '@/domain/entities/User';
 import { ValidateToken } from '@/domain/usecases/ValidateToken';
 import { IAuthRepository } from '@/domain/repositories/IAuthRepository';
 import { IStorage } from '@/infrastructure/storage/IStorage';
-import { StorageKeys } from '@/infrastructure/storage/StorageKeys';
+import { StorageKeys } from '../config/StorageKeys';
 import { GitHubOAuthService } from '@/infrastructure/auth/GitHubOAuthService';
 import {
   AuthenticationError,

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { User } from '@/domain/entities/User';
 import { Container } from '@/application/di/Container';
-import { StorageKeys } from '@/infrastructure/storage/StorageKeys';
+import { StorageKeys } from '@/application/config/StorageKeys';
 
 export interface AuthState {
   isAuthenticated: boolean;

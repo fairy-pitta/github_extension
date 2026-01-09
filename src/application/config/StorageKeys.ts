@@ -1,5 +1,6 @@
 /**
  * Storage key constants
+ * Moved from infrastructure layer to application layer to follow clean architecture principles
  */
 export const StorageKeys = {
   PAT_TOKEN: 'pat_token',
@@ -17,5 +18,4 @@ export const StorageKeys = {
   CACHE_ISSUES: 'cache_issues',
   LAST_UPDATED_PREFIX: 'last_updated_',
 } as const;
-
 

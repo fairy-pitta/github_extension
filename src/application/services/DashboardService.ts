@@ -4,8 +4,7 @@ import { IPullRequestRepository } from '@/domain/repositories/IPullRequestReposi
 import { IIssueRepository } from '@/domain/repositories/IIssueRepository';
 import { IRepositoryRepository } from '@/domain/repositories/IRepositoryRepository';
 import { ICache } from '@/infrastructure/cache/ICache';
-import { CacheKeys } from '@/infrastructure/cache/CacheKeys';
-import { AppConfig } from '../config/AppConfig';
+import { AppConfig, CacheKeys } from '../config';
 import { NetworkError } from '@/domain/errors/DomainError';
 
 /**

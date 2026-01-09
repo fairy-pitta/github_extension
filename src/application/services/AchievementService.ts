@@ -3,7 +3,7 @@ import { ContributionCalendar } from '@/domain/entities/ContributionCalendar';
 import { PullRequest } from '@/domain/entities/PullRequest';
 import { CheckAchievements } from '@/domain/usecases/CheckAchievements';
 import { ICache } from '@/infrastructure/cache/ICache';
-import { CacheKeys } from '@/infrastructure/cache/CacheKeys';
+import { CacheKeys } from '../config/CacheKeys';
 import { AppConfig } from '../config/AppConfig';
 
 /**

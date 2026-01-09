@@ -1,5 +1,5 @@
 // Service Worker for Chrome Extension
-import { StorageKeys } from '../storage/StorageKeys';
+import { StorageKeys } from '@/application/config/StorageKeys';
 import { Container } from '@/application/di/Container';
 
 // Initialize on installation
