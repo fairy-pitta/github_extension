@@ -520,6 +520,29 @@
   background: rgba(0, 0, 0, 0.1);
 }
 
+/* Auth Info Popup Styles */
+.auth-info-button {
+  transition: all 0.2s ease;
+  border-radius: 4px;
+}
+
+.auth-info-button:hover {
+  background: rgba(3, 102, 214, 0.1);
+}
+
+.auth-info-popup {
+  animation: slideDown 0.3s ease;
+}
+
+.auth-info-popup strong {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.auth-info-popup p {
+  margin: 0;
+}
+
 @media (max-width: 768px) {
   .settings-menu {
     width: 100%;

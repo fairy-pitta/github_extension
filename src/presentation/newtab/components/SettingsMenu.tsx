@@ -31,6 +31,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({ isOpen, onClose }) =
     type: 'success' | 'error' | 'info';
     message: string;
   } | null>(null);
+  const [showAuthInfo, setShowAuthInfo] = useState(false);
 
 
 
@@ -282,7 +283,86 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({ isOpen, onClose }) =
         
         <div className="settings-menu-content">
           <div className="settings-section">
-            <h3>{t.tokenLabel}</h3>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+              <h3 style={{ margin: 0 }}>{t.tokenLabel}</h3>
+              <button
+                onClick={() => setShowAuthInfo(!showAuthInfo)}
+                className="auth-info-button"
+                aria-label={t.authInfoTitle}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  padding: '4px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  color: '#666',
+                  fontSize: '16px',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = '#0366d6';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = '#666';
+                }}
+              >
+                <i className="fas fa-info-circle"></i>
+              </button>
+            </div>
+            
+            {/* Auth Info Popup */}
+            {showAuthInfo && (
+              <div
+                className="auth-info-popup"
+                style={{
+                  marginBottom: '16px',
+                  padding: '16px',
+                  backgroundColor: '#f6f8fa',
+                  border: '1px solid #d1d9e0',
+                  borderRadius: '6px',
+                  fontSize: '14px',
+                  lineHeight: 1.6,
+                  color: '#24292f',
+                }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
+                  <h4 style={{ margin: 0, fontSize: '16px', fontWeight: 600, color: '#24292f' }}>
+                    {t.authInfoTitle}
+                  </h4>
+                  <button
+                    onClick={() => setShowAuthInfo(false)}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      padding: '0',
+                      color: '#666',
+                      fontSize: '18px',
+                      lineHeight: 1,
+                    }}
+                    aria-label={t.close}
+                  >
+                    <i className="fas fa-times"></i>
+                  </button>
+                </div>
+                <div style={{ marginBottom: '16px' }}>
+                  <strong style={{ display: 'block', marginBottom: '8px', color: '#24292f' }}>
+                    About Write Permissions:
+                  </strong>
+                  <p style={{ margin: 0, color: '#57606a' }}>
+                    {t.authInfoWritePermissions}
+                  </p>
+                </div>
+                <div>
+                  <strong style={{ display: 'block', marginBottom: '8px', color: '#24292f' }}>
+                    OAuth vs Personal Access Token:
+                  </strong>
+                  <p style={{ margin: 0, color: '#57606a' }}>
+                    {t.authInfoOAuthVsPAT}
+                  </p>
+                </div>
+              </div>
+            )}
             
             {/* OAuth Authentication Section */}
             <div className="oauth-section">
