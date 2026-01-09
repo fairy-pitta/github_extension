@@ -250,7 +250,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = React.memo(({ user,
                   {user.organizations.map((org) => (
                     <a
                       key={org.login}
-                      href={`https://github.com/${org.login}`}
+                      href={`https://github.com/${org.login}?tab=repositories`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="profile-org-tag"
