@@ -26,16 +26,16 @@ export default defineConfig({
       name: 'copy-html-files',
       closeBundle() {
         const distDir = resolve(__dirname, 'dist');
-        const newtabSrc = join(distDir, 'src/presentation/newtab/index.html');
-        const newtabDest = join(distDir, 'newtab.html');
+        const dashboardSrc = join(distDir, 'src/presentation/dashboard/index.html');
+        const dashboardDest = join(distDir, 'dashboard.html');
 
-        // Copy and fix newtab.html
-        if (existsSync(newtabSrc)) {
-          let content = readFileSync(newtabSrc, 'utf-8');
+        // Copy and fix dashboard.html
+        if (existsSync(dashboardSrc)) {
+          let content = readFileSync(dashboardSrc, 'utf-8');
           // Fix relative paths - replace any path starting with ../ or / with ./
           content = content.replace(/(src|href)="(\.\.\/)+assets\//g, '$1="./assets/');
           content = content.replace(/(src|href)="\/assets\//g, '$1="./assets/');
-          writeFileSync(newtabDest, content);
+          writeFileSync(dashboardDest, content);
         }
       },
     },
@@ -46,7 +46,7 @@ export default defineConfig({
     sourcemap: false,
     rollupOptions: {
       input: {
-        newtab: resolve(__dirname, 'src/presentation/newtab/index.html'),
+        dashboard: resolve(__dirname, 'src/presentation/dashboard/index.html'),
         'service-worker': resolve(__dirname, 'src/infrastructure/background/service-worker.ts'),
         'github-content': resolve(__dirname, 'src/infrastructure/content/github-content.ts'),
       },
@@ -67,8 +67,8 @@ export default defineConfig({
           if (assetInfo.name && assetInfo.name.endsWith('.html')) {
             // Extract the entry name from the source path
             const source = String(assetInfo.source || '');
-            if (source.includes('newtab')) {
-              return 'newtab.html';
+            if (source.includes('dashboard')) {
+              return 'dashboard.html';
             }
           }
           // Handle CSS files

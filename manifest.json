@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "GitHub Extension - Personal Dashboard",
   "version": "0.1.0",
-  "description": "Display your GitHub activity on the new tab page",
+  "description": "Display your GitHub activity on GitHub.com",
   "permissions": [
     "storage",
     "tabs",
@@ -29,8 +29,8 @@
       "resources": [
         "assets/*.js",
         "assets/*.css",
-        "newtab.html",
-        "newtab.css"
+        "dashboard.html",
+        "dashboard.css"
       ],
       "matches": ["https://github.com/*"]
     }
