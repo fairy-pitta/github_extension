@@ -3,7 +3,7 @@ import { ValidateToken } from '@/domain/usecases/ValidateToken';
 import { IAuthRepository } from '@/domain/repositories/IAuthRepository';
 import { IStorage } from '@/infrastructure/storage/IStorage';
 import { StorageKeys } from '../config/StorageKeys';
-import { GitHubOAuthService } from '@/infrastructure/auth/GitHubOAuthService';
+import { IOAuthService } from './IOAuthService';
 import {
   AuthenticationError,
   NetworkError,
@@ -16,7 +16,7 @@ export class AuthService {
   constructor(
     private readonly authRepository: IAuthRepository,
     private readonly storage: IStorage,
-    private readonly oauthService?: GitHubOAuthService
+    private readonly oauthService?: IOAuthService
   ) {}
 
   /**

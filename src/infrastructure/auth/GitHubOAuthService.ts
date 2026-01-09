@@ -1,5 +1,6 @@
 import { AuthenticationError, NetworkError } from '@/domain/errors/DomainError';
 import { AppConfig } from '../config/AppConfig';
+import { IOAuthService } from '@/application/services/IOAuthService';
 
 interface TokenResponse {
   access_token?: string;
@@ -45,7 +46,7 @@ export interface GitHubOAuthServiceOptions {
  * uses the OAuth 2.0 Device Authorization Grant (Device Flow), which works
  * without a client_secret.
  */
-export class GitHubOAuthService {
+export class GitHubOAuthService implements IOAuthService {
   private readonly clientId: string;
   private readonly scopes: string[];
   private readonly deviceCodeUrl = 'https://github.com/login/device/code';
