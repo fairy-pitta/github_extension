@@ -78,52 +78,40 @@ export const PullRequestSection: React.FC<PullRequestSectionProps> = React.memo(
     }
 
     return prs.filter((pr) => {
-      // REVIEW_REQUIRED: reviewDecisionがREVIEW_REQUIRED、またはレビューがまだない
-      if (reviewFilters.includes('REVIEW_REQUIRED')) {
-        if (pr.reviewDecision === 'REVIEW_REQUIRED' || 
-            (pr.reviewDecision === null && pr.reviews.length === 0)) {
-          return true;
+      // 選択されたフィルターのいずれかに一致するかチェック
+      return reviewFilters.some((filter) => {
+        switch (filter) {
+          case 'REVIEW_REQUIRED':
+            // REVIEW_REQUIRED: reviewDecisionがREVIEW_REQUIRED、またはレビューがまだない
+            return pr.reviewDecision === 'REVIEW_REQUIRED' || 
+                   (pr.reviewDecision === null && pr.reviews.length === 0);
+          
+          case 'APPROVED':
+            // APPROVED: reviewDecisionがAPPROVED、またはレビューにAPPROVED状態がある
+            return pr.reviewDecision === 'APPROVED' || 
+                   pr.reviews.some(review => review.state === 'APPROVED');
+          
+          case 'CHANGES_REQUESTED':
+            // CHANGES_REQUESTED: reviewDecisionがCHANGES_REQUESTED、またはレビューにCHANGES_REQUESTED状態がある
+            return pr.reviewDecision === 'CHANGES_REQUESTED' || 
+                   pr.reviews.some(review => review.state === 'CHANGES_REQUESTED');
+          
+          case 'COMMENTED':
+            // COMMENTED: レビューにCOMMENTED状態がある
+            return pr.reviews.some(review => review.state === 'COMMENTED');
+          
+          case 'DISMISSED':
+            // DISMISSED: レビューにDISMISSED状態がある
+            return pr.reviews.some(review => review.state === 'DISMISSED');
+          
+          case 'PENDING':
+            // PENDING: レビューにPENDING状態がある
+            return pr.reviews.some(review => review.state === 'PENDING');
+          
+          default:
+            return false;
         }
-      }
-
-      // APPROVED: reviewDecisionがAPPROVED、またはレビューにAPPROVED状態がある
-      if (reviewFilters.includes('APPROVED')) {
-        if (pr.reviewDecision === 'APPROVED' || 
-            pr.reviews.some(review => review.state === 'APPROVED')) {
-          return true;
-        }
-      }
-
-      // CHANGES_REQUESTED: reviewDecisionがCHANGES_REQUESTED、またはレビューにCHANGES_REQUESTED状態がある
-      if (reviewFilters.includes('CHANGES_REQUESTED')) {
-        if (pr.reviewDecision === 'CHANGES_REQUESTED' || 
-            pr.reviews.some(review => review.state === 'CHANGES_REQUESTED')) {
-          return true;
-        }
-      }
-
-      // COMMENTED: レビューにCOMMENTED状態がある
-      if (reviewFilters.includes('COMMENTED')) {
-        if (pr.reviews.some(review => review.state === 'COMMENTED')) {
-          return true;
-        }
-      }
-
-      // DISMISSED: レビューにDISMISSED状態がある
-      if (reviewFilters.includes('DISMISSED')) {
-        if (pr.reviews.some(review => review.state === 'DISMISSED')) {
-          return true;
-        }
-      }
-
-      // PENDING: レビューにPENDING状態がある
-      if (reviewFilters.includes('PENDING')) {
-        if (pr.reviews.some(review => review.state === 'PENDING')) {
-          return true;
-        }
-      }
-
-      return false;
+      });
     });
   }, [activeTab, createdPRs, reviewRequestedPRs, reviewFilters]);
 
