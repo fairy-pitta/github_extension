@@ -89,6 +89,16 @@ npm run format
 
 The extension supports OAuth authentication using GitHub OAuth App with PKCE (Proof Key for Code Exchange). This is the recommended and most secure method.
 
+**Prerequisites:** Before using OAuth, you need to set up a GitHub OAuth App. See [SETUP.md](SETUP.md) for detailed instructions.
+
+**Quick Setup Steps:**
+1. Get your Chrome extension ID from `chrome://extensions/`
+2. Create a GitHub OAuth App at https://github.com/settings/developers
+3. Set the callback URL to: `https://YOUR_EXTENSION_ID.chromiumapp.org/`
+4. Copy the Client ID and set it in `AppConfig.ts` or as `VITE_GITHUB_OAUTH_CLIENT_ID` environment variable
+5. Rebuild the extension
+
+**Using OAuth:**
 1. Open the extension settings page (click the settings icon in the dashboard)
 2. Click "Sign in with GitHub" button
 3. Authorize the extension in the GitHub authentication page
