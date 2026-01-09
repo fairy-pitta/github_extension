@@ -3,7 +3,7 @@ import { DashboardService } from '../DashboardService';
 import { IPullRequestRepository } from '@/domain/repositories/IPullRequestRepository';
 import { IIssueRepository } from '@/domain/repositories/IIssueRepository';
 import { IRepositoryRepository } from '@/domain/repositories/IRepositoryRepository';
-import { ICache } from '@/infrastructure/cache/ICache';
+import { ICache } from '@/domain/interfaces/ICache';
 import { CacheKeys } from '../../config/CacheKeys';
 import { PullRequest } from '@/domain/entities/PullRequest';
 import { Issue } from '@/domain/entities/Issue';

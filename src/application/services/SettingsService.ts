@@ -1,4 +1,4 @@
-import { IStorage } from '@/infrastructure/storage/IStorage';
+import { IStorage } from '@/domain/interfaces/IStorage';
 import { StorageKeys } from '../config/StorageKeys';
 
 export type Theme = 'light' | 'dark' | 'light-blue' | 'light-purple' | 'light-green' | 'light-pink' | 'light-white';

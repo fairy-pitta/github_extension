@@ -1,7 +1,7 @@
 import { User } from '@/domain/entities/User';
 import { ValidateToken } from '@/domain/usecases/ValidateToken';
 import { IAuthRepository } from '@/domain/repositories/IAuthRepository';
-import { IStorage } from '@/infrastructure/storage/IStorage';
+import { IStorage } from '@/domain/interfaces/IStorage';
 import { StorageKeys } from '../config/StorageKeys';
 import { IOAuthService } from './IOAuthService';
 import {

@@ -1,7 +1,7 @@
 import { ContributionStreak } from '@/domain/entities/ContributionStreak';
 import { ContributionCalendar } from '@/domain/entities/ContributionCalendar';
 import { CalculateStreak } from '@/domain/usecases/CalculateStreak';
-import { ICache } from '@/infrastructure/cache/ICache';
+import { ICache } from '@/domain/interfaces/ICache';
 import { CacheKeys } from '../config/CacheKeys';
 import { AppConfig } from '@/infrastructure/config/AppConfig';
 

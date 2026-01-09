@@ -1,8 +1,8 @@
 import { GitHubGraphQLClient } from '@/infrastructure/api/GitHubGraphQLClient';
 import { ChromeStorage } from '@/infrastructure/storage/ChromeStorage';
 import { MemoryCache } from '@/infrastructure/cache/MemoryCache';
-import { IStorage } from '@/infrastructure/storage/IStorage';
-import { ICache } from '@/infrastructure/cache/ICache';
+import { IStorage } from '@/domain/interfaces/IStorage';
+import { ICache } from '@/domain/interfaces/ICache';
 import { AuthRepository } from '@/infrastructure/repositories/AuthRepository';
 import { PullRequestRepository } from '@/infrastructure/repositories/PullRequestRepository';
 import { IssueRepository } from '@/infrastructure/repositories/IssueRepository';

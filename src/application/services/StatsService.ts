@@ -1,6 +1,6 @@
 import { StatsData } from '@/domain/entities/StatsData';
 import { IStatsRepository } from '@/domain/repositories/IStatsRepository';
-import { ICache } from '@/infrastructure/cache/ICache';
+import { ICache } from '@/domain/interfaces/ICache';
 import { CacheKeys } from '../config/CacheKeys';
 import { AppConfig } from '@/infrastructure/config/AppConfig';
 

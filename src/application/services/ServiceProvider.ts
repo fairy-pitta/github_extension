@@ -13,7 +13,7 @@ export interface ServiceProvider {
   getPullRequestRepository(): import('@/domain/repositories/IPullRequestRepository').IPullRequestRepository;
   getIssueRepository(): import('@/domain/repositories/IIssueRepository').IIssueRepository;
   getContributionCalendarRepository(): import('@/domain/repositories/IContributionCalendarRepository').IContributionCalendarRepository;
-  getStorage(): import('@/infrastructure/storage/IStorage').IStorage;
+  getStorage(): import('@/domain/interfaces/IStorage').IStorage;
   initialize(token: string): Promise<void>;
 }
 

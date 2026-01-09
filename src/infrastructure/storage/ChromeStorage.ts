@@ -1,4 +1,4 @@
-import { IStorage } from './IStorage';
+import { IStorage } from '@/domain/interfaces/IStorage';
 
 /**
  * Chrome Storage implementation using chrome.storage.local

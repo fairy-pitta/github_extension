@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { MemoryCache } from '../MemoryCache';
-import { IStorage } from '../../storage/IStorage';
+import { IStorage } from '@/domain/interfaces/IStorage';
 
 describe('MemoryCache', () => {
   let mockStorage: IStorage;

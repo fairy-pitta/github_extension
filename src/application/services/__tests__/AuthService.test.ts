@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { AuthService } from '../AuthService';
 import { IAuthRepository } from '@/domain/repositories/IAuthRepository';
-import { IStorage } from '@/infrastructure/storage/IStorage';
+import { IStorage } from '@/domain/interfaces/IStorage';
 import { User } from '@/domain/entities/User';
 import { StorageKeys } from '../../config/StorageKeys';
 import { AuthenticationError, NetworkError } from '@/domain/errors/DomainError';

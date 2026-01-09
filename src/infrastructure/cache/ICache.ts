@@ -1,11 +1,8 @@
 /**
  * Cache interface
+ * Re-exported from Domain Layer to maintain backward compatibility
+ * @deprecated Use @/domain/interfaces/ICache instead
  */
-export interface ICache {
-  get<T>(key: string): Promise<T | null>;
-  set<T>(key: string, value: T, ttl: number): Promise<void>;
-  clear(): Promise<void>;
-  remove(key: string): Promise<void>;
-}
+export { ICache } from '@/domain/interfaces/ICache';
 
 

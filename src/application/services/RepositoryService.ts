@@ -1,6 +1,6 @@
 import { Repository } from '@/domain/entities/Repository';
 import { IRepositoryRepository } from '@/domain/repositories/IRepositoryRepository';
-import { ICache } from '@/infrastructure/cache/ICache';
+import { ICache } from '@/domain/interfaces/ICache';
 import { CacheKeys } from '../config/CacheKeys';
 import { AppConfig } from '@/infrastructure/config/AppConfig';
 

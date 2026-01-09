@@ -3,7 +3,7 @@ import { DashboardData } from '@/domain/usecases/GetDashboardData';
 import { IPullRequestRepository } from '@/domain/repositories/IPullRequestRepository';
 import { IIssueRepository } from '@/domain/repositories/IIssueRepository';
 import { IRepositoryRepository } from '@/domain/repositories/IRepositoryRepository';
-import { ICache } from '@/infrastructure/cache/ICache';
+import { ICache } from '@/domain/interfaces/ICache';
 import { CacheKeys } from '../config/CacheKeys';
 import { AppConfig } from '@/infrastructure/config/AppConfig';
 import { NetworkError } from '@/domain/errors/DomainError';

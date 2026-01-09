@@ -1,11 +1,8 @@
 /**
  * Storage interface for abstraction
+ * Re-exported from Domain Layer to maintain backward compatibility
+ * @deprecated Use @/domain/interfaces/IStorage instead
  */
-export interface IStorage {
-  get<T>(key: string): Promise<T | null>;
-  set<T>(key: string, value: T): Promise<void>;
-  remove(key: string): Promise<void>;
-  clear(): Promise<void>;
-}
+export { IStorage } from '@/domain/interfaces/IStorage';
 
 

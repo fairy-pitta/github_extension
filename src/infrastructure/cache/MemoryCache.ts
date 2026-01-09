@@ -1,5 +1,5 @@
-import { ICache } from './ICache';
-import { IStorage } from '../storage/IStorage';
+import { ICache } from '@/domain/interfaces/ICache';
+import { IStorage } from '@/domain/interfaces/IStorage';
 import { StorageKeys } from '@/application/config/StorageKeys';
 
 interface CacheEntry<T> {
