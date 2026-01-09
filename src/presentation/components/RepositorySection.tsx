@@ -69,7 +69,7 @@ export const RepositorySection: React.FC<RepositorySectionProps> = React.memo(({
 
   // Filter repositories based on active tab and star state
   const filteredRepos = useMemo(() => {
-    // Step 1: Filter by tab
+    // Step 1: Filter by tab first
     let repos = repositories.filter((repo) => {
       if (activeTab === 'all') return true;
       if (activeTab === 'org') return repo.owner instanceof Organization;
@@ -83,20 +83,11 @@ export const RepositorySection: React.FC<RepositorySectionProps> = React.memo(({
       return true;
     });
 
-    // Step 2: If star is active, add favorite repositories
+    // Step 2: If star is active, filter to show only favorites from the tab-filtered results
     if (isStarActive) {
-      const favoriteRepos = repositories.filter((repo) =>
+      repos = repos.filter((repo) =>
         favoriteRepositories.includes(repo.nameWithOwner)
       );
-      // Combine and remove duplicates
-      const combined = [...repos, ...favoriteRepos];
-      const uniqueMap = new Map<string, Repository>();
-      combined.forEach((repo) => {
-        if (!uniqueMap.has(repo.nameWithOwner)) {
-          uniqueMap.set(repo.nameWithOwner, repo);
-        }
-      });
-      repos = Array.from(uniqueMap.values());
     }
 
     // Sort by updatedAt (newest first)
