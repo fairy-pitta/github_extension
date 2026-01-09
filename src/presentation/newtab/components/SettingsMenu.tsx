@@ -108,8 +108,13 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({ isOpen, onClose }) =
       });
       const accessToken = await oauthService.authenticate();
 
-      // Initialize container with the OAuth token
       const container = Container.getInstance();
+      const storage = container.getStorage();
+
+      // Save OAuth token BEFORE validation (validateCurrentToken() reads from storage)
+      await storage.set(StorageKeys.GITHUB_TOKEN, accessToken);
+
+      // Initialize container with the OAuth token
       await container.initialize(accessToken);
 
       // Validate the token
