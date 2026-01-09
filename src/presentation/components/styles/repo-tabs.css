@@ -72,7 +72,7 @@
 }
 
 .repo-tab-star.active {
-  color: var(--accent-yellow, #fbbf24);
+  color: var(--star-active-color, #FFA500);
 }
 
 .repo-tab-star.active i::before {

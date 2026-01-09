@@ -223,12 +223,12 @@
 
 .card-favorite-button:hover {
   background: var(--bg-secondary);
-  color: var(--accent-yellow, #fbbf24);
+  color: var(--star-active-color, #FFA500);
   transform: scale(1.1);
 }
 
 .card-favorite-button.active {
-  color: var(--accent-yellow, #fbbf24);
+  color: var(--star-active-color, #FFA500);
 }
 
 .card-favorite-button i {
