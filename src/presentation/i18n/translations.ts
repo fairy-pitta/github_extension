@@ -16,6 +16,10 @@ export interface Translations {
   // Sections
   repositories: string;
   recentlyUpdatedRepositories: string;
+  allRepositories: string;
+  organizationRepositories: string;
+  myRepositories: string;
+  favoriteRepositories: string;
   pullRequestsCreated: string;
   pullRequestsReviewRequested: string;
   issuesInvolved: string;
@@ -292,6 +296,8 @@ export const translations: Record<Language, Translations> = {
     close: 'Close',
     createPR: 'Create PR',
     createIssue: 'Create Issue',
+    addToFavorites: 'Add to favorites',
+    removeFromFavorites: 'Remove from favorites',
     showMotivationMessage: 'Show motivation messages',
     showMotivationMessageDescription: 'Display random motivation messages based on time of day and activity in the profile section.',
     motivationMessages: {
@@ -422,6 +428,10 @@ export const translations: Record<Language, Translations> = {
     openOnly: 'オープンのみ',
     repositories: 'リポジトリ',
     recentlyUpdatedRepositories: '最近更新されたリポジトリ',
+    allRepositories: '全てのリポジトリ',
+    organizationRepositories: '組織のリポジトリ',
+    myRepositories: '自分のリポジトリ',
+    favoriteRepositories: 'お気に入りリポジトリ',
     pullRequestsCreated: 'プルリクエスト (作成したもの)',
     pullRequestsReviewRequested: 'プルリクエスト (レビュー依頼)',
     issuesInvolved: 'イシュー (関連)',
@@ -523,6 +533,8 @@ export const translations: Record<Language, Translations> = {
     close: '閉じる',
     createPR: 'PRを作成',
     createIssue: 'Issueを作成',
+    addToFavorites: 'お気に入りに追加',
+    removeFromFavorites: 'お気に入りから削除',
     showMotivationMessage: 'モチベーションメッセージを表示',
     showMotivationMessageDescription: 'プロフィールセクションに時間帯やアクティビティに基づいたランダムなモチベーションメッセージを表示します。',
     motivationMessages: {
