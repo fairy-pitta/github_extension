@@ -135,6 +135,44 @@ export const RepositorySection: React.FC<RepositorySectionProps> = React.memo(({
     }
   }, []);
 
+  const getTabGitHubUrl = useCallback(
+    (tab: TabType): string => {
+      if (!auth.user) return '#';
+      
+      if (tab === 'all' || tab === 'me') {
+        return `https://github.com/${auth.user.login}?tab=repositories`;
+      }
+      
+      if (tab === 'org') {
+        // Get first organization repository from filtered repos
+        const orgRepos = filteredRepos.filter((repo) => repo.owner instanceof Organization);
+        if (orgRepos.length > 0) {
+          const firstOrg = orgRepos[0].owner as Organization;
+          return `https://github.com/${firstOrg.login}?tab=repositories`;
+        }
+        // Fallback to user's repositories if no org repos
+        return `https://github.com/${auth.user.login}?tab=repositories`;
+      }
+      
+      return '#';
+    },
+    [auth.user, filteredRepos]
+  );
+
+  const getTabExternalLinkTitle = useCallback(
+    (tab: TabType): string => {
+      switch (tab) {
+        case 'all':
+          return t.viewAllRepositories;
+        case 'org':
+          return t.viewOrganizationRepositories;
+        case 'me':
+          return t.viewMyRepositories;
+      }
+    },
+    [t]
+  );
+
   if (initialLoading) {
     return (
       <section className="dashboard-section">
@@ -175,21 +213,34 @@ export const RepositorySection: React.FC<RepositorySectionProps> = React.memo(({
       <div className="repo-tabs">
         <div className="repo-tab-header">
           {(['all', 'org', 'me'] as TabType[]).map((tab) => (
-            <button
-              key={tab}
-              className={`repo-tab ${activeTab === tab ? 'active' : ''}`}
-              onClick={() => setActiveTab(tab)}
-            >
-              <i className={`fas ${getTabIcon(tab)}`}></i>
-              {getTabTitle(tab)}
-              <span
-                className={`repo-tab-star ${isStarActive ? 'active' : ''}`}
-                onClick={handleStarClick}
-                title={t.favoriteRepositories}
+            <div key={tab} className="repo-tab-wrapper">
+              <button
+                className={`repo-tab ${activeTab === tab ? 'active' : ''}`}
+                onClick={() => setActiveTab(tab)}
               >
-                <i className="fas fa-star"></i>
-              </span>
-            </button>
+                <i className={`fas ${getTabIcon(tab)}`}></i>
+                {getTabTitle(tab)}
+                <span
+                  className={`repo-tab-star ${isStarActive ? 'active' : ''}`}
+                  onClick={handleStarClick}
+                  title={t.favoriteRepositories}
+                >
+                  <i className="fas fa-star"></i>
+                </span>
+              </button>
+              {auth.user && (
+                <a
+                  href={getTabGitHubUrl(tab)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="repo-tab-external-link"
+                  title={getTabExternalLinkTitle(tab)}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <i className="fas fa-external-link-alt"></i>
+                </a>
+              )}
+            </div>
           ))}
         </div>
         <div className="section-content">

@@ -143,6 +143,9 @@ export interface Translations {
   // Repository actions
   createPR: string;
   createIssue: string;
+  viewAllRepositories: string;
+  viewOrganizationRepositories: string;
+  viewMyRepositories: string;
   
   // Motivation message settings
   showMotivationMessage: string;
@@ -296,6 +299,9 @@ export const translations: Record<Language, Translations> = {
     close: 'Close',
     createPR: 'Create PR',
     createIssue: 'Create Issue',
+    viewAllRepositories: 'View all repositories',
+    viewOrganizationRepositories: 'View organization repositories',
+    viewMyRepositories: 'View my repositories',
     addToFavorites: 'Add to favorites',
     removeFromFavorites: 'Remove from favorites',
     showMotivationMessage: 'Show motivation messages',
@@ -533,6 +539,9 @@ export const translations: Record<Language, Translations> = {
     close: '閉じる',
     createPR: 'PRを作成',
     createIssue: 'Issueを作成',
+    viewAllRepositories: '全てのリポジトリを見る',
+    viewOrganizationRepositories: '組織のリポジトリを見る',
+    viewMyRepositories: '自分のリポジトリを見る',
     addToFavorites: 'お気に入りに追加',
     removeFromFavorites: 'お気に入りから削除',
     showMotivationMessage: 'モチベーションメッセージを表示',
