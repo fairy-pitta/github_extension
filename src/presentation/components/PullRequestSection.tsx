@@ -34,10 +34,23 @@ export const PullRequestSection: React.FC<PullRequestSectionProps> = React.memo(
   const [hasMoreReviewRequested, setHasMoreReviewRequested] = useState(true);
   const [reviewFilters, setReviewFilters] = useState<ReviewStatusFilterOption[]>(['ALL']);
 
-  // Update PRs when initial PRs change
+  // Update PRs when initial PRs change, removing duplicates
   useEffect(() => {
-    setCreatedPRs(initialCreatedPRs);
-    setReviewRequestedPRs(initialReviewRequestedPRs);
+    // Remove duplicates by repository.nameWithOwner and number
+    const getPRKey = (pr: PullRequest) => `${pr.repository.nameWithOwner}-${pr.number}`;
+    
+    const uniqueCreatedPRs = initialCreatedPRs.filter(
+      (pr, index, self) =>
+        index === self.findIndex((p) => getPRKey(p) === getPRKey(pr))
+    );
+    
+    const uniqueReviewRequestedPRs = initialReviewRequestedPRs.filter(
+      (pr, index, self) =>
+        index === self.findIndex((p) => getPRKey(p) === getPRKey(pr))
+    );
+    
+    setCreatedPRs(uniqueCreatedPRs);
+    setReviewRequestedPRs(uniqueReviewRequestedPRs);
     // Reset cursors when initial data changes
     setCreatedCursor(undefined);
     setReviewRequestedCursor(undefined);
@@ -51,14 +64,27 @@ export const PullRequestSection: React.FC<PullRequestSectionProps> = React.memo(
     try {
       const prRepo = services.getPullRequestRepository();
       
+      // Helper function to get PR key
+      const getPRKey = (pr: PullRequest) => `${pr.repository.nameWithOwner}-${pr.number}`;
+      
       if (activeTab === 'created') {
         const result = await prRepo.getCreatedByMe(10, createdCursor);
-        setCreatedPRs((prev) => [...prev, ...result.prs]);
+        // Remove duplicates by repository.nameWithOwner and number
+        setCreatedPRs((prev) => {
+          const existingKeys = new Set(prev.map((pr) => getPRKey(pr)));
+          const newPRs = result.prs.filter((pr) => !existingKeys.has(getPRKey(pr)));
+          return [...prev, ...newPRs];
+        });
         setCreatedCursor(result.nextCursor);
         setHasMoreCreated(!!result.nextCursor);
       } else {
         const result = await prRepo.getReviewRequested(10, reviewRequestedCursor);
-        setReviewRequestedPRs((prev) => [...prev, ...result.prs]);
+        // Remove duplicates by repository.nameWithOwner and number
+        setReviewRequestedPRs((prev) => {
+          const existingKeys = new Set(prev.map((pr) => getPRKey(pr)));
+          const newPRs = result.prs.filter((pr) => !existingKeys.has(getPRKey(pr)));
+          return [...prev, ...newPRs];
+        });
         setReviewRequestedCursor(result.nextCursor);
         setHasMoreReviewRequested(!!result.nextCursor);
       }
@@ -87,7 +113,8 @@ export const PullRequestSection: React.FC<PullRequestSectionProps> = React.memo(
                    (pr.reviewDecision === null && pr.reviews.length === 0);
           
           case 'APPROVED':
-            // APPROVED: reviewDecisionがAPPROVED、またはレビューにAPPROVED状態がある
+            // APPROVED: stateがOPENで、かつreviewDecisionがAPPROVED、またはレビューにAPPROVED状態がある
+            if (pr.state !== 'OPEN') return false;
             return pr.reviewDecision === 'APPROVED' || 
                    pr.reviews.some(review => review.state === 'APPROVED');
           
