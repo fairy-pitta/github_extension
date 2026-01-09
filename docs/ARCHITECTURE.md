@@ -107,8 +107,8 @@ UI components and user interaction. This layer depends on Application and Infras
 
 #### Components:
 
-- **New Tab Page** (`newtab/`): Main dashboard
-  - `NewTabApp.tsx`: Main app component
+- **Dashboard Page** (`dashboard/`): Main dashboard displayed on GitHub.com
+  - `DashboardApp.tsx`: Main app component
   - `hooks/`: React hooks for data fetching
   - `components/`: Page-specific components
   - `styles/`: Page-specific styles
@@ -152,7 +152,7 @@ External APIs / Storage
 
 ### Example: Fetching Dashboard Data
 
-1. **User opens New Tab** → `NewTabApp.tsx` renders
+1. **User opens GitHub.com** → Content script injects dashboard → `DashboardApp.tsx` renders
 2. **Hook fetches data** → `useDashboardData` calls `DashboardService`
 3. **Service checks cache** → `DashboardService.getDashboardData()` checks cache first
 4. **Use case executes** → `GetDashboardData.execute()` orchestrates repository calls

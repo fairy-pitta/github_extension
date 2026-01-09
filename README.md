@@ -1,6 +1,6 @@
 # GitHub Extension - Personal Dashboard
 
-A Chrome extension that displays your GitHub activity on the new tab page, including pull requests, issues, and recently updated repositories.
+A Chrome extension that displays your GitHub activity on GitHub.com as a dashboard, including pull requests, issues, and recently updated repositories.
 
 ## Repository
 

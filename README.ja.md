@@ -1,6 +1,6 @@
 # GitHub Extension - パーソナルダッシュボード
 
-新しいタブページにGitHubのアクティビティ（プルリクエスト、イシュー、最近更新されたリポジトリなど）を表示するChrome拡張機能です。
+GitHub.comを開いた時にダッシュボードを表示するChrome拡張機能です。GitHubのアクティビティ（プルリクエスト、イシュー、最近更新されたリポジトリなど）を表示します。
 
 ## リポジトリ
 
@@ -31,7 +31,7 @@ GitHub Repository: https://github.com/fairy-pitta/github_extension.git
 - **Phase 1**: ドメインレイヤーとエンティティ定義
 - **Phase 2**: インフラストラクチャレイヤーの実装
 - **Phase 3**: アプリケーションレイヤーとオプションページ
-- **Phase 4**: 新規タブページUIの実装
+- **Phase 4**: ダッシュボードUIの実装
 - **Phase 5**: 最適化、テスト、最終調整
 
 詳細な実装計画については、個別の `phase*-plan.md` ファイルを参照してください。
@@ -111,8 +111,8 @@ src/
 │   ├── storage/        # Chrome Storage
 │   └── cache/          # キャッシュ実装
 └── presentation/       # プレゼンテーションレイヤー
-    ├── newtab/         # 新規タブページ
-    ├── options/         # オプションページ
+    ├── dashboard/      # ダッシュボードページ
+    ├── options/        # オプションページ
     └── components/     # 共有コンポーネント
 ```
 
