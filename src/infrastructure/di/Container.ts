@@ -16,6 +16,7 @@ import { RepositoryService } from '@/application/services/RepositoryService';
 import { StreakService } from '@/application/services/StreakService';
 import { AchievementService } from '@/application/services/AchievementService';
 import { StatsService } from '@/application/services/StatsService';
+import { SettingsService } from '@/application/services/SettingsService';
 
 /**
  * Dependency Injection Container
@@ -42,6 +43,7 @@ export class Container {
   private streakService: StreakService | null = null;
   private achievementService: AchievementService | null = null;
   private statsService: StatsService | null = null;
+  private settingsService: SettingsService | null = null;
 
   private constructor() {}
 
@@ -216,6 +218,17 @@ export class Container {
       throw new Error('Container not initialized. Call initialize() first.');
     }
     return this.statsService;
+  }
+
+  /**
+   * Get SettingsService
+   */
+  getSettingsService(): SettingsService {
+    if (!this.settingsService) {
+      // SettingsService doesn't require token initialization
+      this.settingsService = new SettingsService(this.storage);
+    }
+    return this.settingsService;
   }
 }
 

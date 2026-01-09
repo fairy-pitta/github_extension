@@ -9,6 +9,7 @@ export interface ServiceProvider {
   getRepositoryService(): import('./RepositoryService').RepositoryService;
   getStreakService(): import('./StreakService').StreakService;
   getAchievementService(): import('./AchievementService').AchievementService;
+  getSettingsService(): import('./SettingsService').SettingsService;
   getPullRequestRepository(): import('@/domain/repositories/IPullRequestRepository').IPullRequestRepository;
   getIssueRepository(): import('@/domain/repositories/IIssueRepository').IIssueRepository;
   getContributionCalendarRepository(): import('@/domain/repositories/IContributionCalendarRepository').IContributionCalendarRepository;

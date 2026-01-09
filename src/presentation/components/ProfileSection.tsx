@@ -4,7 +4,6 @@ import { ContributionCalendar } from '@/domain/entities/ContributionCalendar';
 import { ContributionStreak } from '@/domain/entities/ContributionStreak';
 import { AchievementBadge } from '@/domain/entities/AchievementBadge';
 import { DashboardData } from '@/domain/usecases/GetDashboardData';
-import { StorageKeys } from '@/application/config/StorageKeys';
 import { useServices } from '../context/ServiceContext';
 import { useLanguage } from '../i18n/useLanguage';
 import { SkeletonLoader } from './SkeletonLoader';
@@ -121,17 +120,17 @@ export const ProfileSection: React.FC<ProfileSectionProps> = React.memo(({ user,
   useEffect(() => {
     const loadSetting = async () => {
       try {
-        const storage = services.getStorage();
-        const saved = await storage.get<boolean>(StorageKeys.SHOW_MOTIVATION_MESSAGE);
-        setShowMotivationMessage(saved !== false); // Default to true
+        const settingsService = services.getSettingsService();
+        const saved = await settingsService.getShowMotivationMessage();
+        setShowMotivationMessage(saved);
       } catch {
         setShowMotivationMessage(true);
       }
     };
 
     const handleStorageChange = (changes: { [key: string]: chrome.storage.StorageChange }) => {
-      if (changes[StorageKeys.SHOW_MOTIVATION_MESSAGE]) {
-        setShowMotivationMessage(changes[StorageKeys.SHOW_MOTIVATION_MESSAGE].newValue !== false);
+      if (changes['show_motivation_message']) {
+        setShowMotivationMessage(changes['show_motivation_message'].newValue !== false);
       }
     };
 

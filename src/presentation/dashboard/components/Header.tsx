@@ -5,7 +5,6 @@ import { StatsButton } from '../../components/StatsButton';
 import { useTheme } from '../hooks/useTheme';
 import { useLanguage } from '../../i18n/useLanguage';
 import { SettingsMenu } from './SettingsMenu';
-import { StorageKeys } from '@/application/config/StorageKeys';
 import { useServices } from '../../context/ServiceContext';
 import { User } from '@/domain/entities/User';
 import './header.css';
@@ -37,9 +36,9 @@ export const Header: React.FC<HeaderProps> = ({
   useEffect(() => {
     const checkShowOnGitHub = async () => {
       try {
-        const storage = services.getStorage();
-        const value = await storage.get<boolean>(StorageKeys.SHOW_ON_GITHUB);
-        setShowOnGitHub(value !== false); // Default to true
+        const settingsService = services.getSettingsService();
+        const value = await settingsService.getShowOnGitHub();
+        setShowOnGitHub(value);
       } catch {
         // If container is not initialized, assume showOnGitHub is enabled
         setShowOnGitHub(true);
@@ -49,8 +48,10 @@ export const Header: React.FC<HeaderProps> = ({
 
     // Listen for storage changes
     const handleStorageChange = (changes: { [key: string]: chrome.storage.StorageChange }) => {
-      if (changes[StorageKeys.SHOW_ON_GITHUB]) {
-        setShowOnGitHub(changes[StorageKeys.SHOW_ON_GITHUB].newValue !== false);
+      const settingsService = services.getSettingsService();
+      // Check if SHOW_ON_GITHUB changed
+      if (changes['show_on_github'] !== undefined) {
+        setShowOnGitHub(changes['show_on_github'].newValue !== false);
       }
     };
     chrome.storage.onChanged.addListener(handleStorageChange);
@@ -65,9 +66,9 @@ export const Header: React.FC<HeaderProps> = ({
 
   const revertToGitHub = async () => {
     try {
-      const storage = services.getStorage();
+      const settingsService = services.getSettingsService();
       // Disable dashboard on GitHub pages
-      await storage.set(StorageKeys.SHOW_ON_GITHUB, false);
+      await settingsService.setShowOnGitHub(false);
       
       // If in iframe, reload the parent page to restore original GitHub content
       if (isInIframe && window.top) {

@@ -3,7 +3,6 @@ import { createPortal } from 'react-dom';
 import { TokenInput } from '../../options/components/TokenInput';
 import { SaveButton } from '../../options/components/SaveButton';
 import { StatusMessage } from '../../options/components/StatusMessage';
-import { StorageKeys } from '@/application/config/StorageKeys';
 import { GitHubOAuthService, type DeviceCodeInfo } from '@/infrastructure/auth/GitHubOAuthService';
 import { useServices } from '../../context/ServiceContext';
 import { useLanguage } from '../../i18n/useLanguage';
@@ -38,25 +37,29 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({ isOpen, onClose }) =
 
   const loadSettings = useCallback(async () => {
     try {
-      const storage = services.getStorage();
-      const savedToken = await storage.get<string>(StorageKeys.PAT_TOKEN);
-      const savedShowOnGitHub = await storage.get<boolean>(StorageKeys.SHOW_ON_GITHUB);
-      const savedShowMotivationMessage = await storage.get<boolean>(StorageKeys.SHOW_MOTIVATION_MESSAGE);
+      const authService = services.getAuthService();
+      const settingsService = services.getSettingsService();
       
-      if (savedToken) {
-        setToken(savedToken);
+      // Get token from AuthService
+      try {
+        const savedToken = await authService.getToken();
+        if (savedToken) {
+          setToken(savedToken);
+        }
+      } catch {
+        // AuthService may not be initialized yet, try storage directly
+        const storage = services.getStorage();
+        const savedToken = await storage.get<string>('pat_token');
+        if (savedToken) {
+          setToken(savedToken);
+        }
       }
       
-      if (savedShowOnGitHub !== undefined) {
-        setShowOnGitHub(savedShowOnGitHub);
-      }
+      const savedShowOnGitHub = await settingsService.getShowOnGitHub();
+      setShowOnGitHub(savedShowOnGitHub);
       
-      if (savedShowMotivationMessage !== undefined) {
-        setShowMotivationMessage(savedShowMotivationMessage);
-      } else {
-        // Default to true if not set
-        setShowMotivationMessage(true);
-      }
+      const savedShowMotivationMessage = await settingsService.getShowMotivationMessage();
+      setShowMotivationMessage(savedShowMotivationMessage);
 
       // Check if OAuth is configured (but don't show error if not)
       try {
@@ -109,10 +112,13 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({ isOpen, onClose }) =
       });
       const accessToken = await oauthService.authenticate();
 
-      const storage = services.getStorage();
+      const authService = services.getAuthService();
 
-      // Save OAuth token BEFORE validation (validateCurrentToken() reads from storage)
-      await storage.set(StorageKeys.GITHUB_TOKEN, accessToken);
+      // Save OAuth token using AuthService (which handles storage internally)
+      // Note: AuthService.saveToken() validates the token, but we've already validated it
+      // So we need to save it directly to storage for now
+      const storage = services.getStorage();
+      await storage.set('github_token', accessToken);
 
       // Initialize container with the OAuth token
       await services.initialize(accessToken);
@@ -166,10 +172,9 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({ isOpen, onClose }) =
     setStatus(null);
 
     try {
-      const storage = services.getStorage();
-
       await services.initialize(token.trim());
-      await storage.set(StorageKeys.PAT_TOKEN, token.trim());
+      const authService = services.getAuthService();
+      await authService.saveToken(token.trim());
 
       setPatError(null);
       setStatus({
@@ -196,8 +201,8 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({ isOpen, onClose }) =
     const newValue = !showOnGitHub;
     setShowOnGitHub(newValue);
     try {
-      const storage = services.getStorage();
-      await storage.set(StorageKeys.SHOW_ON_GITHUB, newValue);
+      const settingsService = services.getSettingsService();
+      await settingsService.setShowOnGitHub(newValue);
       setStatus({
         type: 'success',
         message: newValue
@@ -214,8 +219,8 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({ isOpen, onClose }) =
     const newValue = !showMotivationMessage;
     setShowMotivationMessage(newValue);
     try {
-      const storage = services.getStorage();
-      await storage.set(StorageKeys.SHOW_MOTIVATION_MESSAGE, newValue);
+      const settingsService = services.getSettingsService();
+      await settingsService.setShowMotivationMessage(newValue);
     } catch (error) {
       console.error('Failed to save setting:', error);
       setShowMotivationMessage(!newValue);

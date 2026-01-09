@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { User } from '@/domain/entities/User';
-import { StorageKeys } from '@/application/config/StorageKeys';
 import { useServices } from '../../context/ServiceContext';
 
 export interface AuthState {
@@ -34,9 +33,9 @@ export function useAuth(): AuthState {
         } catch {
           // Container not initialized yet, check storage directly
           // Check GITHUB_TOKEN first, then fall back to PAT_TOKEN
-          token = await storage.get<string>(StorageKeys.GITHUB_TOKEN);
+          token = await storage.get<string>('github_token');
           if (!token) {
-            token = await storage.get<string>(StorageKeys.PAT_TOKEN);
+            token = await storage.get<string>('pat_token');
           }
         }
 
@@ -87,7 +86,7 @@ export function useAuth(): AuthState {
     ) => {
       if (
         areaName === 'local' &&
-        (changes[StorageKeys.GITHUB_TOKEN] || changes[StorageKeys.PAT_TOKEN])
+        (changes['github_token'] || changes['pat_token'])
       ) {
         checkAuth();
       }

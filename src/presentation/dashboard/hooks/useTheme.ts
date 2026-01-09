@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { StorageKeys } from '@/application/config/StorageKeys';
 import { useServices } from '../../context/ServiceContext';
+import type { Theme as SettingsTheme } from '@/application/services/SettingsService';
 
 export type Theme = 'light' | 'dark' | 'light-blue' | 'light-purple' | 'light-green' | 'light-pink' | 'light-white';
 
@@ -12,17 +12,10 @@ export function useTheme() {
   useEffect(() => {
     const loadTheme = async () => {
       try {
-        const storage = services.getStorage();
-        const savedTheme = await storage.get<Theme>(StorageKeys.THEME);
-        
-        const validThemes: Theme[] = ['light', 'dark', 'light-blue', 'light-purple', 'light-green', 'light-pink', 'light-white'];
-        if (savedTheme && validThemes.includes(savedTheme as Theme)) {
-          setTheme(savedTheme as Theme);
-          applyTheme(savedTheme as Theme);
-        } else {
-          // Default to light theme
-          applyTheme('light');
-        }
+        const settingsService = services.getSettingsService();
+        const savedTheme = await settingsService.getTheme();
+        setTheme(savedTheme);
+        applyTheme(savedTheme);
       } catch (error) {
         console.error('Failed to load theme:', error);
         applyTheme('light');
@@ -43,8 +36,8 @@ export function useTheme() {
     applyTheme(newTheme);
 
     try {
-      const storage = services.getStorage();
-      await storage.set(StorageKeys.THEME, newTheme);
+      const settingsService = services.getSettingsService();
+      await settingsService.setTheme(newTheme as SettingsTheme);
     } catch (error) {
       console.error('Failed to save theme:', error);
     }

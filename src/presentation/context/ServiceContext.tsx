@@ -20,6 +20,7 @@ export function ServiceContextProvider({ children }: { children: ReactNode }) {
     getRepositoryService: () => Container.getInstance().getRepositoryService(),
     getStreakService: () => Container.getInstance().getStreakService(),
     getAchievementService: () => Container.getInstance().getAchievementService(),
+    getSettingsService: () => Container.getInstance().getSettingsService(),
     getPullRequestRepository: () => Container.getInstance().getPullRequestRepository(),
     getIssueRepository: () => Container.getInstance().getIssueRepository(),
     getContributionCalendarRepository: () => Container.getInstance().getContributionCalendarRepository(),

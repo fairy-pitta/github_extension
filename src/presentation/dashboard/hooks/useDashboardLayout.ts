@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from 'react';
-import { StorageKeys } from '@/application/config/StorageKeys';
 import { useServices } from '../../context/ServiceContext';
 import {
   DashboardLayoutConfig,
@@ -7,6 +6,7 @@ import {
   SectionId,
   DEFAULT_LAYOUT_CONFIG,
 } from '../types/layout';
+import type { DashboardLayoutConfig as SettingsDashboardLayoutConfig } from '@/application/services/SettingsService';
 
 export function useDashboardLayout() {
   const services = useServices();
@@ -18,15 +18,15 @@ export function useDashboardLayout() {
   useEffect(() => {
     const loadConfig = async () => {
       try {
-        const storage = services.getStorage();
-        const savedConfig = await storage.get<DashboardLayoutConfig>(StorageKeys.DASHBOARD_LAYOUT);
+        const settingsService = services.getSettingsService();
+        const savedConfig = await settingsService.getDashboardLayout();
 
         if (savedConfig && savedConfig.sections && Array.isArray(savedConfig.sections)) {
-          setConfig(savedConfig);
+          setConfig(savedConfig as DashboardLayoutConfig);
         } else {
           // Use default config and save it
           setConfig(DEFAULT_LAYOUT_CONFIG);
-          await storage.set(StorageKeys.DASHBOARD_LAYOUT, DEFAULT_LAYOUT_CONFIG);
+          await settingsService.setDashboardLayout(DEFAULT_LAYOUT_CONFIG as SettingsDashboardLayoutConfig);
         }
       } catch (error) {
         console.error('Failed to load dashboard layout:', error);
@@ -42,8 +42,8 @@ export function useDashboardLayout() {
   // Save configuration to storage
   const saveConfig = useCallback(async (newConfig: DashboardLayoutConfig) => {
     try {
-      const storage = services.getStorage();
-      await storage.set(StorageKeys.DASHBOARD_LAYOUT, newConfig);
+      const settingsService = services.getSettingsService();
+      await settingsService.setDashboardLayout(newConfig as SettingsDashboardLayoutConfig);
       setConfig(newConfig);
     } catch (error) {
       console.error('Failed to save dashboard layout:', error);
