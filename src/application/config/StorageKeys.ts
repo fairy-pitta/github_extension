@@ -17,5 +17,6 @@ export const StorageKeys = {
   CACHE_PR_REVIEW_REQUESTED: 'cache_pr_review_requested',
   CACHE_ISSUES: 'cache_issues',
   LAST_UPDATED_PREFIX: 'last_updated_',
+  FAVORITE_REPOSITORIES: 'favorite_repositories',
 } as const;
 
