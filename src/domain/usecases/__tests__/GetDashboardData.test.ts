@@ -76,9 +76,9 @@ describe('GetDashboardData', () => {
       owner: { login: 'test' },
     });
 
-    vi.mocked(mockPRRepository.getCreatedByMe).mockResolvedValue([mockPR]);
-    vi.mocked(mockPRRepository.getReviewRequested).mockResolvedValue([mockPR]);
-    vi.mocked(mockIssueRepository.getInvolved).mockResolvedValue([mockIssue]);
+    vi.mocked(mockPRRepository.getCreatedByMe).mockResolvedValue({ prs: [mockPR] });
+    vi.mocked(mockPRRepository.getReviewRequested).mockResolvedValue({ prs: [mockPR] });
+    vi.mocked(mockIssueRepository.getInvolved).mockResolvedValue({ issues: [mockIssue] });
     vi.mocked(mockRepoRepository.getRecentlyUpdated).mockResolvedValue({
       repositories: [mockRepo],
     });
@@ -96,9 +96,9 @@ describe('GetDashboardData', () => {
   });
 
   it('should use default limit of 10', async () => {
-    vi.mocked(mockPRRepository.getCreatedByMe).mockResolvedValue([]);
-    vi.mocked(mockPRRepository.getReviewRequested).mockResolvedValue([]);
-    vi.mocked(mockIssueRepository.getInvolved).mockResolvedValue([]);
+    vi.mocked(mockPRRepository.getCreatedByMe).mockResolvedValue({ prs: [] });
+    vi.mocked(mockPRRepository.getReviewRequested).mockResolvedValue({ prs: [] });
+    vi.mocked(mockIssueRepository.getInvolved).mockResolvedValue({ issues: [] });
     vi.mocked(mockRepoRepository.getRecentlyUpdated).mockResolvedValue({
       repositories: [],
     });

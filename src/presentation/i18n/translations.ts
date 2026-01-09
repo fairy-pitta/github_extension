@@ -42,6 +42,10 @@ export interface Translations {
   oauthSuccess: string;
   oauthCanceled: string;
   oauthInstructions: string;
+  oauthDeviceFlowTitle: string;
+  oauthDeviceFlowCodeLabel: string;
+  oauthDeviceFlowOpenLabel: string;
+  oauthDeviceFlowWaiting: string;
   manualTokenInput: string;
   
   // Options
@@ -206,6 +210,10 @@ export const translations: Record<Language, Translations> = {
     oauthSuccess: 'Authentication successful',
     oauthCanceled: 'Authentication canceled',
     oauthInstructions: 'Click the button below to authenticate with GitHub using OAuth. This is the recommended method as it is more secure than manually entering a token.',
+    oauthDeviceFlowTitle: 'Complete sign-in on GitHub',
+    oauthDeviceFlowCodeLabel: 'Code:',
+    oauthDeviceFlowOpenLabel: 'Open:',
+    oauthDeviceFlowWaiting: 'After you authorize on GitHub, this page will continue automatically.',
     manualTokenInput: 'Manual Token Input',
     settingsTitle: 'GitHub Extension Settings',
     settingsDescription: 'Enter your GitHub Personal Access Token to enable the extension.',
@@ -430,6 +438,10 @@ export const translations: Record<Language, Translations> = {
     oauthSuccess: '認証に成功しました',
     oauthCanceled: '認証がキャンセルされました',
     oauthInstructions: '下のボタンをクリックして、OAuthを使用してGitHubで認証します。これは、トークンを手動で入力するよりも安全な推奨方法です。',
+    oauthDeviceFlowTitle: 'GitHubでログインを完了してください',
+    oauthDeviceFlowCodeLabel: 'コード:',
+    oauthDeviceFlowOpenLabel: '開く:',
+    oauthDeviceFlowWaiting: 'GitHubで承認が完了すると、この画面が自動で続行します。',
     manualTokenInput: '手動でトークンを入力',
     settingsTitle: 'GitHub 拡張機能の設定',
     settingsDescription: 'GitHub Personal Access Token を入力して拡張機能を有効にします。',

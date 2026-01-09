@@ -1,7 +1,24 @@
-import { describe, it, expect, vi } from 'vitest';
+import React from 'react';
+import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { RepositoryCard } from '../RepositoryCard';
 import { Repository } from '@/domain/entities/Repository';
+import { LanguageContext } from '@/presentation/i18n/useLanguage';
+import { translations } from '@/presentation/i18n/translations';
+
+function renderWithLanguage(ui: React.ReactElement) {
+  return render(
+    <LanguageContext.Provider
+      value={{
+        language: 'en',
+        t: translations.en,
+        setLanguage: async () => {},
+      }}
+    >
+      {ui}
+    </LanguageContext.Provider>
+  );
+}
 
 describe('RepositoryCard', () => {
   const mockRepo = Repository.fromPlain({
@@ -14,7 +31,7 @@ describe('RepositoryCard', () => {
   });
 
   it('should render Repository card with correct information', () => {
-    render(<RepositoryCard repository={mockRepo} />);
+    renderWithLanguage(<RepositoryCard repository={mockRepo} />);
 
     expect(screen.getByText('test/repo')).toBeInTheDocument();
     expect(screen.getByText('Test repository')).toBeInTheDocument();
@@ -26,7 +43,7 @@ describe('RepositoryCard', () => {
       isPrivate: true,
     });
 
-    render(<RepositoryCard repository={privateRepo} />);
+    renderWithLanguage(<RepositoryCard repository={privateRepo} />);
 
     expect(screen.getByText('Private')).toBeInTheDocument();
   });

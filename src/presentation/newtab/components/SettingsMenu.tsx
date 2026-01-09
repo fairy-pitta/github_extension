@@ -5,7 +5,7 @@ import { SaveButton } from '../../options/components/SaveButton';
 import { StatusMessage } from '../../options/components/StatusMessage';
 import { Container } from '@/application/di/Container';
 import { StorageKeys } from '@/infrastructure/storage/StorageKeys';
-import { GitHubOAuthService } from '@/infrastructure/auth/GitHubOAuthService';
+import { GitHubOAuthService, type DeviceCodeInfo } from '@/infrastructure/auth/GitHubOAuthService';
 import { useLanguage } from '../../i18n/useLanguage';
 import { useTheme, Theme } from '../hooks/useTheme';
 import './settings-menu.css';
@@ -25,6 +25,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({ isOpen, onClose }) =
   const [oauthLoading, setOauthLoading] = useState(false);
   const [showManualTokenInput, setShowManualTokenInput] = useState(false);
   const [oauthError, setOauthError] = useState<string | null>(null);
+  const [deviceCodeInfo, setDeviceCodeInfo] = useState<DeviceCodeInfo | null>(null);
   const [patError, setPatError] = useState<string | null>(null);
   const [status, setStatus] = useState<{
     type: 'success' | 'error' | 'info';
@@ -76,6 +77,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({ isOpen, onClose }) =
       loadSettings();
       // Reset errors when settings menu is opened
       setOauthError(null);
+      setDeviceCodeInfo(null);
       setPatError(null);
       setStatus(null);
     }
@@ -85,6 +87,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({ isOpen, onClose }) =
     setOauthLoading(true);
     setOauthError(null);
     setStatus(null);
+    setDeviceCodeInfo(null);
 
     try {
       // Check if OAuth is configured before attempting authentication
@@ -98,7 +101,11 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({ isOpen, onClose }) =
       }
 
       // Use OAuthService directly since Container needs to be initialized with a token
-      const oauthService = new GitHubOAuthService();
+      const oauthService = new GitHubOAuthService({
+        onDeviceCode: (info) => {
+          setDeviceCodeInfo(info);
+        },
+      });
       const accessToken = await oauthService.authenticate();
 
       // Initialize container with the OAuth token
@@ -275,6 +282,42 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({ isOpen, onClose }) =
             {/* OAuth Authentication Section */}
             <div className="oauth-section">
               <p className="oauth-instructions">{t.oauthInstructions}</p>
+              {deviceCodeInfo && (
+                <div
+                  style={{
+                    padding: '12px',
+                    marginBottom: '16px',
+                    backgroundColor: '#eef6ff',
+                    border: '1px solid #cfe8ff',
+                    borderRadius: '6px',
+                    color: '#084298',
+                    fontSize: '14px',
+                    lineHeight: 1.5,
+                  }}
+                >
+                  <div style={{ fontWeight: 600, marginBottom: '8px' }}>
+                    {t.oauthDeviceFlowTitle}
+                  </div>
+                  <div style={{ marginBottom: '6px' }}>
+                    {t.oauthDeviceFlowCodeLabel}{' '}
+                    <code style={{ fontWeight: 700 }}>{deviceCodeInfo.userCode}</code>
+                  </div>
+                  <div>
+                    {t.oauthDeviceFlowOpenLabel}{' '}
+                    <a
+                      href={deviceCodeInfo.verificationUriComplete || deviceCodeInfo.verificationUri}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="settings-link"
+                    >
+                      {deviceCodeInfo.verificationUri}
+                    </a>
+                  </div>
+                  <div style={{ marginTop: '8px', opacity: 0.9 }}>
+                    {t.oauthDeviceFlowWaiting}
+                  </div>
+                </div>
+              )}
               {oauthError && (
                 <div
                   style={{

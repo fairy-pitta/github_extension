@@ -82,9 +82,9 @@ describe('DashboardService', () => {
     });
 
     vi.mocked(mockCache.get).mockResolvedValue(null);
-    vi.mocked(mockPRRepository.getCreatedByMe).mockResolvedValue([mockPR]);
-    vi.mocked(mockPRRepository.getReviewRequested).mockResolvedValue([]);
-    vi.mocked(mockIssueRepository.getInvolved).mockResolvedValue([]);
+    vi.mocked(mockPRRepository.getCreatedByMe).mockResolvedValue({ prs: [mockPR] });
+    vi.mocked(mockPRRepository.getReviewRequested).mockResolvedValue({ prs: [] });
+    vi.mocked(mockIssueRepository.getInvolved).mockResolvedValue({ issues: [] });
     vi.mocked(mockRepoRepository.getRecentlyUpdated).mockResolvedValue({
       repositories: [],
     });

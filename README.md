@@ -87,16 +87,15 @@ npm run format
 
 ### OAuth Authentication (Recommended)
 
-The extension supports OAuth authentication using GitHub OAuth App with PKCE (Proof Key for Code Exchange). This is the recommended and most secure method.
+The extension supports OAuth authentication using a GitHub OAuth App. To avoid requiring a client secret in the extension, it uses the **OAuth Device Flow** (no server required).
 
-**Prerequisites:** Before using OAuth, you need to set up a GitHub OAuth App. See [SETUP.md](SETUP.md) for detailed instructions.
+**For End Users:**
+- If you installed the extension from Chrome Web Store, OAuth is ready to use! No setup required.
+- Simply click "Sign in with GitHub" in the settings page and authorize the extension.
 
-**Quick Setup Steps:**
-1. Get your Chrome extension ID from `chrome://extensions/`
-2. Create a GitHub OAuth App at https://github.com/settings/developers
-3. Set the callback URL to: `https://YOUR_EXTENSION_ID.chromiumapp.org/`
-4. Copy the Client ID and set it in `AppConfig.ts` or as `VITE_GITHUB_OAUTH_CLIENT_ID` environment variable
-5. Rebuild the extension
+**For Developers (Building from Source):**
+- You need to create a GitHub OAuth App and configure the Client ID.
+- See [SETUP.md](SETUP.md) for detailed developer setup instructions.
 
 **Using OAuth:**
 1. Open the extension settings page (click the settings icon in the dashboard)
@@ -119,10 +118,12 @@ If you prefer to use a Personal Access Token (PAT) instead:
 3. Create a Personal Access Token at [GitHub Settings](https://github.com/settings/tokens/new)
 4. Enter your token and save
 
-**Required PAT Permissions:**
-- `repo` (for private repositories)
+**Required PAT Permissions (Read-only):**
+- `repo` (for private repositories - read access only, this extension performs no write operations)
 - `read:org` (for organization repositories)
 - `read:user` (for user information)
+
+**Note:** While `repo` scope technically grants read/write access, this extension only uses it for read-only operations. GitHub OAuth App does not provide a read-only scope for private repositories.
 
 ## Project Structure
 
