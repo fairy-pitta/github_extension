@@ -15,6 +15,9 @@ export interface GraphQLPullRequest {
   comments: {
     totalCount: number;
   };
+  reviewThreads?: {
+    totalCount: number;
+  };
   author: GraphQLUser;
   reviews?: {
     nodes: GraphQLReview[];
@@ -33,6 +36,9 @@ export class PullRequestMapper {
     const reviews = graphql.reviews?.nodes
       ? ReviewMapper.toDomainArray(graphql.reviews.nodes)
       : [];
+
+    // コメント数 = PRコメント + レビューコメント
+    const commentsCount = graphql.comments.totalCount + (graphql.reviewThreads?.totalCount ?? 0);
 
     return PullRequest.fromPlain({
       number: graphql.number,
@@ -55,7 +61,7 @@ export class PullRequestMapper {
         },
       },
       reviewDecision: graphql.reviewDecision ?? null,
-      commentsCount: graphql.comments.totalCount,
+      commentsCount: commentsCount,
       author: {
         login: graphql.author.login,
         name: graphql.author.name ?? null,
