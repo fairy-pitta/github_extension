@@ -5,7 +5,7 @@ import { StatsButton } from '../../components/StatsButton';
 import { useTheme } from '../hooks/useTheme';
 import { useLanguage } from '../../i18n/useLanguage';
 import { SettingsMenu } from './SettingsMenu';
-import { Container } from '@/application/di/Container';
+import { Container } from '@/infrastructure/di/Container';
 import { StorageKeys } from '@/application/config/StorageKeys';
 import { User } from '@/domain/entities/User';
 import './header.css';

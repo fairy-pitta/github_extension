@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { User } from '@/domain/entities/User';
-import { Container } from '@/application/di/Container';
+import { Container } from '@/infrastructure/di/Container';
 import { StorageKeys } from '@/application/config/StorageKeys';
 
 export interface AuthState {

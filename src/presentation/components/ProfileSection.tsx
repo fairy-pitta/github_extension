@@ -4,7 +4,7 @@ import { ContributionCalendar } from '@/domain/entities/ContributionCalendar';
 import { ContributionStreak } from '@/domain/entities/ContributionStreak';
 import { AchievementBadge } from '@/domain/entities/AchievementBadge';
 import { DashboardData } from '@/domain/usecases/GetDashboardData';
-import { Container } from '@/application/di/Container';
+import { Container } from '@/infrastructure/di/Container';
 import { StorageKeys } from '@/application/config/StorageKeys';
 import { useLanguage } from '../i18n/useLanguage';
 import { SkeletonLoader } from './SkeletonLoader';

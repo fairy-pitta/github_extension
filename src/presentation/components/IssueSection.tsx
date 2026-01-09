@@ -3,7 +3,7 @@ import { Issue } from '@/domain/entities/Issue';
 import { IssueCard } from './IssueCard';
 import { LoadMoreButton } from './LoadMoreButton';
 import { SkeletonLoader } from './SkeletonLoader';
-import { Container } from '@/application/di/Container';
+import { Container } from '@/infrastructure/di/Container';
 import { useLanguage } from '../i18n/useLanguage';
 import './styles/section.css';
 

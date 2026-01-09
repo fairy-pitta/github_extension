@@ -1,6 +1,6 @@
 // Service Worker for Chrome Extension
 import { StorageKeys } from '@/application/config/StorageKeys';
-import { Container } from '@/application/di/Container';
+import { Container } from '@/infrastructure/di/Container';
 
 // Initialize on installation
 chrome.runtime.onInstalled.addListener(async (details) => {

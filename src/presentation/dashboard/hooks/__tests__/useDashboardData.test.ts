@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, waitFor } from '@testing-library/react';
 import { useDashboardData } from '../useDashboardData';
-import { Container } from '@/application/di/Container';
+import { Container } from '@/infrastructure/di/Container';
 import { DashboardData } from '@/domain/usecases/GetDashboardData';
 
 describe('useDashboardData', () => {

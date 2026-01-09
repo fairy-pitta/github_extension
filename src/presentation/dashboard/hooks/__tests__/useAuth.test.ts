@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { renderHook, waitFor } from '@testing-library/react';
 import { useAuth } from '../useAuth';
-import { Container } from '@/application/di/Container';
+import { Container } from '@/infrastructure/di/Container';
 import { StorageKeys } from '@/application/config/StorageKeys';
 import { User } from '@/domain/entities/User';
 

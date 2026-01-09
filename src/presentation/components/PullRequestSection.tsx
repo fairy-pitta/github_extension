@@ -3,7 +3,7 @@ import { PullRequest } from '@/domain/entities/PullRequest';
 import { PRCard } from './PRCard';
 import { LoadMoreButton } from './LoadMoreButton';
 import { SkeletonLoader } from './SkeletonLoader';
-import { Container } from '@/application/di/Container';
+import { Container } from '@/infrastructure/di/Container';
 import { useLanguage } from '../i18n/useLanguage';
 import './styles/section.css';
 import './styles/pr-tabs.css';

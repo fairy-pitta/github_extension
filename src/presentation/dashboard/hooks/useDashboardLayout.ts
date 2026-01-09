@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Container } from '@/application/di/Container';
+import { Container } from '@/infrastructure/di/Container';
 import { StorageKeys } from '@/application/config/StorageKeys';
 import {
   DashboardLayoutConfig,

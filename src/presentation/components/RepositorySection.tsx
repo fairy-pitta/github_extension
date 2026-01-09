@@ -3,7 +3,7 @@ import { Repository } from '@/domain/entities/Repository';
 import { RepositoryCard } from './RepositoryCard';
 import { LoadMoreButton } from './LoadMoreButton';
 import { SkeletonLoader } from './SkeletonLoader';
-import { Container } from '@/application/di/Container';
+import { Container } from '@/infrastructure/di/Container';
 import { useLanguage } from '../i18n/useLanguage';
 import './styles/section.css';
 

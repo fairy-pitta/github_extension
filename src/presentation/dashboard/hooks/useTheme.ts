@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Container } from '@/application/di/Container';
+import { Container } from '@/infrastructure/di/Container';
 import { StorageKeys } from '@/application/config/StorageKeys';
 
 export type Theme = 'light' | 'dark' | 'light-blue' | 'light-purple' | 'light-green' | 'light-pink' | 'light-white';

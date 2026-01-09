@@ -8,12 +8,12 @@ import { RepositoryRepository } from '@/infrastructure/repositories/RepositoryRe
 import { ContributionCalendarRepository } from '@/infrastructure/repositories/ContributionCalendarRepository';
 import { StatsRepository } from '@/infrastructure/repositories/StatsRepository';
 import { GitHubOAuthService } from '@/infrastructure/auth/GitHubOAuthService';
-import { AuthService } from '../services/AuthService';
-import { DashboardService } from '../services/DashboardService';
-import { RepositoryService } from '../services/RepositoryService';
-import { StreakService } from '../services/StreakService';
-import { AchievementService } from '../services/AchievementService';
-import { StatsService } from '../services/StatsService';
+import { AuthService } from '@/application/services/AuthService';
+import { DashboardService } from '@/application/services/DashboardService';
+import { RepositoryService } from '@/application/services/RepositoryService';
+import { StreakService } from '@/application/services/StreakService';
+import { AchievementService } from '@/application/services/AchievementService';
+import { StatsService } from '@/application/services/StatsService';
 
 /**
  * Dependency Injection Container

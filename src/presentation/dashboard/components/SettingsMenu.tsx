@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { TokenInput } from '../../options/components/TokenInput';
 import { SaveButton } from '../../options/components/SaveButton';
 import { StatusMessage } from '../../options/components/StatusMessage';
-import { Container } from '@/application/di/Container';
+import { Container } from '@/infrastructure/di/Container';
 import { StorageKeys } from '@/application/config/StorageKeys';
 import { GitHubOAuthService, type DeviceCodeInfo } from '@/infrastructure/auth/GitHubOAuthService';
 import { useLanguage } from '../../i18n/useLanguage';

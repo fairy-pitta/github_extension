@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { DashboardData } from '@/domain/usecases/GetDashboardData';
-import { Container } from '@/application/di/Container';
+import { Container } from '@/infrastructure/di/Container';
 import { NetworkError } from '@/domain/errors/DomainError';
 
 export interface DashboardDataState {

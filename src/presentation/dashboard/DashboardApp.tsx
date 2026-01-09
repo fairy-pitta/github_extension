@@ -8,7 +8,7 @@ import { SkeletonLoader } from '../components/SkeletonLoader';
 import { useAuth } from './hooks/useAuth';
 import { useDashboardData } from './hooks/useDashboardData';
 import { useTheme } from './hooks/useTheme';
-import { Container } from '@/application/di/Container';
+import { Container } from '@/infrastructure/di/Container';
 import { StatsData } from '@/domain/entities/StatsData';
 import './styles/dashboard.css';
 
