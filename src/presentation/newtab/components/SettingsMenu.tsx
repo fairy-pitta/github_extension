@@ -24,6 +24,8 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({ isOpen, onClose }) =
   const [loading, setLoading] = useState(false);
   const [oauthLoading, setOauthLoading] = useState(false);
   const [showManualTokenInput, setShowManualTokenInput] = useState(false);
+  const [oauthError, setOauthError] = useState<string | null>(null);
+  const [patError, setPatError] = useState<string | null>(null);
   const [status, setStatus] = useState<{
     type: 'success' | 'error' | 'info';
     message: string;
@@ -53,6 +55,17 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({ isOpen, onClose }) =
         // Default to true if not set
         setShowMotivationMessage(true);
       }
+
+      // Check if OAuth is configured (but don't show error if not)
+      try {
+        const { AppConfig } = await import('@/application/config/AppConfig');
+        if (!AppConfig.oauth.clientId) {
+          // OAuth is not configured, but this is OK - user can use PAT
+          // Don't show error, just silently allow PAT usage
+        }
+      } catch {
+        // Ignore OAuth config check errors
+      }
     } catch {
       // Ignore errors
     }
@@ -61,14 +74,29 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({ isOpen, onClose }) =
   useEffect(() => {
     if (isOpen) {
       loadSettings();
+      // Reset errors when settings menu is opened
+      setOauthError(null);
+      setPatError(null);
+      setStatus(null);
     }
   }, [isOpen, loadSettings]);
 
   const handleOAuthAuthenticate = async () => {
     setOauthLoading(true);
+    setOauthError(null);
     setStatus(null);
 
     try {
+      // Check if OAuth is configured before attempting authentication
+      const { AppConfig } = await import('@/application/config/AppConfig');
+      if (!AppConfig.oauth.clientId || AppConfig.oauth.clientId.trim() === '') {
+        setOauthError(
+          'OAuth client ID is not configured. Please set VITE_GITHUB_OAUTH_CLIENT_ID environment variable or configure it in AppConfig.ts. For now, please use the manual token input option below.'
+        );
+        setOauthLoading(false);
+        return;
+      }
+
       // Use OAuthService directly since Container needs to be initialized with a token
       const oauthService = new GitHubOAuthService();
       const accessToken = await oauthService.authenticate();
@@ -85,6 +113,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({ isOpen, onClose }) =
         throw new Error('Failed to validate OAuth token');
       }
 
+      setOauthError(null);
       setStatus({
         type: 'success',
         message: t.oauthSuccess,
@@ -102,14 +131,13 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({ isOpen, onClose }) =
       if (error instanceof Error) {
         if (error.message.includes('canceled') || error.message.includes('cancel')) {
           errorMessage = t.oauthCanceled;
+        } else if (error.message.includes('client ID is not configured')) {
+          errorMessage = error.message;
         } else {
           errorMessage = `${t.oauthError}: ${error.message}`;
         }
       }
-      setStatus({
-        type: 'error',
-        message: errorMessage,
-      });
+      setOauthError(errorMessage);
     } finally {
       setOauthLoading(false);
     }
@@ -117,14 +145,12 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({ isOpen, onClose }) =
 
   const handleSave = async () => {
     if (!token.trim()) {
-      setStatus({
-        type: 'error',
-        message: t.tokenEmpty,
-      });
+      setPatError(t.tokenEmpty);
       return;
     }
 
     setLoading(true);
+    setPatError(null);
     setStatus(null);
 
     try {
@@ -134,19 +160,18 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({ isOpen, onClose }) =
       await container.initialize(token.trim());
       await storage.set(StorageKeys.PAT_TOKEN, token.trim());
 
+      setPatError(null);
       setStatus({
         type: 'success',
         message: t.tokenSaved,
       });
     } catch (error) {
       console.error('Token save error:', error);
-      setStatus({
-        type: 'error',
-        message:
-          error instanceof Error
-            ? error.message
-            : t.tokenSaveFailed,
-      });
+      setPatError(
+        error instanceof Error
+          ? error.message
+          : t.tokenSaveFailed
+      );
     } finally {
       setLoading(false);
     }
@@ -250,6 +275,21 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({ isOpen, onClose }) =
             {/* OAuth Authentication Section */}
             <div className="oauth-section">
               <p className="oauth-instructions">{t.oauthInstructions}</p>
+              {oauthError && (
+                <div
+                  style={{
+                    padding: '12px',
+                    marginBottom: '16px',
+                    backgroundColor: '#fee',
+                    border: '1px solid #fcc',
+                    borderRadius: '6px',
+                    color: '#c33',
+                    fontSize: '14px',
+                  }}
+                >
+                  <strong>Error:</strong> {oauthError}
+                </div>
+              )}
               <button
                 onClick={handleOAuthAuthenticate}
                 disabled={oauthLoading || loading}
@@ -332,7 +372,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({ isOpen, onClose }) =
                     <TokenInput
                       value={token}
                       onChange={setToken}
-                      error={status?.type === 'error' && !oauthLoading ? status.message : undefined}
+                      error={patError || undefined}
                       disabled={loading || oauthLoading}
                     />
                   </div>
