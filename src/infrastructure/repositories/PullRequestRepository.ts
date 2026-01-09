@@ -42,6 +42,9 @@ const CREATED_PRS_QUERY = `
           comments {
             totalCount
           }
+          reviewThreads {
+            totalCount
+          }
           author {
             login
             ... on User {
@@ -116,6 +119,9 @@ const REVIEW_REQUESTED_PRS_QUERY = `
           }
           reviewDecision
           comments {
+            totalCount
+          }
+          reviewThreads {
             totalCount
           }
           author {

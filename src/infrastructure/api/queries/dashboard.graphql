@@ -36,6 +36,9 @@ query DashboardData($limit: Int!) {
         comments {
           totalCount
         }
+        reviewThreads {
+          totalCount
+        }
         author {
           login
           ... on User {
@@ -48,6 +51,9 @@ query DashboardData($limit: Int!) {
         }
         reviews(first: 10) {
           nodes {
+            state
+            createdAt
+            body
             author {
               login
               ... on User {
@@ -101,6 +107,9 @@ query DashboardData($limit: Int!) {
         comments {
           totalCount
         }
+        reviewThreads {
+          totalCount
+        }
         author {
           login
           ... on User {
@@ -113,6 +122,9 @@ query DashboardData($limit: Int!) {
         }
         reviews(first: 10) {
           nodes {
+            state
+            createdAt
+            body
             author {
               login
               ... on User {
