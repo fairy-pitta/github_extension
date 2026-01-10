@@ -145,6 +145,21 @@
   color: var(--badge-changes-text);
 }
 
+.badge-commented {
+  background-color: var(--badge-commented-bg, #e3f2fd);
+  color: var(--badge-commented-text, #1976d2);
+}
+
+.badge-dismissed {
+  background-color: var(--badge-dismissed-bg, #f5f5f5);
+  color: var(--badge-dismissed-text, #757575);
+}
+
+.badge-pending {
+  background-color: var(--badge-pending-bg, #fff3e0);
+  color: var(--badge-pending-text, #f57c00);
+}
+
 .badge-public {
   background-color: var(--badge-public-bg);
   color: var(--badge-public-text);
@@ -188,6 +203,72 @@
 .card-action-text {
   font-size: 10px;
   font-weight: 400;
+}
+
+.card-favorite-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: transparent;
+  color: var(--text-secondary);
+  margin-left: 4px;
+  width: 20px;
+  height: 20px;
+}
+
+.card-favorite-button:hover {
+  background: var(--bg-secondary);
+  color: var(--star-active-color, #FFA500);
+  transform: scale(1.1);
+}
+
+.card-favorite-button.active {
+  color: var(--star-active-color, #FFA500);
+}
+
+.card-favorite-button i {
+  font-size: 14px;
+}
+
+.card-favorite-button.active i::before {
+  content: '\f005';
+  font-weight: 900;
+}
+
+.card-reviews {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.review-stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 6px;
+  border-radius: 8px;
+}
+
+.review-stat.approved {
+  background-color: var(--badge-approved-bg, #e8f5e9);
+  color: var(--badge-approved-text, #2e7d32);
+}
+
+.review-stat.commented {
+  background-color: var(--badge-commented-bg, #e3f2fd);
+  color: var(--badge-commented-text, #1976d2);
+}
+
+.review-stat.changes-requested {
+  background-color: var(--badge-changes-bg, #fff3e0);
+  color: var(--badge-changes-text, #ef6c00);
 }
 
 

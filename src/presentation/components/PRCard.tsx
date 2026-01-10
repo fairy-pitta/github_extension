@@ -37,6 +37,36 @@ export const PRCard: React.FC<PRCardProps> = React.memo(({ pr, onClick }) => {
 
   const formattedDate = useMemo(() => formatRelativeDate(pr.updatedAt), [pr.updatedAt]);
 
+  const reviewStats = useMemo(() => {
+    const stats = {
+      approved: 0,
+      commented: 0,
+      changesRequested: 0,
+      dismissed: 0,
+      pending: 0,
+    };
+    pr.reviews.forEach((review) => {
+      switch (review.state) {
+        case 'APPROVED':
+          stats.approved++;
+          break;
+        case 'COMMENTED':
+          stats.commented++;
+          break;
+        case 'CHANGES_REQUESTED':
+          stats.changesRequested++;
+          break;
+        case 'DISMISSED':
+          stats.dismissed++;
+          break;
+        case 'PENDING':
+          stats.pending++;
+          break;
+      }
+    });
+    return stats;
+  }, [pr.reviews]);
+
   const handleClick = useCallback(() => {
     if (onClick) {
       onClick();
@@ -62,6 +92,16 @@ export const PRCard: React.FC<PRCardProps> = React.memo(({ pr, onClick }) => {
           <>
             <span className="card-separator">•</span>
             <span className="card-comments">{pr.commentsCount} comments</span>
+          </>
+        )}
+        {pr.reviews.length > 0 && (
+          <>
+            <span className="card-separator">•</span>
+            <span className="card-reviews">
+              {reviewStats.approved > 0 && <span className="review-stat approved">{reviewStats.approved} ✓</span>}
+              {reviewStats.commented > 0 && <span className="review-stat commented">{reviewStats.commented} 💬</span>}
+              {reviewStats.changesRequested > 0 && <span className="review-stat changes-requested">{reviewStats.changesRequested} ⚠</span>}
+            </span>
           </>
         )}
       </div>

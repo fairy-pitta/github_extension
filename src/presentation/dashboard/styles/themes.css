@@ -33,6 +33,7 @@
   --accent-green: #BAFFC9;
   --accent-yellow: #FFFFBA;
   --accent-orange: #FFD4BA;
+  --star-active-color: #FFA500;
   
   --badge-open-bg: #BAFFC9;
   --badge-open-text: #5A8A6A;
@@ -91,6 +92,7 @@
   --accent-green: #6A9A7A;
   --accent-yellow: #9A9A6A;
   --accent-orange: #9A7A6A;
+  --star-active-color: #FFD700;
   
   --badge-open-bg: #6A9A7A;
   --badge-open-text: #D4E5D4;
@@ -149,6 +151,7 @@
   --accent-green: #B3FFD9;
   --accent-yellow: #FFFFB3;
   --accent-orange: #FFD9B3;
+  --star-active-color: #FFA500;
   
   --badge-open-bg: #B3FFD9;
   --badge-open-text: #4A7A6A;
@@ -207,6 +210,7 @@
   --accent-green: #D9FFB3;
   --accent-yellow: #FFFFB3;
   --accent-orange: #FFD9B3;
+  --star-active-color: #FFA500;
   
   --badge-open-bg: #D9FFB3;
   --badge-open-text: #6A8A5A;
@@ -265,6 +269,7 @@
   --accent-green: #80FFC0;
   --accent-yellow: #FFFFB3;
   --accent-orange: #FFD9B3;
+  --star-active-color: #FFA500;
   
   --badge-open-bg: #80FFC0;
   --badge-open-text: #4A7A5A;
@@ -323,6 +328,7 @@
   --accent-green: #B3FFD9;
   --accent-yellow: #FFFFB3;
   --accent-orange: #FFD9B3;
+  --star-active-color: #FFA500;
   
   --badge-open-bg: #B3FFD9;
   --badge-open-text: #5A8A6A;
@@ -381,6 +387,7 @@
   --accent-green: #BAFFC9;
   --accent-yellow: #FFFFBA;
   --accent-orange: #FFD4BA;
+  --star-active-color: #FFA500;
   
   --badge-open-bg: #BAFFC9;
   --badge-open-text: #5A8A6A;

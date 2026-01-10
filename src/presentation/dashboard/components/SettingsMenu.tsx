@@ -123,9 +123,9 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({ isOpen, onClose }) =
       // Initialize container with the OAuth token
       await services.initialize(accessToken);
 
-      // Validate the token
-      const authService = services.getAuthService();
-      const user = await authService.validateCurrentToken();
+      // Validate the token (re-get authService after initialization)
+      const validatedAuthService = services.getAuthService();
+      const user = await validatedAuthService.validateCurrentToken();
 
       if (!user) {
         throw new Error('Failed to validate OAuth token');

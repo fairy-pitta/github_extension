@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { PullRequest } from '@/domain/entities/PullRequest';
 import { PRCard } from './PRCard';
 import { LoadMoreButton } from './LoadMoreButton';
 import { SkeletonLoader } from './SkeletonLoader';
+import { ReviewStatusFilter, ReviewStatusFilterOption } from './ReviewStatusFilter';
 import { useLanguage } from '../i18n/useLanguage';
 import { useServices } from '../context/ServiceContext';
 import './styles/section.css';
@@ -31,11 +32,25 @@ export const PullRequestSection: React.FC<PullRequestSectionProps> = React.memo(
   const [reviewRequestedCursor, setReviewRequestedCursor] = useState<string | undefined>();
   const [hasMoreCreated, setHasMoreCreated] = useState(true);
   const [hasMoreReviewRequested, setHasMoreReviewRequested] = useState(true);
+  const [reviewFilters, setReviewFilters] = useState<ReviewStatusFilterOption[]>(['ALL']);
 
-  // Update PRs when initial PRs change
+  // Update PRs when initial PRs change, removing duplicates
   useEffect(() => {
-    setCreatedPRs(initialCreatedPRs);
-    setReviewRequestedPRs(initialReviewRequestedPRs);
+    // Remove duplicates by repository.nameWithOwner and number
+    const getPRKey = (pr: PullRequest) => `${pr.repository.nameWithOwner}-${pr.number}`;
+    
+    const uniqueCreatedPRs = initialCreatedPRs.filter(
+      (pr, index, self) =>
+        index === self.findIndex((p) => getPRKey(p) === getPRKey(pr))
+    );
+    
+    const uniqueReviewRequestedPRs = initialReviewRequestedPRs.filter(
+      (pr, index, self) =>
+        index === self.findIndex((p) => getPRKey(p) === getPRKey(pr))
+    );
+    
+    setCreatedPRs(uniqueCreatedPRs);
+    setReviewRequestedPRs(uniqueReviewRequestedPRs);
     // Reset cursors when initial data changes
     setCreatedCursor(undefined);
     setReviewRequestedCursor(undefined);
@@ -49,14 +64,27 @@ export const PullRequestSection: React.FC<PullRequestSectionProps> = React.memo(
     try {
       const prRepo = services.getPullRequestRepository();
       
+      // Helper function to get PR key
+      const getPRKey = (pr: PullRequest) => `${pr.repository.nameWithOwner}-${pr.number}`;
+      
       if (activeTab === 'created') {
         const result = await prRepo.getCreatedByMe(10, createdCursor);
-        setCreatedPRs((prev) => [...prev, ...result.prs]);
+        // Remove duplicates by repository.nameWithOwner and number
+        setCreatedPRs((prev) => {
+          const existingKeys = new Set(prev.map((pr) => getPRKey(pr)));
+          const newPRs = result.prs.filter((pr) => !existingKeys.has(getPRKey(pr)));
+          return [...prev, ...newPRs];
+        });
         setCreatedCursor(result.nextCursor);
         setHasMoreCreated(!!result.nextCursor);
       } else {
         const result = await prRepo.getReviewRequested(10, reviewRequestedCursor);
-        setReviewRequestedPRs((prev) => [...prev, ...result.prs]);
+        // Remove duplicates by repository.nameWithOwner and number
+        setReviewRequestedPRs((prev) => {
+          const existingKeys = new Set(prev.map((pr) => getPRKey(pr)));
+          const newPRs = result.prs.filter((pr) => !existingKeys.has(getPRKey(pr)));
+          return [...prev, ...newPRs];
+        });
         setReviewRequestedCursor(result.nextCursor);
         setHasMoreReviewRequested(!!result.nextCursor);
       }
@@ -67,7 +95,54 @@ export const PullRequestSection: React.FC<PullRequestSectionProps> = React.memo(
     }
   };
 
-  const currentPRs = activeTab === 'created' ? createdPRs : reviewRequestedPRs;
+  // Filter PRs based on review status
+  const filteredPRs = useMemo(() => {
+    const prs = activeTab === 'created' ? createdPRs : reviewRequestedPRs;
+    
+    if (reviewFilters.includes('ALL') || reviewFilters.length === 0) {
+      return prs;
+    }
+
+    return prs.filter((pr) => {
+      // 選択されたフィルターのいずれかに一致するかチェック
+      return reviewFilters.some((filter) => {
+        switch (filter) {
+          case 'REVIEW_REQUIRED':
+            // REVIEW_REQUIRED: reviewDecisionがREVIEW_REQUIRED、またはレビューがまだない
+            return pr.reviewDecision === 'REVIEW_REQUIRED' || 
+                   (pr.reviewDecision === null && pr.reviews.length === 0);
+          
+          case 'APPROVED':
+            // APPROVED: stateがOPENで、かつreviewDecisionがAPPROVED、またはレビューにAPPROVED状態がある
+            if (pr.state !== 'OPEN') return false;
+            return pr.reviewDecision === 'APPROVED' || 
+                   pr.reviews.some(review => review.state === 'APPROVED');
+          
+          case 'CHANGES_REQUESTED':
+            // CHANGES_REQUESTED: reviewDecisionがCHANGES_REQUESTED、またはレビューにCHANGES_REQUESTED状態がある
+            return pr.reviewDecision === 'CHANGES_REQUESTED' || 
+                   pr.reviews.some(review => review.state === 'CHANGES_REQUESTED');
+          
+          case 'COMMENTED':
+            // COMMENTED: レビューにCOMMENTED状態がある
+            return pr.reviews.some(review => review.state === 'COMMENTED');
+          
+          case 'DISMISSED':
+            // DISMISSED: レビューにDISMISSED状態がある
+            return pr.reviews.some(review => review.state === 'DISMISSED');
+          
+          case 'PENDING':
+            // PENDING: レビューにPENDING状態がある
+            return pr.reviews.some(review => review.state === 'PENDING');
+          
+          default:
+            return false;
+        }
+      });
+    });
+  }, [activeTab, createdPRs, reviewRequestedPRs, reviewFilters]);
+
+  const currentPRs = filteredPRs;
   const currentTitle = activeTab === 'created' ? t.pullRequestsCreated : t.pullRequestsReviewRequested;
   const currentEmptyMessage = activeTab === 'created' ? t.noPullRequests : t.noPullRequestsReview;
   const currentIcon = activeTab === 'created' ? 'fa-code-pull-request' : 'fa-user-check';
@@ -125,6 +200,13 @@ export const PullRequestSection: React.FC<PullRequestSectionProps> = React.memo(
               <span className="pr-tab-count">({reviewRequestedPRs.length})</span>
             )}
           </button>
+          <div className="pr-tab-header-actions">
+            <ReviewStatusFilter
+              selectedFilters={reviewFilters}
+              onChange={setReviewFilters}
+              disabled={loading}
+            />
+          </div>
         </div>
         <div className="section-content">
           {currentPRs.length === 0 ? (

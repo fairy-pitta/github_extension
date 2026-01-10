@@ -235,7 +235,12 @@ export const ProfileSection: React.FC<ProfileSectionProps> = React.memo(({ user,
                   <i className="fas fa-user-plus"></i>
                   {formatNumber(user.following)}
                 </span>
-                <span className="profile-stat-badge">
+                <span 
+                  className="profile-stat-badge"
+                  onClick={() => window.open(`https://github.com/${user.login}?tab=repositories`, '_blank')}
+                  style={{ cursor: 'pointer' }}
+                  title={t.viewAllRepositories}
+                >
                   <i className="fas fa-code-branch"></i>
                   {formatNumber(user.repositories)}
                 </span>
@@ -250,7 +255,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = React.memo(({ user,
                   {user.organizations.map((org) => (
                     <a
                       key={org.login}
-                      href={`https://github.com/${org.login}`}
+                      href={`https://github.com/${org.login}?tab=repositories`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="profile-org-tag"

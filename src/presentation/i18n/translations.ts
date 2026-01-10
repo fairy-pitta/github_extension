@@ -12,10 +12,28 @@ export interface Translations {
   // Filter
   all: string;
   openOnly: string;
+  filterByReviewStatus: string;
+  allReviews: string;
+  approvedOnly: string;
+  commentedOnly: string;
+  changesRequestedOnly: string;
+  reviewRequiredOnly: string;
+  dismissedOnly: string;
+  pendingOnly: string;
+  // Review status
+  reviewApproved: string;
+  reviewCommented: string;
+  reviewChangesRequested: string;
+  reviewDismissed: string;
+  reviewPending: string;
   
   // Sections
   repositories: string;
   recentlyUpdatedRepositories: string;
+  allRepositories: string;
+  organizationRepositories: string;
+  myRepositories: string;
+  favoriteRepositories: string;
   pullRequestsCreated: string;
   pullRequestsReviewRequested: string;
   issuesInvolved: string;
@@ -139,6 +157,9 @@ export interface Translations {
   // Repository actions
   createPR: string;
   createIssue: string;
+  viewAllRepositories: string;
+  viewOrganizationRepositories: string;
+  viewMyRepositories: string;
   
   // Motivation message settings
   showMotivationMessage: string;
@@ -189,6 +210,19 @@ export const translations: Record<Language, Translations> = {
     revertToGitHub: 'Revert to GitHub',
     all: 'All',
     openOnly: 'Open Only',
+    filterByReviewStatus: 'Filter by Review Status',
+    allReviews: 'All Reviews',
+    approvedOnly: 'Approved Only',
+    commentedOnly: 'Commented Only',
+    changesRequestedOnly: 'Changes Requested Only',
+    reviewRequiredOnly: 'Review Required Only',
+    dismissedOnly: 'Dismissed Only',
+    pendingOnly: 'Pending Only',
+    reviewApproved: 'Approved',
+    reviewCommented: 'Commented',
+    reviewChangesRequested: 'Changes Requested',
+    reviewDismissed: 'Dismissed',
+    reviewPending: 'Pending',
     repositories: 'Repositories',
     recentlyUpdatedRepositories: 'Recently Updated Repositories',
     pullRequestsCreated: 'Pull Requests (Created by Me)',
@@ -292,6 +326,11 @@ export const translations: Record<Language, Translations> = {
     close: 'Close',
     createPR: 'Create PR',
     createIssue: 'Create Issue',
+    viewAllRepositories: 'View all repositories',
+    viewOrganizationRepositories: 'View organization repositories',
+    viewMyRepositories: 'View my repositories',
+    addToFavorites: 'Add to favorites',
+    removeFromFavorites: 'Remove from favorites',
     showMotivationMessage: 'Show motivation messages',
     showMotivationMessageDescription: 'Display random motivation messages based on time of day and activity in the profile section.',
     motivationMessages: {
@@ -420,8 +459,25 @@ export const translations: Record<Language, Translations> = {
     revertToGitHub: 'GitHubに戻る',
     all: 'すべて',
     openOnly: 'オープンのみ',
+    filterByReviewStatus: 'レビュー状態でフィルター',
+    allReviews: 'すべてのレビュー',
+    approvedOnly: '承認済みのみ',
+    commentedOnly: 'コメントのみ',
+    changesRequestedOnly: '変更要求ありのみ',
+    reviewRequiredOnly: 'レビュー待ちのみ',
+    dismissedOnly: '却下済みのみ',
+    pendingOnly: '保留中のみ',
+    reviewApproved: '承認済み',
+    reviewCommented: 'コメント',
+    reviewChangesRequested: '変更要求あり',
+    reviewDismissed: '却下済み',
+    reviewPending: '保留中',
     repositories: 'リポジトリ',
     recentlyUpdatedRepositories: '最近更新されたリポジトリ',
+    allRepositories: '全てのリポジトリ',
+    organizationRepositories: '組織のリポジトリ',
+    myRepositories: '自分のリポジトリ',
+    favoriteRepositories: 'お気に入りリポジトリ',
     pullRequestsCreated: 'プルリクエスト (作成したもの)',
     pullRequestsReviewRequested: 'プルリクエスト (レビュー依頼)',
     issuesInvolved: 'イシュー (関連)',
@@ -523,6 +579,11 @@ export const translations: Record<Language, Translations> = {
     close: '閉じる',
     createPR: 'PRを作成',
     createIssue: 'Issueを作成',
+    viewAllRepositories: '全てのリポジトリを見る',
+    viewOrganizationRepositories: '組織のリポジトリを見る',
+    viewMyRepositories: '自分のリポジトリを見る',
+    addToFavorites: 'お気に入りに追加',
+    removeFromFavorites: 'お気に入りから削除',
     showMotivationMessage: 'モチベーションメッセージを表示',
     showMotivationMessageDescription: 'プロフィールセクションに時間帯やアクティビティに基づいたランダムなモチベーションメッセージを表示します。',
     motivationMessages: {

@@ -1,5 +1,6 @@
 import { Repository } from './Repository';
 import { User } from './User';
+import { Review } from './Review';
 
 export type PullRequestState = 'OPEN' | 'CLOSED' | 'MERGED';
 export type ReviewDecision = 'APPROVED' | 'CHANGES_REQUESTED' | 'REVIEW_REQUIRED' | null;
@@ -19,7 +20,8 @@ export class PullRequest {
     public readonly reviewDecision: ReviewDecision,
     public readonly commentsCount: number,
     public readonly author: User,
-    public readonly reviewers: User[]
+    public readonly reviewers: User[],
+    public readonly reviews: Review[]
   ) {}
 
   static fromPlain(plain: {
@@ -54,6 +56,16 @@ export class PullRequest {
       name?: string | null;
       avatarUrl?: string | null;
     }>;
+    reviews?: Array<{
+      state: 'APPROVED' | 'COMMENTED' | 'CHANGES_REQUESTED' | 'DISMISSED' | 'PENDING';
+      author: {
+        login: string;
+        name?: string | null;
+        avatarUrl?: string | null;
+      };
+      createdAt: string | Date;
+      body?: string | null;
+    }>;
   }): PullRequest {
     const createdAt =
       plain.createdAt === undefined
@@ -69,6 +81,7 @@ export class PullRequest {
     const repository = Repository.fromPlain(plain.repository);
     const author = User.fromPlain(plain.author);
     const reviewers = (plain.reviewers ?? []).map((r) => User.fromPlain(r));
+    const reviews = (plain.reviews ?? []).map((r) => Review.fromPlain(r));
 
     return new PullRequest(
       plain.number,
@@ -81,7 +94,8 @@ export class PullRequest {
       plain.reviewDecision ?? null,
       plain.commentsCount ?? 0,
       author,
-      reviewers
+      reviewers,
+      reviews
     );
   }
 }

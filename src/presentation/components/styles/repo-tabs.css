@@ -1,0 +1,115 @@
+.repo-tabs {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.repo-tab-header {
+  display: flex;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--border-primary);
+  flex-shrink: 0;
+}
+
+.repo-tab {
+  flex: 1;
+  padding: 10px 12px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+  position: relative;
+}
+
+.repo-tab:hover:not(.active):not(:disabled) {
+  color: var(--text-primary);
+  background: var(--bg-hover);
+  border-radius: 8px 8px 0 0;
+}
+
+.repo-tab.active {
+  color: var(--text-primary);
+  border-bottom-color: var(--accent-blue);
+  font-weight: 600;
+  background: var(--bg-filter-active);
+}
+
+.repo-tab:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.repo-tab i {
+  font-size: 16px;
+}
+
+.repo-tab-star {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: 4px;
+  padding: 2px;
+  width: 20px;
+  height: 20px;
+}
+
+.repo-tab-star:hover {
+  color: var(--accent-yellow, #fbbf24);
+  transform: scale(1.1);
+}
+
+.repo-tab-star.active {
+  color: var(--star-active-color, #FFA500);
+}
+
+.repo-tab-star.active i::before {
+  content: '\f005';
+  font-weight: 900;
+}
+
+.repo-tab-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.repo-tab-external-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 2px;
+  width: 20px;
+  height: 20px;
+  opacity: 0.7;
+}
+
+.repo-tab-external-link:hover {
+  color: var(--text-primary);
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.repo-tab-external-link i {
+  font-size: 12px;
+}
+

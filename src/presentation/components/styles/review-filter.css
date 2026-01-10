@@ -1,0 +1,124 @@
+.review-status-filter {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.review-filter-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
+  background: var(--bg-filter, rgba(255, 255, 255, 0.5));
+  border: 1px solid var(--border-primary);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--text-secondary);
+  font-size: 14px;
+  position: relative;
+  backdrop-filter: blur(10px);
+  min-width: 32px;
+  height: 32px;
+}
+
+.review-filter-button:hover:not(:disabled) {
+  background: var(--bg-filter-active, rgba(186, 225, 255, 0.3));
+  color: var(--text-primary);
+  border-color: var(--border-hover);
+}
+
+.review-filter-button.active {
+  background: var(--bg-filter-active, rgba(186, 225, 255, 0.3));
+  color: var(--text-primary);
+  border-color: var(--accent-blue);
+}
+
+.review-filter-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.review-filter-button i {
+  font-size: 14px;
+}
+
+.review-filter-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  background-color: var(--accent-blue, #2196f3);
+  color: white;
+  font-size: 10px;
+  font-weight: 600;
+  border-radius: 9px;
+  border: 2px solid var(--bg-card, #fff);
+  line-height: 1;
+}
+
+.review-filter-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 200px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  border-radius: 8px;
+  box-shadow: var(--shadow-lg, 0 4px 12px rgba(0, 0, 0, 0.15));
+  padding: 8px 0;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+  animation: fadeIn 0.2s ease;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.review-filter-option {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  user-select: none;
+}
+
+.review-filter-option:hover {
+  background-color: var(--bg-hover, rgba(0, 0, 0, 0.05));
+}
+
+.review-filter-option.selected {
+  background-color: var(--bg-filter-active, rgba(186, 225, 255, 0.3));
+}
+
+.review-filter-checkbox {
+  margin-right: 8px;
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent-blue, #2196f3);
+}
+
+.review-filter-label {
+  font-size: 13px;
+  color: var(--text-primary);
+  cursor: pointer;
+  flex: 1;
+}
+

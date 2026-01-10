@@ -42,6 +42,9 @@ const CREATED_PRS_QUERY = `
           comments {
             totalCount
           }
+          reviewThreads {
+            totalCount
+          }
           author {
             login
             ... on User {
@@ -54,6 +57,9 @@ const CREATED_PRS_QUERY = `
           }
           reviews(first: 10) {
             nodes {
+              state
+              createdAt
+              body
               author {
                 login
                 ... on User {
@@ -115,6 +121,9 @@ const REVIEW_REQUESTED_PRS_QUERY = `
           comments {
             totalCount
           }
+          reviewThreads {
+            totalCount
+          }
           author {
             login
             ... on User {
@@ -127,6 +136,9 @@ const REVIEW_REQUESTED_PRS_QUERY = `
           }
           reviews(first: 10) {
             nodes {
+              state
+              createdAt
+              body
               author {
                 login
                 ... on User {

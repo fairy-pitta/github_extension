@@ -1,6 +1,7 @@
 import { PullRequest } from '@/domain/entities/PullRequest';
 import { RepositoryMapper, GraphQLRepository } from './RepositoryMapper';
 import { UserMapper, GraphQLUser } from './UserMapper';
+import { ReviewMapper, GraphQLReview } from './ReviewMapper';
 
 export interface GraphQLPullRequest {
   number: number;
@@ -14,11 +15,12 @@ export interface GraphQLPullRequest {
   comments: {
     totalCount: number;
   };
+  reviewThreads?: {
+    totalCount: number;
+  };
   author: GraphQLUser;
   reviews?: {
-    nodes: Array<{
-      author: GraphQLUser;
-    }>;
+    nodes: GraphQLReview[];
   };
 }
 
@@ -31,6 +33,12 @@ export class PullRequestMapper {
     const author = UserMapper.toDomain(graphql.author);
     const reviewers =
       graphql.reviews?.nodes.map((review) => UserMapper.toDomain(review.author)) ?? [];
+    const reviews = graphql.reviews?.nodes
+      ? ReviewMapper.toDomainArray(graphql.reviews.nodes)
+      : [];
+
+    // コメント数 = PRコメント + レビューコメント
+    const commentsCount = graphql.comments.totalCount + (graphql.reviewThreads?.totalCount ?? 0);
 
     return PullRequest.fromPlain({
       number: graphql.number,
@@ -53,7 +61,7 @@ export class PullRequestMapper {
         },
       },
       reviewDecision: graphql.reviewDecision ?? null,
-      commentsCount: graphql.comments.totalCount,
+      commentsCount: commentsCount,
       author: {
         login: graphql.author.login,
         name: graphql.author.name ?? null,
@@ -63,6 +71,16 @@ export class PullRequestMapper {
         login: r.login,
         name: r.name,
         avatarUrl: r.avatarUrl,
+      })),
+      reviews: reviews.map((review) => ({
+        state: review.state,
+        author: {
+          login: review.author.login,
+          name: review.author.name,
+          avatarUrl: review.author.avatarUrl,
+        },
+        createdAt: review.createdAt,
+        body: review.body,
       })),
     });
   }

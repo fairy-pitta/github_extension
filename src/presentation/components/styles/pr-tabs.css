@@ -6,9 +6,19 @@
 
 .pr-tab-header {
   display: flex;
+  align-items: center;
   margin-bottom: 12px;
   border-bottom: 1px solid var(--border-primary);
   flex-shrink: 0;
+  position: relative;
+}
+
+.pr-tab-header-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-right: 8px;
 }
 
 .pr-tab {
