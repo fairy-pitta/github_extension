@@ -43,6 +43,7 @@ export function useDashboardData(
             reviewRequestedPRs: data.reviewRequestedPRs.filter(
               (pr) => pr.state === 'OPEN'
             ),
+            reviewedPRs: data.reviewedPRs.filter((pr) => pr.state === 'OPEN'),
             involvedIssues: data.involvedIssues.filter(
               (issue) => issue.state === 'OPEN'
             ),

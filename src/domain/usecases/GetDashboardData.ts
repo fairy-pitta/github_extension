@@ -11,6 +11,7 @@ import { IRepositoryRepository } from '../repositories/IRepositoryRepository';
 export interface DashboardData {
   createdPRs: PullRequest[];
   reviewRequestedPRs: PullRequest[];
+  reviewedPRs: PullRequest[];
   involvedIssues: Issue[];
   recentlyUpdatedRepos: Repository[];
 }
@@ -27,10 +28,11 @@ export class GetDashboardData {
   ) {}
 
   async execute(limit: number = 10): Promise<DashboardData> {
-    const [createdPRsResult, reviewRequestedPRsResult, involvedIssuesResult, reposResult] =
+    const [createdPRsResult, reviewRequestedPRsResult, reviewedPRsResult, involvedIssuesResult, reposResult] =
       await Promise.all([
         this.prRepository.getCreatedByMe(limit),
         this.prRepository.getReviewRequested(limit),
+        this.prRepository.getReviewedByMe(limit),
         this.issueRepository.getInvolved(limit),
         this.repoRepository.getRecentlyUpdated(limit),
       ]);
@@ -38,6 +40,7 @@ export class GetDashboardData {
     return {
       createdPRs: createdPRsResult.prs,
       reviewRequestedPRs: reviewRequestedPRsResult.prs,
+      reviewedPRs: reviewedPRsResult.prs,
       involvedIssues: involvedIssuesResult.issues,
       recentlyUpdatedRepos: reposResult.repositories,
     };

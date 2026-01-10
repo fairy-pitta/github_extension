@@ -176,6 +176,7 @@ export const DashboardApp: React.FC = () => {
           <PullRequestSection
             createdPRs={dashboard.data?.createdPRs ?? []}
             reviewRequestedPRs={dashboard.data?.reviewRequestedPRs ?? []}
+            reviewedPRs={dashboard.data?.reviewedPRs ?? []}
             loading={dashboard.loading}
           />
           <IssueSection issues={dashboard.data?.involvedIssues ?? []} loading={dashboard.loading} />
