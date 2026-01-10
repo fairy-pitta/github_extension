@@ -19,9 +19,18 @@ export interface IPullRequestRepository {
   getReviewRequested(limit: number, cursor?: string): Promise<{ prs: PullRequest[]; nextCursor?: string }>;
 
   /**
-   * Get pull requests reviewed by the current user (for future use)
+   * Get pull requests reviewed by the current user
+   * @param limit Maximum number of PRs to return
+   * @param cursor Optional pagination cursor
    */
-  getReviewedByMe(limit: number): Promise<PullRequest[]>;
+  getReviewedByMe(limit: number, cursor?: string): Promise<{ prs: PullRequest[]; nextCursor?: string }>;
+
+  /**
+   * Get pull requests where the current user has commented
+   * @param limit Maximum number of PRs to return
+   * @param cursor Optional pagination cursor
+   */
+  getCommentedByMe(limit: number, cursor?: string): Promise<{ prs: PullRequest[]; nextCursor?: string }>;
 }
 
 
