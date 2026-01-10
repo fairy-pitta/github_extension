@@ -4,7 +4,7 @@ import {
   AuthenticationError,
   NetworkError,
 } from '@/domain/errors/DomainError';
-import { AppConfig } from '../../config/AppConfig';
+import { AppConfig } from '@/application/config/AppConfig';
 
 // Mock chrome.tabs for opening verification URL
 const mockTabsCreate = vi.fn();

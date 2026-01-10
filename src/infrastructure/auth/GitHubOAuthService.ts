@@ -1,5 +1,5 @@
 import { AuthenticationError, NetworkError } from '@/domain/errors/DomainError';
-import { AppConfig } from '../config/AppConfig';
+import { AppConfig } from '@/application/config/AppConfig';
 import { IOAuthService } from '@/application/services/IOAuthService';
 
 interface TokenResponse {
