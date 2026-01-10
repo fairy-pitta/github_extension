@@ -12,6 +12,7 @@ export interface GraphQLPullRequest {
   updatedAt: string;
   repository: GraphQLRepository;
   reviewDecision?: 'APPROVED' | 'CHANGES_REQUESTED' | 'REVIEW_REQUIRED' | null;
+  mergeable?: 'MERGEABLE' | 'CONFLICTING' | 'UNKNOWN';
   comments: {
     totalCount: number;
   };
@@ -82,6 +83,7 @@ export class PullRequestMapper {
         createdAt: review.createdAt,
         body: review.body,
       })),
+      mergeable: graphql.mergeable ?? 'UNKNOWN',
     });
   }
 

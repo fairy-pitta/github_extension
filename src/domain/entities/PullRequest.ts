@@ -4,6 +4,7 @@ import { Review } from './Review';
 
 export type PullRequestState = 'OPEN' | 'CLOSED' | 'MERGED';
 export type ReviewDecision = 'APPROVED' | 'CHANGES_REQUESTED' | 'REVIEW_REQUIRED' | null;
+export type MergeableState = 'MERGEABLE' | 'CONFLICTING' | 'UNKNOWN';
 
 /**
  * PullRequest entity representing a GitHub pull request
@@ -21,7 +22,8 @@ export class PullRequest {
     public readonly commentsCount: number,
     public readonly author: User,
     public readonly reviewers: User[],
-    public readonly reviews: Review[]
+    public readonly reviews: Review[],
+    public readonly mergeable: MergeableState = 'UNKNOWN'
   ) {}
 
   static fromPlain(plain: {
@@ -66,6 +68,7 @@ export class PullRequest {
       createdAt: string | Date;
       body?: string | null;
     }>;
+    mergeable?: MergeableState;
   }): PullRequest {
     const createdAt =
       plain.createdAt === undefined
@@ -95,7 +98,8 @@ export class PullRequest {
       plain.commentsCount ?? 0,
       author,
       reviewers,
-      reviews
+      reviews,
+      plain.mergeable ?? 'UNKNOWN'
     );
   }
 }
