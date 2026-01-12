@@ -50,7 +50,7 @@ export const StatsWidget: React.FC<StatsWidgetProps> = ({
       <div className="stat-card-content">
         <div className="stat-value">{current.toLocaleString()}</div>
         <div className="stat-comparison">
-          <span className="stat-previous">前: {previous.toLocaleString()}</span>
+          <span className="stat-previous">{t.statsPrevious} {previous.toLocaleString()}</span>
           <span
             className="stat-change"
             style={{ color: getChangeColor(change) }}
@@ -66,11 +66,11 @@ export const StatsWidget: React.FC<StatsWidgetProps> = ({
     <div className="stats-widget-overlay" onClick={onClose}>
       <div className="stats-widget" onClick={(e) => e.stopPropagation()}>
         <div className="stats-widget-header">
-          <h2 className="stats-widget-title">{t.statsTitle || '統計情報'}</h2>
+          <h2 className="stats-widget-title">{t.statsTitle}</h2>
           <button
             className="stats-widget-close"
             onClick={onClose}
-            aria-label={t.close || '閉じる'}
+            aria-label={t.close}
           >
             <i className="fas fa-times"></i>
           </button>
@@ -79,43 +79,43 @@ export const StatsWidget: React.FC<StatsWidgetProps> = ({
           {loading ? (
             <div className="stats-widget-loading">
               <div className="loading-spinner"></div>
-              <p>{t.loading || '読み込み中...'}</p>
+              <p>{t.loading}</p>
             </div>
           ) : stats ? (
             <>
               <div className="stats-section">
-                <h3 className="stats-section-title">{t.statsThisWeek || '今週'}</h3>
+                <h3 className="stats-section-title">{t.statsThisWeek}</h3>
                 <div className="stats-grid">
                   <StatCard
-                    title={t.statsCommits || 'コミット'}
+                    title={t.statsCommits}
                     current={stats.currentWeek.commits}
                     previous={stats.previousWeek.commits}
                     change={stats.getWeekChange('commits')}
                     icon="fa-code"
                   />
                   <StatCard
-                    title={t.statsPullRequests || 'プルリクエスト'}
+                    title={t.statsPullRequests}
                     current={stats.currentWeek.pullRequests}
                     previous={stats.previousWeek.pullRequests}
                     change={stats.getWeekChange('pullRequests')}
                     icon="fa-code-branch"
                   />
                   <StatCard
-                    title={t.statsReviews || 'レビュー'}
+                    title={t.statsReviews}
                     current={stats.currentWeek.reviews}
                     previous={stats.previousWeek.reviews}
                     change={stats.getWeekChange('reviews')}
                     icon="fa-eye"
                   />
                   <StatCard
-                    title={t.statsIssues || 'イシュー'}
+                    title={t.statsIssues}
                     current={stats.currentWeek.issues}
                     previous={stats.previousWeek.issues}
                     change={stats.getWeekChange('issues')}
                     icon="fa-exclamation-circle"
                   />
                   <StatCard
-                    title={t.statsComments || 'コメント'}
+                    title={t.statsComments}
                     current={stats.currentWeek.comments}
                     previous={stats.previousWeek.comments}
                     change={stats.getWeekChange('comments')}
@@ -124,38 +124,38 @@ export const StatsWidget: React.FC<StatsWidgetProps> = ({
                 </div>
               </div>
               <div className="stats-section">
-                <h3 className="stats-section-title">{t.statsThisMonth || '今月'}</h3>
+                <h3 className="stats-section-title">{t.statsThisMonth}</h3>
                 <div className="stats-grid">
                   <StatCard
-                    title={t.statsCommits || 'コミット'}
+                    title={t.statsCommits}
                     current={stats.currentMonth.commits}
                     previous={stats.previousMonth.commits}
                     change={stats.getMonthChange('commits')}
                     icon="fa-code"
                   />
                   <StatCard
-                    title={t.statsPullRequests || 'プルリクエスト'}
+                    title={t.statsPullRequests}
                     current={stats.currentMonth.pullRequests}
                     previous={stats.previousMonth.pullRequests}
                     change={stats.getMonthChange('pullRequests')}
                     icon="fa-code-branch"
                   />
                   <StatCard
-                    title={t.statsReviews || 'レビュー'}
+                    title={t.statsReviews}
                     current={stats.currentMonth.reviews}
                     previous={stats.previousMonth.reviews}
                     change={stats.getMonthChange('reviews')}
                     icon="fa-eye"
                   />
                   <StatCard
-                    title={t.statsIssues || 'イシュー'}
+                    title={t.statsIssues}
                     current={stats.currentMonth.issues}
                     previous={stats.previousMonth.issues}
                     change={stats.getMonthChange('issues')}
                     icon="fa-exclamation-circle"
                   />
                   <StatCard
-                    title={t.statsComments || 'コメント'}
+                    title={t.statsComments}
                     current={stats.currentMonth.comments}
                     previous={stats.previousMonth.comments}
                     change={stats.getMonthChange('comments')}
@@ -166,7 +166,7 @@ export const StatsWidget: React.FC<StatsWidgetProps> = ({
             </>
           ) : (
             <div className="stats-widget-error">
-              <p>{t.noData || 'データが見つかりません'}</p>
+              <p>{t.noData}</p>
             </div>
           )}
         </div>
