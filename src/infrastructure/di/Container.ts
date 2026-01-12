@@ -79,7 +79,6 @@ export class Container {
     this.repoRepository = new RepositoryRepository(this.graphqlClient);
     this.contributionCalendarRepository = new ContributionCalendarRepository(this.graphqlClient);
     this.statsRepository = new StatsRepository(
-      this.graphqlClient,
       this.contributionCalendarRepository,
       this.prRepository,
       this.issueRepository

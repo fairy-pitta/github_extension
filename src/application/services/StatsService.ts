@@ -30,8 +30,14 @@ export class StatsService {
     // Fetch fresh data
     const statsData = await this.statsRepository.getStatsData();
 
-    // Cache the result
-    await this.cache.set(cacheKey, statsData, AppConfig.cache.dashboardTTL);
+    // Cache the result as plain object
+    const plainStats = {
+      currentWeek: statsData.currentWeek,
+      previousWeek: statsData.previousWeek,
+      currentMonth: statsData.currentMonth,
+      previousMonth: statsData.previousMonth,
+    };
+    await this.cache.set(cacheKey, plainStats, AppConfig.cache.dashboardTTL);
 
     return statsData;
   }
