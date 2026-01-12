@@ -16,7 +16,7 @@ interface PullRequestSectionProps {
   loading?: boolean;
 }
 
-type TabType = 'created' | 'review-requested' | 'reviewed';
+type TabType = 'created' | 'review-requested';
 
 export const PullRequestSection: React.FC<PullRequestSectionProps> = React.memo(({
   createdPRs: initialCreatedPRs,
@@ -37,6 +37,12 @@ export const PullRequestSection: React.FC<PullRequestSectionProps> = React.memo(
   const [hasMoreCreated, setHasMoreCreated] = useState(true);
   const [hasMoreReviewRequested, setHasMoreReviewRequested] = useState(true);
   const [hasMoreReviewed, setHasMoreReviewed] = useState(true);
+  
+  // Create a Set of reviewed PR keys for quick lookup
+  const reviewedPRKeys = useMemo(() => {
+    const getPRKey = (pr: PullRequest) => `${pr.repository.nameWithOwner}-${pr.number}`;
+    return new Set(reviewedPRs.map(getPRKey));
+  }, [reviewedPRs]);
   const [reviewFilters, setReviewFilters] = useState<ReviewStatusFilterOption[]>(['ALL']);
 
   // Update PRs when initial PRs change, removing duplicates
@@ -71,6 +77,29 @@ export const PullRequestSection: React.FC<PullRequestSectionProps> = React.memo(
     setHasMoreReviewed(true);
   }, [initialCreatedPRs, initialReviewRequestedPRs, initialReviewedPRs]);
 
+  // Load reviewed PRs when switching to review-requested tab for the first time
+  useEffect(() => {
+    if (activeTab === 'review-requested' && reviewedPRs.length === 0 && !loading) {
+      const loadReviewedPRs = async () => {
+        try {
+          const prRepo = services.getPullRequestRepository();
+          const result = await prRepo.getReviewedByMe(50);
+          const getPRKey = (pr: PullRequest) => `${pr.repository.nameWithOwner}-${pr.number}`;
+          const uniqueReviewedPRs = result.prs.filter(
+            (pr, index, self) =>
+              index === self.findIndex((p) => getPRKey(p) === getPRKey(pr))
+          );
+          setReviewedPRs(uniqueReviewedPRs);
+          setReviewedCursor(result.nextCursor);
+          setHasMoreReviewed(!!result.nextCursor);
+        } catch (error) {
+          console.error('Failed to load reviewed PRs:', error);
+        }
+      };
+      loadReviewedPRs();
+    }
+  }, [activeTab, reviewedPRs.length, loading, services]);
+
 
   const handleLoadMore = async () => {
     setLoadingMore(true);
@@ -91,25 +120,31 @@ export const PullRequestSection: React.FC<PullRequestSectionProps> = React.memo(
         setCreatedCursor(result.nextCursor);
         setHasMoreCreated(!!result.nextCursor);
       } else if (activeTab === 'review-requested') {
-        const result = await prRepo.getReviewRequested(10, reviewRequestedCursor);
+        // Load both review requested and reviewed PRs
+        const [reviewRequestedResult, reviewedResult] = await Promise.all([
+          prRepo.getReviewRequested(10, reviewRequestedCursor),
+          reviewedCursor ? prRepo.getReviewedByMe(10, reviewedCursor) : Promise.resolve({ prs: [], nextCursor: undefined })
+        ]);
+        
         // Remove duplicates by repository.nameWithOwner and number
         setReviewRequestedPRs((prev) => {
           const existingKeys = new Set(prev.map((pr) => getPRKey(pr)));
-          const newPRs = result.prs.filter((pr) => !existingKeys.has(getPRKey(pr)));
+          const newPRs = reviewRequestedResult.prs.filter((pr) => !existingKeys.has(getPRKey(pr)));
           return [...prev, ...newPRs];
         });
-        setReviewRequestedCursor(result.nextCursor);
-        setHasMoreReviewRequested(!!result.nextCursor);
-      } else {
-        const result = await prRepo.getReviewedByMe(10, reviewedCursor);
-        // Remove duplicates by repository.nameWithOwner and number
-        setReviewedPRs((prev) => {
-          const existingKeys = new Set(prev.map((pr) => getPRKey(pr)));
-          const newPRs = result.prs.filter((pr) => !existingKeys.has(getPRKey(pr)));
-          return [...prev, ...newPRs];
-        });
-        setReviewedCursor(result.nextCursor);
-        setHasMoreReviewed(!!result.nextCursor);
+        setReviewRequestedCursor(reviewRequestedResult.nextCursor);
+        setHasMoreReviewRequested(!!reviewRequestedResult.nextCursor);
+        
+        // Also update reviewed PRs for the reviewed badge
+        if (reviewedResult.prs.length > 0) {
+          setReviewedPRs((prev) => {
+            const existingKeys = new Set(prev.map((pr) => getPRKey(pr)));
+            const newPRs = reviewedResult.prs.filter((pr) => !existingKeys.has(getPRKey(pr)));
+            return [...prev, ...newPRs];
+          });
+          setReviewedCursor(reviewedResult.nextCursor);
+          setHasMoreReviewed(!!reviewedResult.nextCursor);
+        }
       }
     } catch (error) {
       console.error('Failed to load more PRs:', error);
@@ -120,7 +155,26 @@ export const PullRequestSection: React.FC<PullRequestSectionProps> = React.memo(
 
   // Filter PRs based on review status
   const filteredPRs = useMemo(() => {
-    const prs = activeTab === 'created' ? createdPRs : activeTab === 'review-requested' ? reviewRequestedPRs : reviewedPRs;
+    let prs: PullRequest[];
+    if (activeTab === 'created') {
+      prs = createdPRs;
+    } else {
+      // Merge review requested and reviewed PRs, removing duplicates
+      const getPRKey = (pr: PullRequest) => `${pr.repository.nameWithOwner}-${pr.number}`;
+      const prMap = new Map<string, PullRequest>();
+      
+      // Add review requested PRs first
+      reviewRequestedPRs.forEach((pr) => {
+        prMap.set(getPRKey(pr), pr);
+      });
+      
+      // Add reviewed PRs (they will overwrite if duplicate, which is fine)
+      reviewedPRs.forEach((pr) => {
+        prMap.set(getPRKey(pr), pr);
+      });
+      
+      prs = Array.from(prMap.values());
+    }
     
     if (reviewFilters.includes('ALL') || reviewFilters.length === 0) {
       return prs;
@@ -168,24 +222,16 @@ export const PullRequestSection: React.FC<PullRequestSectionProps> = React.memo(
   const currentPRs = filteredPRs;
   const currentTitle = activeTab === 'created'
     ? t.pullRequestsCreated
-    : activeTab === 'review-requested'
-      ? t.pullRequestsReviewRequested
-      : t.pullRequestsReviewed;
+    : t.pullRequestsReviewRequested;
   const currentEmptyMessage = activeTab === 'created'
     ? t.noPullRequests
-    : activeTab === 'review-requested'
-      ? t.noPullRequestsReview
-      : t.noPullRequestsReviewed;
+    : t.noPullRequestsReview;
   const currentIcon = activeTab === 'created'
     ? 'fa-code-pull-request'
-    : activeTab === 'review-requested'
-      ? 'fa-user-check'
-      : 'fa-clipboard-check';
+    : 'fa-user-check';
   const currentHasMore = activeTab === 'created'
     ? hasMoreCreated
-    : activeTab === 'review-requested'
-      ? hasMoreReviewRequested
-      : hasMoreReviewed;
+    : hasMoreReviewRequested || hasMoreReviewed;
 
   if (loading) {
     return (
@@ -205,13 +251,6 @@ export const PullRequestSection: React.FC<PullRequestSectionProps> = React.memo(
             >
               <i className="fas fa-user-check"></i>
               {t.pullRequestsReviewRequested}
-            </button>
-            <button
-              className={`pr-tab ${activeTab === 'reviewed' ? 'active' : ''}`}
-              disabled
-            >
-              <i className="fas fa-clipboard-check"></i>
-              {t.pullRequestsReviewed}
             </button>
           </div>
           <div className="section-content">
@@ -242,18 +281,8 @@ export const PullRequestSection: React.FC<PullRequestSectionProps> = React.memo(
           >
             <i className="fas fa-user-check"></i>
             {t.pullRequestsReviewRequested}
-            {reviewRequestedPRs.length > 0 && (
-              <span className="pr-tab-count">({reviewRequestedPRs.length})</span>
-            )}
-          </button>
-          <button
-            className={`pr-tab ${activeTab === 'reviewed' ? 'active' : ''}`}
-            onClick={() => setActiveTab('reviewed')}
-          >
-            <i className="fas fa-clipboard-check"></i>
-            {t.pullRequestsReviewed}
-            {reviewedPRs.length > 0 && (
-              <span className="pr-tab-count">({reviewedPRs.length})</span>
+            {(reviewRequestedPRs.length > 0 || reviewedPRs.length > 0) && (
+              <span className="pr-tab-count">({reviewRequestedPRs.length + reviewedPRs.length})</span>
             )}
           </button>
           <div className="pr-tab-header-actions">
@@ -269,9 +298,17 @@ export const PullRequestSection: React.FC<PullRequestSectionProps> = React.memo(
             <p className="empty-message">{currentEmptyMessage}</p>
           ) : (
             <>
-              {currentPRs.map((pr) => (
-                <PRCard key={`${pr.repository.nameWithOwner}-${pr.number}`} pr={pr} />
-              ))}
+              {currentPRs.map((pr) => {
+                const getPRKey = (pr: PullRequest) => `${pr.repository.nameWithOwner}-${pr.number}`;
+                const isReviewed = reviewedPRKeys.has(getPRKey(pr));
+                return (
+                  <PRCard 
+                    key={`${pr.repository.nameWithOwner}-${pr.number}`} 
+                    pr={pr} 
+                    isReviewed={isReviewed}
+                  />
+                );
+              })}
               <LoadMoreButton
                 onClick={handleLoadMore}
                 loading={loadingMore}

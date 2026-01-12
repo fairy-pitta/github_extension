@@ -249,11 +249,15 @@
 .review-stat {
   display: inline-flex;
   align-items: center;
-  gap: 2px;
+  gap: 4px;
   font-size: 11px;
   font-weight: 500;
   padding: 2px 6px;
   border-radius: 8px;
+}
+
+.review-stat i {
+  font-size: 10px;
 }
 
 .review-stat.approved {
@@ -280,6 +284,22 @@
 }
 
 .badge-conflict i {
+  font-size: 10px;
+}
+
+.badge-reviewed {
+  background-color: var(--badge-reviewed-bg, #e8f5e9);
+  color: var(--badge-reviewed-text, #2e7d32);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 6px;
+  border-radius: 8px;
+}
+
+.badge-reviewed i {
   font-size: 10px;
 }
 

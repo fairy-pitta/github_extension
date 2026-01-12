@@ -4,6 +4,16 @@
   height: 100%;
 }
 
+.pr-tabs .section-content {
+  scrollbar-gutter: stable;
+}
+
+@supports not (scrollbar-gutter: stable) {
+  .pr-tabs .section-content {
+    overflow-y: scroll;
+  }
+}
+
 .pr-tab-header {
   display: flex;
   align-items: center;
@@ -70,4 +80,3 @@
   color: var(--text-primary);
   font-weight: 600;
 }
-
