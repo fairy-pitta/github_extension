@@ -8,7 +8,16 @@ export class ChromeStorage implements IStorage {
     return new Promise((resolve, reject) => {
       chrome.storage.local.get([key], (result) => {
         if (chrome.runtime.lastError) {
-          reject(new Error(chrome.runtime.lastError.message));
+          const errorMessage = chrome.runtime.lastError.message;
+          if (errorMessage?.includes('Extension context invalidated')) {
+            reject(
+              new Error(
+                'Extension context invalidated. Please reload the extension and try again.'
+              )
+            );
+            return;
+          }
+          reject(new Error(errorMessage));
           return;
         }
         const value = result[key];
@@ -21,7 +30,16 @@ export class ChromeStorage implements IStorage {
     return new Promise((resolve, reject) => {
       chrome.storage.local.set({ [key]: value }, () => {
         if (chrome.runtime.lastError) {
-          reject(new Error(chrome.runtime.lastError.message));
+          const errorMessage = chrome.runtime.lastError.message;
+          if (errorMessage?.includes('Extension context invalidated')) {
+            reject(
+              new Error(
+                'Extension context invalidated. Please reload the extension and try again.'
+              )
+            );
+            return;
+          }
+          reject(new Error(errorMessage));
           return;
         }
         resolve();
@@ -33,7 +51,16 @@ export class ChromeStorage implements IStorage {
     return new Promise((resolve, reject) => {
       chrome.storage.local.remove([key], () => {
         if (chrome.runtime.lastError) {
-          reject(new Error(chrome.runtime.lastError.message));
+          const errorMessage = chrome.runtime.lastError.message;
+          if (errorMessage?.includes('Extension context invalidated')) {
+            reject(
+              new Error(
+                'Extension context invalidated. Please reload the extension and try again.'
+              )
+            );
+            return;
+          }
+          reject(new Error(errorMessage));
           return;
         }
         resolve();
@@ -45,7 +72,16 @@ export class ChromeStorage implements IStorage {
     return new Promise((resolve, reject) => {
       chrome.storage.local.clear(() => {
         if (chrome.runtime.lastError) {
-          reject(new Error(chrome.runtime.lastError.message));
+          const errorMessage = chrome.runtime.lastError.message;
+          if (errorMessage?.includes('Extension context invalidated')) {
+            reject(
+              new Error(
+                'Extension context invalidated. Please reload the extension and try again.'
+              )
+            );
+            return;
+          }
+          reject(new Error(errorMessage));
           return;
         }
         resolve();

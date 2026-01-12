@@ -77,8 +77,17 @@ export class AuthService {
       if (error instanceof AuthenticationError || error instanceof NetworkError) {
         throw error;
       }
+      // Check for extension context invalidation in error message
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      if (errorMessage.includes('Extension context invalidated')) {
+        throw new AuthenticationError(
+          'Extension context invalidated. Please reload the extension and try again.'
+        );
+      }
       // Wrap other errors
-      throw new Error(`OAuth authentication failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new AuthenticationError(
+        `OAuth authentication failed: ${errorMessage || 'Unknown error'}`
+      );
     }
   }
 

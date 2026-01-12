@@ -120,13 +120,49 @@ export class GitHubOAuthService implements IOAuthService {
   private async openUrl(url: string): Promise<void> {
     try {
       if (typeof chrome !== 'undefined' && chrome.tabs?.create) {
-        chrome.tabs.create({ url });
+        // Wrap chrome.tabs.create in a Promise to handle errors properly
+        await new Promise<void>((resolve, reject) => {
+          try {
+            chrome.tabs.create({ url }, () => {
+              // Check for extension context invalidation
+              if (chrome.runtime.lastError) {
+                const errorMessage = chrome.runtime.lastError.message;
+                if (errorMessage?.includes('Extension context invalidated')) {
+                  reject(
+                    new AuthenticationError(
+                      'Extension context invalidated. Please reload the extension and try again.'
+                    )
+                  );
+                  return;
+                }
+                // For other errors, fallback to window.open
+                console.warn('Failed to open tab via chrome.tabs:', errorMessage);
+                if (typeof window !== 'undefined' && window.open) {
+                  window.open(url, '_blank', 'noopener,noreferrer');
+                }
+                resolve();
+                return;
+              }
+              resolve();
+            });
+          } catch (error) {
+            reject(error);
+          }
+        });
         return;
       }
-    } catch {
-      // ignore and fallback
+    } catch (error) {
+      // If it's an AuthenticationError, re-throw it
+      if (error instanceof AuthenticationError) {
+        throw error;
+      }
+      // For other errors, fallback to window.open
+      console.warn('Failed to open URL via chrome.tabs, using window.open:', error);
     }
-    window.open(url, '_blank', 'noopener,noreferrer');
+    // Fallback to window.open if chrome.tabs is not available or failed
+    if (typeof window !== 'undefined' && window.open) {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
   }
 
   private async sleep(ms: number): Promise<void> {
