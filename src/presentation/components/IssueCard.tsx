@@ -1,6 +1,7 @@
 import React, { useMemo, useCallback } from 'react';
 import { Issue } from '@/domain/entities/Issue';
 import { formatRelativeDate } from '../utils/dateUtils';
+import { useLanguage } from '../i18n/useLanguage';
 import './styles/cards.css';
 
 interface IssueCardProps {
@@ -9,6 +10,7 @@ interface IssueCardProps {
 }
 
 export const IssueCard: React.FC<IssueCardProps> = React.memo(({ issue, onClick }) => {
+  const { t } = useLanguage();
   const formattedDate = useMemo(() => formatRelativeDate(issue.updatedAt), [issue.updatedAt]);
 
   const handleClick = useCallback(() => {
@@ -44,18 +46,18 @@ export const IssueCard: React.FC<IssueCardProps> = React.memo(({ issue, onClick 
       <div className="card-meta">
         <span className="card-number">#{issue.number}</span>
         <span className="card-separator">•</span>
-        <span className="card-updated">Updated {formattedDate}</span>
+        <span className="card-updated">{t.updated} {formattedDate}</span>
         {issue.commentsCount > 0 && (
           <>
             <span className="card-separator">•</span>
-            <span className="card-comments">{issue.commentsCount} comments</span>
+            <span className="card-comments">{issue.commentsCount} {t.comments}</span>
           </>
         )}
         {issue.assignees.length > 0 && (
           <>
             <span className="card-separator">•</span>
             <span className="card-assignees">
-              {issue.assignees.length} assignee{issue.assignees.length > 1 ? 's' : ''}
+              {issue.assignees.length} {issue.assignees.length > 1 ? t.assignees : t.assignee}
             </span>
           </>
         )}
