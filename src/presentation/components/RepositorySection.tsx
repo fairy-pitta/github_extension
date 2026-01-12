@@ -44,6 +44,39 @@ export const RepositorySection: React.FC<RepositorySectionProps> = React.memo(({
     setRepositories(uniqueRepos);
   }, [initialRepositories]);
 
+  // Load repositories when tab changes (only for org and me tabs)
+  useEffect(() => {
+    const loadRepositoriesForTab = async () => {
+      // Skip loading if we're on 'all' tab
+      if (activeTab === 'all') {
+        return;
+      }
+
+      setLoading(true);
+      try {
+        const repoService = services.getRepositoryService();
+        // Force refresh when switching tabs to ensure we get fresh data
+        // Load more repositories to ensure we have enough data for filtering
+        const result = await repoService.getRecentlyUpdated(100, undefined, true);
+
+        // Remove duplicates by nameWithOwner
+        const uniqueRepos = result.repositories.filter(
+          (repo, index, self) =>
+            index === self.findIndex((r) => r.nameWithOwner === repo.nameWithOwner)
+        );
+        setRepositories(uniqueRepos);
+        setCursor(result.nextCursor);
+        setHasMore(!!result.nextCursor);
+      } catch (error) {
+        console.error('Failed to load repositories for tab:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadRepositoriesForTab();
+  }, [activeTab, services]);
+
   const handleLoadMore = async () => {
     setLoading(true);
     try {
@@ -169,23 +202,20 @@ export const RepositorySection: React.FC<RepositorySectionProps> = React.memo(({
       <section className="dashboard-section">
         <div className="repo-tabs">
           <div className="repo-tab-header">
-            <button className="repo-tab active" disabled>
+            <button className="repo-tab active" disabled title={t.allRepositories}>
               <i className="fas fa-code-branch"></i>
-              {t.allRepositories}
               <span className={`repo-tab-star ${isStarActive ? 'active' : ''}`}>
                 <i className="fas fa-star"></i>
               </span>
             </button>
-            <button className="repo-tab" disabled>
+            <button className="repo-tab" disabled title={t.organizationRepositories}>
               <i className="fas fa-building"></i>
-              {t.organizationRepositories}
               <span className={`repo-tab-star ${isStarActive ? 'active' : ''}`}>
                 <i className="fas fa-star"></i>
               </span>
             </button>
-            <button className="repo-tab" disabled>
+            <button className="repo-tab" disabled title={t.myRepositories}>
               <i className="fas fa-user"></i>
-              {t.myRepositories}
               <span className={`repo-tab-star ${isStarActive ? 'active' : ''}`}>
                 <i className="fas fa-star"></i>
               </span>
@@ -207,10 +237,15 @@ export const RepositorySection: React.FC<RepositorySectionProps> = React.memo(({
             <div key={tab} className="repo-tab-wrapper">
               <button
                 className={`repo-tab ${activeTab === tab ? 'active' : ''}`}
-                onClick={() => setActiveTab(tab)}
+                onClick={() => {
+                  setActiveTab(tab);
+                  // Reset cursor when switching tabs
+                  setCursor(undefined);
+                  setHasMore(true);
+                }}
+                title={getTabTitle(tab)}
               >
                 <i className={`fas ${getTabIcon(tab)}`}></i>
-                {getTabTitle(tab)}
                 <span
                   className={`repo-tab-star ${isStarActive ? 'active' : ''}`}
                   onClick={handleStarClick}
@@ -235,18 +270,22 @@ export const RepositorySection: React.FC<RepositorySectionProps> = React.memo(({
           ))}
         </div>
         <div className="section-content">
-          {filteredRepos.length === 0 ? (
+          {loading && repositories.length === 0 ? (
+            <SkeletonLoader count={3} />
+          ) : filteredRepos.length === 0 ? (
             <p className="empty-message">{t.noRepositories}</p>
           ) : (
             <>
               {filteredRepos.map((repo) => (
                 <RepositoryCard key={repo.nameWithOwner} repository={repo} />
               ))}
-              <LoadMoreButton
-                onClick={handleLoadMore}
-                loading={loading}
-                hasMore={hasMore}
-              />
+              {activeTab === 'all' && (
+                <LoadMoreButton
+                  onClick={handleLoadMore}
+                  loading={loading}
+                  hasMore={hasMore}
+                />
+              )}
             </>
           )}
         </div>
