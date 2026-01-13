@@ -1,7 +1,7 @@
 # GitHub Pages Jekyll configuration
 title: GitHub Dashboard Documentation
 description: Privacy Policy and Documentation for GitHub Dashboard Chrome Extension
-baseurl: ""
+baseurl: "/github_dashboard"
 url: "https://fairy-pitta.github.io"
 
 # Exclude files from processing
