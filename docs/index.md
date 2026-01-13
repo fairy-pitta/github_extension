@@ -1,8 +1,3 @@
----
-layout: default
-title: GitHub Dashboard Documentation
----
-
 # GitHub Dashboard Documentation
 
 ## Privacy Policy

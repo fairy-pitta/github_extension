@@ -1,8 +1,3 @@
----
-layout: default
-title: Privacy Policy
----
-
 # Privacy Policy for GitHub Dashboard
 
 **Last Updated:** January 13, 2025
