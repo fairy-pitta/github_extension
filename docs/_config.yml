@@ -1,0 +1,12 @@
+# GitHub Pages Jekyll configuration
+theme: jekyll-theme-minimal
+title: GitHub Dashboard Documentation
+description: Privacy Policy and Documentation for GitHub Dashboard Chrome Extension
+
+# Enable GitHub Pages
+plugins:
+  - jekyll-feed
+
+# Exclude files from processing
+exclude:
+  - ARCHITECTURE.md
