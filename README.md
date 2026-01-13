@@ -14,8 +14,6 @@ GitHub Repository: https://github.com/fairy-pitta/github_extension.git
 
 Stop jumping between repositories and organizations. GitHub Dashboard consolidates your entire GitHub activity into a single, beautiful dashboard that appears directly on GitHub.com.
 
-![GitHub Dashboard - Dark Theme](public/screenshots-store/screenshot_2_1280x800.jpg)
-
 ### 🔀 Pull Request Management
 
 - **Created PRs**: Track all pull requests you've created across any repository
@@ -24,11 +22,13 @@ Stop jumping between repositories and organizations. GitHub Dashboard consolidat
 - **Smart Filtering**: Filter by review status (approved, changes requested, commented, etc.)
 - **Review Statistics**: See at-a-glance review counts and statuses
 
+![GitHub Dashboard - Dashboard View](public/screenshots-store/screenshot_3_1280x800.jpg)
+
 ### 🐛 Issue Tracking
 
 View all issues you're involved with across all your repositories and organizations. No more switching between multiple repository pages to check on issues—everything is in one place.
 
-![GitHub Dashboard - Light Blue Theme](public/screenshots-store/screenshot_3_1280x800.jpg)
+![GitHub Dashboard - Dashboard View](public/screenshots-store/screenshot_4_1280x800.jpg)
 
 ### 📁 Repository Management
 
@@ -47,7 +47,7 @@ Get insights into your GitHub activity with comprehensive statistics:
 - **Issue Activity**: Monitor issues you're involved with
 - **Comment Activity**: See your comment contributions
 
-![GitHub Dashboard - Statistics](public/screenshots-store/screenshot_4_1280x800.jpg)
+![GitHub Dashboard - Statistics](public/screenshots-store/screenshot_2_1280x800.jpg)
 
 ### 🎨 Beautiful, Customizable Interface
 
