@@ -10,11 +10,11 @@ GitHub Repository: https://github.com/fairy-pitta/github_extension.git
 
 ## Features
 
-### 📊 Unified Activity Overview
+### Unified Activity Overview
 
 Stop jumping between repositories and organizations. GitHub Dashboard consolidates your entire GitHub activity into a single, beautiful dashboard that appears directly on GitHub.com.
 
-### 🔀 Pull Request Management
+### Pull Request Management
 
 - **Created PRs**: Track all pull requests you've created across any repository
 - **Review Requests**: Never miss a PR that needs your review, regardless of which repository it's in
@@ -24,13 +24,13 @@ Stop jumping between repositories and organizations. GitHub Dashboard consolidat
 
 ![GitHub Dashboard - Dashboard View](public/screenshots-store/screenshot_3_1280x800.jpg)
 
-### 🐛 Issue Tracking
+### Issue Tracking
 
 View all issues you're involved with across all your repositories and organizations. No more switching between multiple repository pages to check on issues—everything is in one place.
 
 ![GitHub Dashboard - Dashboard View](public/screenshots-store/screenshot_4_1280x800.jpg)
 
-### 📁 Repository Management
+### Repository Management
 
 - **All Repositories**: Browse recently updated repositories from all sources
 - **Organization Repos**: Dedicated view for organization repositories
@@ -38,7 +38,7 @@ View all issues you're involved with across all your repositories and organizati
 - **Favorite Repositories**: Star frequently used repositories for instant access
 - **Auto-refresh**: Automatically loads repositories when switching tabs
 
-### 📈 Activity Statistics
+### Activity Statistics
 
 Get insights into your GitHub activity with comprehensive statistics:
 - **Weekly & Monthly Comparisons**: See how your activity compares week-over-week and month-over-month
@@ -49,14 +49,14 @@ Get insights into your GitHub activity with comprehensive statistics:
 
 ![GitHub Dashboard - Statistics](public/screenshots-store/screenshot_2_1280x800.jpg)
 
-### 🎨 Beautiful, Customizable Interface
+### Beautiful, Customizable Interface
 
 - **Multiple Themes**: Choose from light, dark, and colorful themes
 - **Responsive Design**: Works perfectly on all screen sizes
 - **Clean UI**: Modern, intuitive interface that doesn't clutter your GitHub experience
 - **Fast Performance**: Smart caching reduces API calls and improves load times
 
-### 🔒 Secure Authentication
+### Secure Authentication
 
 - **OAuth Support**: Secure OAuth authentication using GitHub's Device Flow (recommended)
 - **Manual Token Option**: Support for Personal Access Tokens if you prefer fine-grained control
