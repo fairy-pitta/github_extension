@@ -3,19 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ page.title }} - GitHub Dashboard</title>
+    <meta name="description" content="{{ site.description }}">
+    <title>{% if page.title %}{{ page.title }} - {% endif %}GitHub Dashboard</title>
     <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
 </head>
 <body>
-    <div class="container">
-        <header>
+    <header>
+        <div class="container">
             <h1><a href="{{ site.baseurl }}/">GitHub Dashboard</a></h1>
             <nav>
                 <a href="{{ site.baseurl }}/">Home</a>
                 <a href="{{ site.baseurl }}/privacy-policy.html">Privacy Policy</a>
                 <a href="{{ site.baseurl }}/privacy-policy-ja.html">プライバシーポリシー</a>
             </nav>
-        </header>
+        </div>
+    </header>
+    <div class="container">
         <main>
             {{ content }}
         </main>

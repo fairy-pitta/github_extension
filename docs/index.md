@@ -5,7 +5,7 @@ title: Home
 
 # GitHub Dashboard Documentation
 
-Welcome to the GitHub Dashboard documentation site.
+Welcome to the GitHub Dashboard documentation site. Here you can find privacy policies, architecture documentation, and other resources for the GitHub Dashboard Chrome extension.
 
 ## Privacy Policy
 
