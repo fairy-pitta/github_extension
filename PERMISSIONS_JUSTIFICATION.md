@@ -50,26 +50,6 @@ The extension's primary feature is to display a unified dashboard directly on Gi
 
 ---
 
-### 3. `identity`
-
-**Purpose:** Enable OAuth authentication flow with GitHub using Chrome's identity API.
-
-**Usage:**
-- Launch OAuth authentication flow for GitHub
-- Handle OAuth redirects securely
-- Obtain OAuth access tokens from GitHub
-
-**Justification:**
-The extension provides OAuth authentication as the recommended and most secure method for users to authenticate with GitHub. The `identity` permission enables the extension to:
-- Launch the OAuth flow securely
-- Handle authentication redirects
-- Obtain access tokens without requiring users to manually create Personal Access Tokens
-
-**Privacy:** The identity API is used only for GitHub OAuth authentication. No user identity information is collected or shared with third parties. All authentication is handled directly between the user and GitHub.
-
-**Alternative:** Users can choose to use Personal Access Tokens instead of OAuth, but OAuth is the recommended secure method.
-
----
 
 ## Host Permissions
 
@@ -126,8 +106,7 @@ This extension has a single, well-defined purpose:
 
 All permissions requested are directly related to this single purpose:
 - `storage`: Required to maintain authentication and preferences
-- `tabs`: Required to detect GitHub.com visits and inject the dashboard
-- `identity`: Required for secure OAuth authentication (optional, users can use PAT instead)
+- `tabs`: Required to detect GitHub.com visits, inject the dashboard, and open OAuth verification pages
 - Host permissions: Required to access GitHub API and inject dashboard on GitHub.com
 
 The extension does not:
