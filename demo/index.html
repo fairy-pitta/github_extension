@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHub Dashboard - Demo</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="./demo.css">
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Header -->
+    <header class="dashboard-header">
+      <div class="header-left">
+        <h1 class="dashboard-title">GitHub Dashboard</h1>
+      </div>
+      <div class="header-right">
+        <button class="stats-button" onclick="openStatsWidget()">
+          <i class="fas fa-chart-bar"></i>
+          <span class="stats-button-text">Statistics</span>
+        </button>
+        <div class="filter-toggle">
+          <button class="filter-option active">All</button>
+          <button class="filter-option">Open Only</button>
+        </div>
+        <button class="refresh-button">
+          <i class="fas fa-sync-alt refresh-icon"></i>
+          <span>Refresh</span>
+        </button>
+        <button class="revert-button" title="Back to GitHub">
+          <i class="fas fa-arrow-left"></i>
+          <span>Back to GitHub</span>
+        </button>
+        <button class="language-toggle-button" title="Switch Language">
+          <i class="fas fa-globe"></i>
+        </button>
+        <button class="theme-toggle-button" title="Toggle Theme">
+          <i class="fas fa-moon"></i>
+        </button>
+        <button class="settings-button" title="Settings">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </header>
+
+    <div class="dashboard-layout">
+      <!-- Profile Section -->
+      <section class="dashboard-section profile-section">
+        <div class="profile-content">
+          <div class="profile-header-wrapper">
+            <div class="profile-header">
+              <img src="https://github.com/octocat.png" alt="octocat" class="profile-avatar">
+              <div class="profile-info">
+                <h2 class="profile-name">Demo User</h2>
+                <p class="profile-username">@demo-user</p>
+                <p class="profile-bio">Passionate developer building amazing things with code 🚀</p>
+                <p class="profile-contributions">1,234 contributions in the last year</p>
+                <div class="profile-stats-badges">
+                  <span class="profile-stat-badge">
+                    <i class="fas fa-users"></i>
+                    128
+                  </span>
+                  <span class="profile-stat-badge">
+                    <i class="fas fa-user-plus"></i>
+                    45
+                  </span>
+                  <span class="profile-stat-badge">
+                    <i class="fas fa-code-branch"></i>
+                    32
+                  </span>
+                  <span class="profile-stat-badge">
+                    <i class="fas fa-star"></i>
+                    156
+                  </span>
+                </div>
+                <div class="profile-org-tags">
+                  <a href="#" class="profile-org-tag">
+                    <img src="https://github.com/github.png" alt="GitHub" class="org-tag-avatar">
+                    <span>GitHub</span>
+                  </a>
+                  <a href="#" class="profile-org-tag">
+                    <img src="https://github.com/microsoft.png" alt="Microsoft" class="org-tag-avatar">
+                    <span>Microsoft</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="contribution-calendar">
+            <div class="contribution-grid" id="contribution-grid"></div>
+            <div class="contribution-legend">
+              <span class="legend-label">Less</span>
+              <div class="legend-levels">
+                <div class="legend-level level-0"></div>
+                <div class="legend-level level-1"></div>
+                <div class="legend-level level-2"></div>
+                <div class="legend-level level-3"></div>
+                <div class="legend-level level-4"></div>
+              </div>
+              <span class="legend-label">More</span>
+            </div>
+          </div>
+          
+          <div class="streak-achievements-compact">
+            <div class="streak-display">
+              <div class="streak-info">
+                <i class="fas fa-fire"></i>
+                <span class="streak-count">42 day streak</span>
+              </div>
+            </div>
+            <div class="achievement-badges">
+              <div class="achievement-badge" title="Weekly PR Master">
+                <i class="fas fa-code-pull-request"></i>
+              </div>
+              <div class="achievement-badge" title="Monthly Contributor">
+                <i class="fas fa-calendar-check"></i>
+              </div>
+              <div class="achievement-badge" title="Review Champion">
+                <i class="fas fa-user-check"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Repository Section -->
+      <section class="dashboard-section">
+        <div class="repo-tabs">
+          <div class="repo-tab-header">
+            <div class="repo-tab-wrapper">
+              <button class="repo-tab active">
+                <i class="fas fa-code-branch"></i>
+                <span class="repo-tab-star">
+                  <i class="fas fa-star"></i>
+                </span>
+              </button>
+            </div>
+            <div class="repo-tab-wrapper">
+              <button class="repo-tab">
+                <i class="fas fa-building"></i>
+                <span class="repo-tab-star">
+                  <i class="fas fa-star"></i>
+                </span>
+              </button>
+            </div>
+            <div class="repo-tab-wrapper">
+              <button class="repo-tab">
+                <i class="fas fa-user"></i>
+                <span class="repo-tab-star">
+                  <i class="fas fa-star"></i>
+                </span>
+              </button>
+            </div>
+          </div>
+          <div class="section-content">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-header-left">
+                  <span class="badge badge-public">Public</span>
+                  <span class="card-repo">demo-user/awesome-project</span>
+                </div>
+              </div>
+              <h3 class="card-title">Awesome Project</h3>
+              <p class="card-description">A fantastic project that demonstrates the power of modern web development</p>
+              <div class="card-meta">
+                <span class="card-updated">Updated 2 hours ago</span>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <div class="card-header-left">
+                  <span class="badge badge-public">Public</span>
+                  <span class="card-repo">GitHub/web-components</span>
+                </div>
+              </div>
+              <h3 class="card-title">Web Components Library</h3>
+              <p class="card-description">Reusable web components for building modern applications</p>
+              <div class="card-meta">
+                <span class="card-updated">Updated 5 hours ago</span>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <div class="card-header-left">
+                  <span class="badge badge-private">Private</span>
+                  <span class="card-repo">demo-user/private-repo</span>
+                </div>
+              </div>
+              <h3 class="card-title">Private Repository</h3>
+              <p class="card-description">Internal project for team collaboration</p>
+              <div class="card-meta">
+                <span class="card-updated">Updated 1 day ago</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pull Request Section -->
+      <section class="dashboard-section">
+        <div class="pr-tabs">
+          <div class="pr-tab-header">
+            <button class="pr-tab active">
+              <i class="fas fa-code-pull-request"></i>
+              Pull Requests Created
+              <span class="pr-tab-count">(5)</span>
+            </button>
+            <button class="pr-tab">
+              <i class="fas fa-user-check"></i>
+              Review Requested
+              <span class="pr-tab-count">(8)</span>
+            </button>
+          </div>
+          <div class="section-content">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-header-left">
+                  <span class="badge badge-open">Open</span>
+                  <span class="card-repo">demo-user/awesome-project</span>
+                </div>
+                <div class="card-header-actions">
+                  <span class="badge badge-approved">
+                    <i class="fas fa-check"></i>
+                    Approved
+                  </span>
+                </div>
+              </div>
+              <h3 class="card-title">Add new feature: Dark mode support</h3>
+              <div class="card-meta">
+                <span class="card-number">#123</span>
+                <span class="card-separator">•</span>
+                <span class="card-updated">Updated 1 hour ago</span>
+                <span class="card-separator">•</span>
+                <span class="card-comments">3 comments</span>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <div class="card-header-left">
+                  <span class="badge badge-open">Open</span>
+                  <span class="card-repo">GitHub/web-components</span>
+                </div>
+                <div class="card-header-actions">
+                  <span class="badge badge-changes-requested">
+                    <i class="fas fa-exclamation-circle"></i>
+                    Changes Requested
+                  </span>
+                </div>
+              </div>
+              <h3 class="card-title">Improve accessibility in button component</h3>
+              <div class="card-meta">
+                <span class="card-number">#456</span>
+                <span class="card-separator">•</span>
+                <span class="card-updated">Updated 3 hours ago</span>
+                <span class="card-separator">•</span>
+                <span class="card-comments">7 comments</span>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <div class="card-header-left">
+                  <span class="badge badge-merged">Merged</span>
+                  <span class="card-repo">demo-user/awesome-project</span>
+                </div>
+              </div>
+              <h3 class="card-title">Fix bug in authentication flow</h3>
+              <div class="card-meta">
+                <span class="card-number">#122</span>
+                <span class="card-separator">•</span>
+                <span class="card-updated">Merged 2 days ago</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Issue Section -->
+      <section class="dashboard-section">
+        <h2 class="section-title">
+          <i class="fas fa-exclamation-circle"></i>
+          Issues Involved
+        </h2>
+        <div class="section-content">
+          <div class="card issue-card">
+            <div class="card-header">
+              <span class="badge badge-open">Open</span>
+              <span class="card-repo">demo-user/awesome-project</span>
+            </div>
+            <h3 class="card-title">Implement user authentication system</h3>
+            <div class="card-labels">
+              <span class="label" style="background-color: #d4c5f9; color: #5319e7;">enhancement</span>
+              <span class="label" style="background-color: #fbca04; color: #000;">priority</span>
+            </div>
+            <div class="card-meta">
+              <span class="card-number">#89</span>
+              <span class="card-separator">•</span>
+              <span class="card-updated">Updated 4 hours ago</span>
+              <span class="card-separator">•</span>
+              <span class="card-comments">5 comments</span>
+              <span class="card-separator">•</span>
+              <span class="card-assignees">2 assignees</span>
+            </div>
+          </div>
+          <div class="card issue-card">
+            <div class="card-header">
+              <span class="badge badge-open">Open</span>
+              <span class="card-repo">GitHub/web-components</span>
+            </div>
+            <h3 class="card-title">Add support for custom themes</h3>
+            <div class="card-labels">
+              <span class="label" style="background-color: #a2eeef; color: #0e8a16;">feature</span>
+            </div>
+            <div class="card-meta">
+              <span class="card-number">#234</span>
+              <span class="card-separator">•</span>
+              <span class="card-updated">Updated 1 day ago</span>
+              <span class="card-separator">•</span>
+              <span class="card-comments">12 comments</span>
+            </div>
+          </div>
+          <div class="card issue-card">
+            <div class="card-header">
+              <span class="badge badge-closed">Closed</span>
+              <span class="card-repo">demo-user/awesome-project</span>
+            </div>
+            <h3 class="card-title">Fix memory leak in data processing</h3>
+            <div class="card-labels">
+              <span class="label" style="background-color: #d73a4a; color: #fff;">bug</span>
+            </div>
+            <div class="card-meta">
+              <span class="card-number">#78</span>
+              <span class="card-separator">•</span>
+              <span class="card-updated">Closed 3 days ago</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Stats Widget Modal -->
+  <div class="stats-widget-overlay" id="stats-widget-overlay" style="display: none;">
+    <div class="stats-widget" onclick="event.stopPropagation()">
+      <div class="stats-widget-header">
+        <h2 class="stats-widget-title">Statistics</h2>
+        <button class="stats-widget-close" onclick="closeStatsWidget()" aria-label="Close">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="stats-widget-content">
+        <div class="stats-section">
+          <h3 class="stats-section-title">This Week</h3>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <i class="fas fa-code stat-icon"></i>
+                <h4 class="stat-title">Commits</h4>
+              </div>
+              <div class="stat-card-content">
+                <div class="stat-value">42</div>
+                <div class="stat-comparison">
+                  <span class="stat-previous">Previous Week 38</span>
+                  <span class="stat-change" style="color: #28a745;">+11%</span>
+                </div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <i class="fas fa-code-branch stat-icon"></i>
+                <h4 class="stat-title">Pull Requests</h4>
+              </div>
+              <div class="stat-card-content">
+                <div class="stat-value">8</div>
+                <div class="stat-comparison">
+                  <span class="stat-previous">Previous Week 5</span>
+                  <span class="stat-change" style="color: #28a745;">+60%</span>
+                </div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <i class="fas fa-eye stat-icon"></i>
+                <h4 class="stat-title">Reviews</h4>
+              </div>
+              <div class="stat-card-content">
+                <div class="stat-value">15</div>
+                <div class="stat-comparison">
+                  <span class="stat-previous">Previous Week 12</span>
+                  <span class="stat-change" style="color: #28a745;">+25%</span>
+                </div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <i class="fas fa-exclamation-circle stat-icon"></i>
+                <h4 class="stat-title">Issues</h4>
+              </div>
+              <div class="stat-card-content">
+                <div class="stat-value">6</div>
+                <div class="stat-comparison">
+                  <span class="stat-previous">Previous Week 8</span>
+                  <span class="stat-change" style="color: #dc3545;">-25%</span>
+                </div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <i class="fas fa-comment stat-icon"></i>
+                <h4 class="stat-title">Comments</h4>
+              </div>
+              <div class="stat-card-content">
+                <div class="stat-value">32</div>
+                <div class="stat-comparison">
+                  <span class="stat-previous">Previous Week 28</span>
+                  <span class="stat-change" style="color: #28a745;">+14%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="stats-section">
+          <h3 class="stats-section-title">This Month</h3>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <i class="fas fa-code stat-icon"></i>
+                <h4 class="stat-title">Commits</h4>
+              </div>
+              <div class="stat-card-content">
+                <div class="stat-value">186</div>
+                <div class="stat-comparison">
+                  <span class="stat-previous">Previous Month 152</span>
+                  <span class="stat-change" style="color: #28a745;">+22%</span>
+                </div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <i class="fas fa-code-branch stat-icon"></i>
+                <h4 class="stat-title">Pull Requests</h4>
+              </div>
+              <div class="stat-card-content">
+                <div class="stat-value">34</div>
+                <div class="stat-comparison">
+                  <span class="stat-previous">Previous Month 28</span>
+                  <span class="stat-change" style="color: #28a745;">+21%</span>
+                </div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <i class="fas fa-eye stat-icon"></i>
+                <h4 class="stat-title">Reviews</h4>
+              </div>
+              <div class="stat-card-content">
+                <div class="stat-value">68</div>
+                <div class="stat-comparison">
+                  <span class="stat-previous">Previous Month 55</span>
+                  <span class="stat-change" style="color: #28a745;">+24%</span>
+                </div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <i class="fas fa-exclamation-circle stat-icon"></i>
+                <h4 class="stat-title">Issues</h4>
+              </div>
+              <div class="stat-card-content">
+                <div class="stat-value">24</div>
+                <div class="stat-comparison">
+                  <span class="stat-previous">Previous Month 26</span>
+                  <span class="stat-change" style="color: #dc3545;">-8%</span>
+                </div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <i class="fas fa-comment stat-icon"></i>
+                <h4 class="stat-title">Comments</h4>
+              </div>
+              <div class="stat-card-content">
+                <div class="stat-value">142</div>
+                <div class="stat-comparison">
+                  <span class="stat-previous">Previous Month 128</span>
+                  <span class="stat-change" style="color: #28a745;">+11%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Generate contribution calendar
+    const grid = document.getElementById('contribution-grid');
+    const today = new Date();
+    const days = [];
+    
+    // Generate 365 days of contribution data
+    for (let i = 364; i >= 0; i--) {
+      const date = new Date(today);
+      date.setDate(date.getDate() - i);
+      const count = Math.floor(Math.random() * 10);
+      const level = count === 0 ? 'level-0' : count <= 3 ? 'level-1' : count <= 6 ? 'level-2' : count <= 9 ? 'level-3' : 'level-4';
+      const color = getContributionColor(level);
+      days.push({ date, count, level, color });
+    }
+    
+    days.forEach(day => {
+      const div = document.createElement('div');
+      div.className = `contribution-day ${day.level}`;
+      div.style.backgroundColor = day.color;
+      div.title = `${day.date.toLocaleDateString()}: ${day.count} contributions`;
+      grid.appendChild(div);
+    });
+    
+    function getContributionColor(level) {
+      const colors = {
+        'level-0': '#ebedf0',
+        'level-1': '#9be9a8',
+        'level-2': '#40c463',
+        'level-3': '#30a14e',
+        'level-4': '#216e39'
+      };
+      return colors[level] || colors['level-0'];
+    }
+    
+    // Filter toggle
+    const filterOptions = document.querySelectorAll('.filter-option');
+    filterOptions.forEach(option => {
+      option.addEventListener('click', () => {
+        filterOptions.forEach(opt => opt.classList.remove('active'));
+        option.classList.add('active');
+      });
+    });
+    
+    // Theme toggle
+    const themeButton = document.querySelector('.theme-toggle-button');
+    const themes = ['light', 'dark', 'light-blue', 'light-purple', 'light-green', 'light-pink', 'light-white'];
+    let currentTheme = 0;
+    
+    // Initialize theme icon
+    const updateThemeIcon = (theme) => {
+      const icon = themeButton.querySelector('i');
+      if (theme === 'dark') {
+        icon.className = 'fas fa-sun';
+        icon.title = 'Switch to light theme';
+      } else {
+        icon.className = 'fas fa-moon';
+        icon.title = 'Switch to dark theme';
+      }
+    };
+    
+    // Set initial theme icon
+    updateThemeIcon('light');
+    
+    themeButton.addEventListener('click', () => {
+      currentTheme = (currentTheme + 1) % themes.length;
+      const newTheme = themes[currentTheme];
+      document.documentElement.setAttribute('data-theme', newTheme);
+      updateThemeIcon(newTheme);
+      
+      // Save theme preference
+      localStorage.setItem('demo-theme', newTheme);
+    });
+    
+    // Load saved theme preference
+    const savedTheme = localStorage.getItem('demo-theme');
+    if (savedTheme && themes.includes(savedTheme)) {
+      const savedIndex = themes.indexOf(savedTheme);
+      currentTheme = savedIndex;
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      updateThemeIcon(savedTheme);
+    }
+    
+    // Language toggle (disabled for demo - keeping English only)
+    const languageButton = document.querySelector('.language-toggle-button');
+    languageButton.addEventListener('click', () => {
+      // Language toggle disabled - keeping English only for demo
+      alert('Language toggle is disabled in demo mode. The page is set to English only.');
+    });
+    
+    // Refresh button animation
+    const refreshButton = document.querySelector('.refresh-button');
+    refreshButton.addEventListener('click', () => {
+      refreshButton.classList.add('refreshing');
+      setTimeout(() => {
+        refreshButton.classList.remove('refreshing');
+      }, 1000);
+    });
+    
+    // Stats Widget functions
+    function openStatsWidget() {
+      const overlay = document.getElementById('stats-widget-overlay');
+      overlay.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+    
+    function closeStatsWidget() {
+      const overlay = document.getElementById('stats-widget-overlay');
+      overlay.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+    
+    // Close stats widget when clicking overlay
+    document.getElementById('stats-widget-overlay').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeStatsWidget();
+      }
+    });
+    
+    // Close stats widget with Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        const overlay = document.getElementById('stats-widget-overlay');
+        if (overlay.style.display === 'flex') {
+          closeStatsWidget();
+        }
+      }
+    });
+  </script>
+</body>
+</html>

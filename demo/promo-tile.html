@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHub Dashboard - Promo Tile</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="promo-tile.css">
+</head>
+<body>
+  <div class="promo-container" id="promo-tile">
+    <div class="promo-content">
+      <!-- Header -->
+      <div class="promo-header">
+        <div class="logo-section">
+          <div class="logo-wrapper">
+            <img src="icon128.png" alt="GitHub Dashboard Icon" class="logo-icon">
+          </div>
+          <h1 class="promo-title">
+            <span class="title-word title-word-1">GitHub</span>
+            <span class="title-word title-word-2">Dashboard</span>
+          </h1>
+        </div>
+        <div class="tagline">Unified view of all your GitHub activity</div>
+      </div>
+
+      <!-- Features Grid -->
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon feature-icon-pr">
+            <i class="fas fa-code-branch"></i>
+          </div>
+          <h3 class="feature-title">Pull Requests</h3>
+          <p class="feature-desc">View created PRs and review requests in one place</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon feature-icon-issue">
+            <i class="fas fa-exclamation-circle"></i>
+          </div>
+          <h3 class="feature-title">Issues</h3>
+          <p class="feature-desc">Track all issues you're involved with</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon feature-icon-repo">
+            <i class="fas fa-folder"></i>
+          </div>
+          <h3 class="feature-title">Repositories</h3>
+          <p class="feature-desc">Browse recently updated repositories</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon feature-icon-stats">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <h3 class="feature-title">Statistics</h3>
+          <p class="feature-desc">Weekly and monthly activity insights</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Download Button -->
+  <div class="controls">
+    <button id="download-btn" class="download-btn">
+      <i class="fas fa-download"></i>
+      Download as PNG
+    </button>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script>
+    document.getElementById('download-btn').addEventListener('click', function() {
+      const element = document.getElementById('promo-tile');
+      
+      // Ensure all content is visible
+      const originalOverflow = element.style.overflow;
+      const originalHeight = element.style.height;
+      element.style.overflow = 'visible';
+      element.style.height = 'auto';
+      
+      // Calculate the actual height including all content
+      const rect = element.getBoundingClientRect();
+      const ctaSection = element.querySelector('.cta-section');
+      let fullHeight = element.scrollHeight;
+      
+      if (ctaSection) {
+        const ctaRect = ctaSection.getBoundingClientRect();
+        const elementRect = element.getBoundingClientRect();
+        const ctaBottom = ctaRect.bottom - elementRect.top + elementRect.top;
+        fullHeight = Math.max(fullHeight, ctaBottom - rect.top + 20);
+      }
+      
+      // Scroll element into view
+      element.scrollIntoView({ behavior: 'instant', block: 'start' });
+      
+      html2canvas(element, {
+        backgroundColor: '#ffffff',
+        scale: 2,
+        logging: true,
+        useCORS: true,
+        allowTaint: true,
+        scrollX: 0,
+        scrollY: -window.scrollY,
+        width: element.offsetWidth,
+        height: fullHeight,
+        windowWidth: element.scrollWidth,
+        windowHeight: fullHeight,
+        onclone: function(clonedDoc) {
+          const clonedElement = clonedDoc.getElementById('promo-tile');
+          if (clonedElement) {
+            clonedElement.style.overflow = 'visible';
+            clonedElement.style.height = 'auto';
+            clonedElement.style.minHeight = 'auto';
+            clonedElement.style.maxHeight = 'none';
+          }
+          
+          // Ensure CTA section is visible and positioned correctly
+          const clonedCtaSection = clonedDoc.querySelector('.cta-section');
+          if (clonedCtaSection) {
+            clonedCtaSection.style.display = 'block';
+            clonedCtaSection.style.visibility = 'visible';
+            clonedCtaSection.style.opacity = '1';
+            clonedCtaSection.style.position = 'relative';
+            clonedCtaSection.style.height = 'auto';
+            clonedCtaSection.style.minHeight = 'auto';
+            clonedCtaSection.style.marginTop = '10px';
+            clonedCtaSection.style.paddingTop = '25px';
+          }
+          
+          // Ensure promo-content includes all children
+          const clonedContent = clonedDoc.querySelector('.promo-content');
+          if (clonedContent) {
+            clonedContent.style.height = 'auto';
+            clonedContent.style.minHeight = 'auto';
+            clonedContent.style.maxHeight = 'none';
+            clonedContent.style.overflow = 'visible';
+          }
+        }
+      }).then(function(canvas) {
+        // Restore original styles
+        element.style.overflow = originalOverflow;
+        element.style.height = originalHeight;
+        
+        // Create download link
+        const link = document.createElement('a');
+        link.download = 'github-dashboard-promo-tile.png';
+        link.href = canvas.toDataURL('image/png', 1.0);
+        link.click();
+      }).catch(function(error) {
+        // Restore original styles on error
+        element.style.overflow = originalOverflow;
+        element.style.height = originalHeight;
+        console.error('Error generating image:', error);
+        alert('Failed to generate image. Please check the browser console.');
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prepare Screenshots - GitHub Dashboard Demo</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    .step {
+      background: #f5f5f5;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 8px;
+      border-left: 4px solid #007bff;
+    }
+    .step h3 {
+      margin-top: 0;
+      color: #007bff;
+    }
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 5px;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    .theme-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 20px 0;
+    }
+    .theme-btn {
+      background: #6c757d;
+      padding: 8px 16px;
+      font-size: 14px;
+    }
+    .theme-btn.active {
+      background: #28a745;
+    }
+    code {
+      background: #e9ecef;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: 'Courier New', monospace;
+    }
+  </style>
+</head>
+<body>
+  <h1>📸 Screenshot Preparation Guide</h1>
+  
+  <div class="step">
+    <h3>Step 1: Open Demo Page</h3>
+    <p>Make sure the demo server is running, then:</p>
+    <button onclick="window.open('index.html', '_blank')">Open Demo Page</button>
+  </div>
+
+  <div class="step">
+    <h3>Step 2: Set Viewport Size</h3>
+    <p>In the demo page, press <code>F12</code> to open Developer Tools, then:</p>
+    <ul>
+      <li>Click the device toolbar icon (or press <code>Cmd+Shift+M</code> / <code>Ctrl+Shift+M</code>)</li>
+      <li>Set viewport to: <strong>1920x1080</strong> or <strong>1280x720</strong></li>
+    </ul>
+  </div>
+
+  <div class="step">
+    <h3>Step 3: Quick Theme Navigation</h3>
+    <p>Click these buttons to quickly switch themes in the demo page:</p>
+    <div class="theme-buttons">
+      <button class="theme-btn" onclick="switchTheme('light')">Light Theme</button>
+      <button class="theme-btn" onclick="switchTheme('dark')">Dark Theme</button>
+      <button class="theme-btn" onclick="switchTheme('light-blue')">Light Blue</button>
+      <button class="theme-btn" onclick="switchTheme('light-purple')">Light Purple</button>
+      <button class="theme-btn" onclick="switchTheme('light-green')">Light Green</button>
+      <button class="theme-btn" onclick="switchTheme('light-pink')">Light Pink</button>
+      <button class="theme-btn" onclick="switchTheme('light-white')">Light White</button>
+    </div>
+    <p><small>Note: This will only work if the demo page is open in another tab.</small></p>
+  </div>
+
+  <div class="step">
+    <h3>Step 4: Open Statistics Popup</h3>
+    <p>In the demo page, click the <strong>Statistics</strong> button to open the popup.</p>
+    <button onclick="openStats()">Open Statistics (if demo page is open)</button>
+  </div>
+
+  <div class="step">
+    <h3>Step 5: Take Screenshots</h3>
+    <p><strong>Screenshots needed:</strong></p>
+    <ol>
+      <li><strong>Light Theme</strong> - Default theme</li>
+      <li><strong>Dark Theme</strong> - Click theme button once</li>
+      <li><strong>Light Blue Theme</strong> - Click theme button 3 times from light</li>
+      <li><strong>Light Purple Theme</strong> - Click theme button 4 times from light</li>
+      <li><strong>Statistics Popup</strong> - Click Statistics button</li>
+    </ol>
+    <p><strong>How to take screenshots:</strong></p>
+    <ul>
+      <li><strong>Chrome/Edge:</strong> F12 → Three dots menu → "Capture screenshot"</li>
+      <li><strong>Firefox:</strong> F12 → Three dots menu → "Take a screenshot"</li>
+      <li><strong>Safari:</strong> Cmd+Option+I → "Capture screenshot" button</li>
+    </ul>
+  </div>
+
+  <script>
+    function switchTheme(theme) {
+      const demoWindow = window.open('', 'demo-window');
+      if (demoWindow && demoWindow.document) {
+        demoWindow.document.documentElement.setAttribute('data-theme', theme);
+      } else {
+        // Try to find the demo page in existing windows
+        const message = `To switch theme, please:\n1. Open the demo page\n2. Open browser console (F12)\n3. Run: document.documentElement.setAttribute('data-theme', '${theme}')`;
+        alert(message);
+      }
+    }
+
+    function openStats() {
+      const message = `To open statistics popup:\n1. Make sure demo page is open\n2. Click the "Statistics" button in the header\nOr run in console: openStatsWidget()`;
+      alert(message);
+    }
+  </script>
+</body>
+</html>
