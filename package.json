@@ -1,7 +1,7 @@
 {
-  "name": "github-extension",
+  "name": "github-dashboard",
   "version": "0.1.0",
-  "description": "A Chrome extension that displays your GitHub activity on the new tab page",
+  "description": "A Chrome extension that displays your GitHub activity on GitHub.com as a dashboard",
   "type": "module",
   "scripts": {
     "dev": "vite build --watch --mode development",

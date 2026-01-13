@@ -1,4 +1,4 @@
-# GitHub Extension - パーソナルダッシュボード
+# GitHub Dashboard
 
 GitHub.comを開いた時にダッシュボードを表示するChrome拡張機能です。GitHubのアクティビティ（プルリクエスト、イシュー、最近更新されたリポジトリなど）を表示します。
 

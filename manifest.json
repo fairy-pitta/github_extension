@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "GitHub Extension - Personal Dashboard",
+  "name": "GitHub Dashboard",
   "version": "0.1.0",
   "description": "Display your GitHub activity on GitHub.com",
   "icons": {
